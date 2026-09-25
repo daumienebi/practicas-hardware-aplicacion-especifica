@@ -1,310 +1,287 @@
-%% =========================================================================
-% PRÁCTICA 1: PROCESADO BÁSICO DE IMÁGENES
-% Asignatura: Hardware de Aplicación Específica (HAE)
-% Grado en Ingeniería Informática - Universidad de Burgos
-% =========================================================================
+% Practica 1: Procesado basico de imagenes
+% Hardware de Aplicacion Especifica
 
 clear;
 close all;
 clc;
 
-% Asegurar que la carpeta IMG esté en el path si existe
-if exist('IMG', 'dir')
+% Cargar carpeta de imagenes si existe
+if exist('../imagenes_ejemplo', 'dir') == 7
+    addpath('../imagenes_ejemplo');
+elseif exist('imagenes_ejemplo', 'dir') == 7
+    addpath('imagenes_ejemplo');
+end
+if exist('IMG', 'dir') == 7
     addpath('IMG');
 end
 
-fprintf('=====================================================\n');
-fprintf('       PRÁCTICA 1: PROCESADO BÁSICO DE IMÁGENES      \n');
-fprintf('=====================================================\n\n');
-
-%% 1. SELECCIÓN Y CARGA DE LA IMAGEN EN ESCALA DE GRISES
-% Se debe pedir el nombre de una imagen y pedir una nueva si no existe.
-% Además, si la imagen está en color, debe dar error y pedir otra.
-% Imágenes recomendadas: im1.jpg a im6.jpg.
-
-imagenValida = false;
-while ~imagenValida
-    nombreImg = input('Introduce el nombre de la imagen en escala de grises (ej. im1.jpg) [Enter para buscar]: ', 's');
-    
-    if isempty(nombreImg)
-        [fichero, ruta] = uigetfile({'*.jpg;*.png;*.tif;*.bmp', 'Imágenes (*.jpg, *.png, *.tif, *.bmp)'}, ...
-                                    'Selecciona una imagen en escala de grises');
-        if isequal(fichero, 0)
-            fprintf('No se seleccionó ningún archivo. Inténtalo de nuevo.\n');
-            continue;
-        end
-        rutaCompleta = fullfile(ruta, fichero);
-        nombreImg = fichero;
-    else
-        % Comprobar en directorio actual o dentro de IMG
-        if exist(nombreImg, 'file')
-            rutaCompleta = nombreImg;
-        elseif exist(fullfile('IMG', nombreImg), 'file')
-            rutaCompleta = fullfile('IMG', nombreImg);
-        else
-            fprintf('Error: El archivo "%s" no existe. Inténtalo de nuevo.\n', nombreImg);
-            continue;
-        end
+%%
+%% Apartado 1: Carga de imagen en escala de grises e histograma
+%%
+valida = false;
+while ~valida
+    nom = input('Nombre de la imagen (ej. im1.jpg) [Enter = im1.jpg]: ', 's');
+    if isempty(nom)
+        nom = 'im1.jpg';
     end
     
-    % Leer imagen y verificar número de canales
-    img = imread(rutaCompleta);
-    [alto, ancho, canales] = size(img);
+    if exist(nom, 'file')
+        ruta = nom;
+    elseif ~isempty(which(nom))
+        ruta = which(nom);
+    else
+        disp('El archivo no existe, prueba de nuevo.');
+        continue;
+    end
+    
+    img = imread(ruta);
+    [filas, cols, canales] = size(img);
     
     if canales > 1
-        fprintf('Error: La imagen "%s" está en COLOR (%d canales).\n', nombreImg, canales);
-        fprintf('Por favor, selecciona una imagen en escala de grises (ej. im1.jpg a im6.jpg).\n\n');
+        disp('Error: La imagen seleccionada es en color, debe ser en escala de grises.');
     else
-        imagenValida = true;
-        fprintf('-> Imagen "%s" cargada con éxito (%dx%d píxeles, escala de grises).\n\n', nombreImg, alto, ancho);
+        valida = true;
     end
 end
 
-%% 2. MOSTRAR IMAGEN ORIGINAL Y SU HISTOGRAMA
-figure('Name', ['Práctica 1 - ' nombreImg ' (Original e Histograma)'], 'NumberTitle', 'off');
+figure;
 subplot(1, 2, 1);
 imshow(img);
-title(['Imagen Original: ' nombreImg], 'Interpreter', 'none');
+title(['Original: ' nom]);
 
 subplot(1, 2, 2);
 imhist(img);
 grid on;
-title('Histograma de la Imagen Original');
-xlabel('Nivel de Gris (0 - 255)');
-ylabel('Número de Píxeles');
+title('Histograma original');
+xlabel('Nivel de gris');
+ylabel('Pixeles');
 
-%% 3. AUMENTAR O DISMINUIR EL BRILLO A PETICIÓN DEL USUARIO
-fprintf('--- AJUSTE DE BRILLO ---\n');
-deltaBrillo = input('Introduce el cambio de brillo (-255 a +255, por defecto +40): ');
-if isempty(deltaBrillo)
-    deltaBrillo = 40;
+disp('Pulsa una tecla para continuar...');
+pause;
+
+%%
+%% Apartado 2: Aumentar o disminuir brillo
+%%
+delta = input('Variacion de brillo [-255 a 255] (por defecto 40): ');
+if isempty(delta)
+    delta = 40;
 end
 
-% Ajuste de brillo controlando el desbordamiento (clipping entre 0 y 255)
-imgBrillo = uint8(min(max(double(img) + deltaBrillo, 0), 255));
+% Evitar desbordamiento recortando entre 0 y 255
+img_brillo = uint8(min(max(double(img) + delta, 0), 255));
 
-figure('Name', 'Práctica 1 - Modificación de Brillo', 'NumberTitle', 'off');
+figure;
 subplot(1, 2, 1);
-imshow(imgBrillo);
-if deltaBrillo >= 0
-    title(['Brillo aumentado (+' num2str(deltaBrillo) ')']);
-else
-    title(['Brillo disminuido (' num2str(deltaBrillo) ')']);
-end
+imshow(img_brillo);
+title(['Brillo modificado: ' num2str(delta)]);
 
 subplot(1, 2, 2);
-imhist(imgBrillo);
+imhist(img_brillo);
 grid on;
-title(['Histograma tras ajuste de brillo (' num2str(deltaBrillo) ')']);
-xlabel('Nivel de Gris (0 - 255)');
-ylabel('Número de Píxeles');
+title('Histograma modificado');
+xlabel('Nivel de gris');
+ylabel('Pixeles');
 
-%% 4. ECUALIZACIÓN DE LA IMAGEN
-% Mejora del contraste distribuyendo uniformemente los niveles de gris
-imgEcualizada = histeq(img);
+disp('Pulsa una tecla para continuar...');
+pause;
 
-figure('Name', 'Práctica 1 - Ecualización de Histograma', 'NumberTitle', 'off');
+%%
+%% Apartado 3: Ecualizacion de la imagen
+%%
+img_eq = histeq(img);
+
+figure;
 subplot(1, 2, 1);
-imshow(imgEcualizada);
-title('Imagen Ecualizada (histeq)');
+imshow(img_eq);
+title('Imagen ecualizada');
 
 subplot(1, 2, 2);
-imhist(imgEcualizada);
+imhist(img_eq);
 grid on;
-title('Histograma Ecualizado');
-xlabel('Nivel de Gris (0 - 255)');
-ylabel('Número de Píxeles');
+title('Histograma ecualizado');
+xlabel('Nivel de gris');
+ylabel('Pixeles');
 
-%% 5. ELIMINAR PÍXELES CON INTENSIDAD MENOR A UN VALOR DADO
-fprintf('\n--- ELIMINACIÓN DE PÍXELES POR UMBRAL ---\n');
-umbralCorte = input('Introduce el umbral de corte [0 - 255] (por defecto 100): ');
-if isempty(umbralCorte)
-    umbralCorte = 100;
+disp('Pulsa una tecla para continuar...');
+pause;
+
+%%
+%% Apartado 4: Eliminar pixeles con intensidad menor a un umbral
+%%
+umbral = input('Umbral de intensidad [0 a 255] (por defecto 100): ');
+if isempty(umbral)
+    umbral = 100;
 end
 
-imgFiltrada = img;
-imgFiltrada(imgFiltrada < umbralCorte) = 0; % Asignar negro (0) a píxeles inferiores al umbral
+img_umbral = img;
+img_umbral(img_umbral < umbral) = 0;
 
-figure('Name', 'Práctica 1 - Umbralización / Eliminación de píxeles', 'NumberTitle', 'off');
+figure;
 subplot(1, 2, 1);
 imshow(img);
-title('Imagen Original');
+title('Original');
 
 subplot(1, 2, 2);
-imshow(imgFiltrada);
-title(['Píxeles con nivel < ' num2str(umbralCorte) ' eliminados']);
+imshow(img_umbral);
+title(['Pixeles menores a ' num2str(umbral) ' eliminados']);
 
-%% 6. SUAVIZADO: FILTRO DE MEDIA Y FILTRO GAUSSIANO
-fprintf('\n--- SUAVIZADO DE IMÁGENES ---\n');
-tamMedia = input('Tamaño de ventana para filtro de media (ej. 5 para 5x5, por defecto 5): ');
-if isempty(tamMedia)
-    tamMedia = 5;
-end
-H_media = fspecial('average', [tamMedia tamMedia]);
-imgMedia = imfilter(img, H_media, 'replicate');
+disp('Pulsa una tecla para continuar...');
+pause;
 
-sigmaGauss = input('Desviación típica sigma para filtro gaussiano (por defecto 2.0): ');
-if isempty(sigmaGauss)
-    sigmaGauss = 2.0;
+%%
+%% Apartado 5: Suavizado con filtro de media y gaussiano
+%%
+n_med = input('Tamano de filtro de media (por defecto 5): ');
+if isempty(n_med)
+    n_med = 5;
 end
-tamGaussPorDefecto = 2 * ceil(2 * sigmaGauss) + 1;
-tamGauss = input(sprintf('Tamaño de máscara gaussiana (por defecto 2*ceil(2*sigma)+1 = %d): ', tamGaussPorDefecto));
-if isempty(tamGauss)
-    tamGauss = tamGaussPorDefecto;
-end
-H_gauss = fspecial('gaussian', [tamGauss tamGauss], sigmaGauss);
-imgGauss = imfilter(img, H_gauss, 'replicate');
+h_med = fspecial('average', [n_med n_med]);
+img_med = imfilter(img, h_med, 'replicate');
 
-figure('Name', 'Práctica 1 - Suavizado de Imágenes', 'NumberTitle', 'off');
+sigma = input('Sigma para gaussiano (por defecto 2): ');
+if isempty(sigma)
+    sigma = 2;
+end
+n_gauss = 2 * ceil(2 * sigma) + 1;
+h_gauss = fspecial('gaussian', [n_gauss n_gauss], sigma);
+img_gauss = imfilter(img, h_gauss, 'replicate');
+
+figure;
 subplot(1, 3, 1);
 imshow(img);
 title('Original');
 
 subplot(1, 3, 2);
-imshow(imgMedia);
-title(['Suavizado Media (' num2str(tamMedia) 'x' num2str(tamMedia) ')']);
+imshow(img_med);
+title(['Media ' num2str(n_med) 'x' num2str(n_med)]);
 
 subplot(1, 3, 3);
-imshow(imgGauss);
-title(sprintf('Gaussiano (%dx%d, \\sigma=%.2f)', tamGauss, tamGauss, sigmaGauss));
+imshow(img_gauss);
+title(['Gaussiano sigma=' num2str(sigma)]);
 
-%% 7. CÁLCULO DEL GRADIENTE DE LA IMAGEN (PREWITT)
-% Para calcular derivadas es imprescindible convertir a tipo double
-imgDouble = im2double(img);
+disp('Pulsa una tecla para continuar...');
+pause;
 
-Hx = fspecial('prewitt');
-Hy = Hx'; % Traspuesta para la dirección vertical
+%%
+%% Apartado 6: Gradiente de la imagen con operador Prewitt
+%%
+img_d = im2double(img);
 
-Gx = imfilter(imgDouble, Hx, 'replicate');
-Gy = imfilter(imgDouble, Hy, 'replicate');
+hx = fspecial('prewitt');
+hy = hx';
 
-% Módulo aproximado del gradiente G ≈ |Gx| + |Gy|
-G_mod = abs(Gx) + abs(Gy);
+gx = imfilter(img_d, hx, 'replicate');
+gy = imfilter(img_d, hy, 'replicate');
+g_mod = abs(gx) + abs(gy);
 
-figure('Name', 'Práctica 1 - Gradiente (Operador de Prewitt)', 'NumberTitle', 'off');
+figure;
 subplot(1, 3, 1);
-imshow(mat2gray(abs(Gx)));
-title('Componente Horizontal |Gx|');
+imshow(mat2gray(abs(gx)));
+title('Gradiente horizontal Gx');
 
 subplot(1, 3, 2);
-imshow(mat2gray(abs(Gy)));
-title('Componente Vertical |Gy|');
+imshow(mat2gray(abs(gy)));
+title('Gradiente vertical Gy');
 
 subplot(1, 3, 3);
-imshow(mat2gray(G_mod));
-title('Módulo del Gradiente G \approx |Gx| + |Gy|');
+imshow(mat2gray(g_mod));
+title('Modulo gradiente G');
 
-%% 8. REALZADO DE LA IMAGEN MEDIANTE GRADIENTE Y LAPLACIANO
-% Realzado con gradiente: I_realzada = I_original + 0.5 * (Gx + Gy)
-imgRealzadaGrad = imgDouble + 0.5 * (Gx + Gy);
-imgRealzadaGrad = min(max(imgRealzadaGrad, 0), 1); % Saturar en [0, 1]
+disp('Pulsa una tecla para continuar...');
+pause;
 
-% Realzado con Laplaciano: I_realzada = I_original - ∇²(I_original)
-alphaLap = 0.2;
-H_lap = fspecial('laplacian', alphaLap);
-L = imfilter(imgDouble, H_lap, 'replicate');
-imgRealzadaLap = imgDouble - L;
-imgRealzadaLap = min(max(imgRealzadaLap, 0), 1); % Saturar en [0, 1]
+%%
+%% Apartado 7: Realzado con gradiente y laplaciano
+%%
+% Realzado con gradiente
+img_realz_g = img_d + 0.5 * (gx + gy);
+img_realz_g = min(max(img_realz_g, 0), 1);
 
-figure('Name', 'Práctica 1 - Realzado de Bordes', 'NumberTitle', 'off');
+% Realzado con laplaciano
+h_lap = fspecial('laplacian', 0.2);
+lap = imfilter(img_d, h_lap, 'replicate');
+img_realz_l = img_d - lap;
+img_realz_l = min(max(img_realz_l, 0), 1);
+
+figure;
 subplot(1, 3, 1);
-imshow(imgDouble);
+imshow(img_d);
 title('Original');
 
 subplot(1, 3, 2);
-imshow(imgRealzadaGrad);
-title('Realzado con Gradiente');
+imshow(img_realz_g);
+title('Realzado gradiente');
 
 subplot(1, 3, 3);
-imshow(imgRealzadaLap);
-title(['Realzado con Laplaciano (\alpha=' num2str(alphaLap) ')']);
+imshow(img_realz_l);
+title('Realzado laplaciano');
 
-%% 9. ANÁLISIS DE LA IMAGEN im4.jpg: CINTA TRANSPORTADORA Y BOTELLAS
-fprintf('\n--- ANÁLISIS DE LA IMAGEN im4.jpg (Cinta con Botellas) ---\n');
-rutaIm4 = '';
+disp('Pulsa una tecla para continuar...');
+pause;
+
+%%
+%% Apartado 8: Analisis de cinta transportadora y botellas en im4.jpg
+%%
 if exist('im4.jpg', 'file')
-    rutaIm4 = 'im4.jpg';
-elseif exist(fullfile('IMG', 'im4.jpg'), 'file')
-    rutaIm4 = fullfile('IMG', 'im4.jpg');
+    r4 = 'im4.jpg';
+elseif ~isempty(which('im4.jpg'))
+    r4 = which('im4.jpg');
 else
-    fprintf('No se encontró "im4.jpg" en el directorio actual ni en "IMG/".\n');
-    [f4, r4] = uigetfile({'*.jpg;*.png;*.tif', 'Imagen im4.jpg'}, 'Selecciona im4.jpg para el análisis de botellas');
-    if ~isequal(f4, 0)
-        rutaIm4 = fullfile(r4, f4);
-    end
+    [f4, p4] = uigetfile('*.jpg;*.png', 'Selecciona im4.jpg');
+    r4 = fullfile(p4, f4);
 end
 
-if ~isempty(rutaIm4)
-    im4 = imread(rutaIm4);
-    if size(im4, 3) == 3
-        im4 = rgb2gray(im4);
-    end
-    [M4, N4] = size(im4);
-    im4_dbl = im2double(im4);
-    
-    % Gradiente horizontal y vertical sobre im4
-    Gx4 = imfilter(im4_dbl, Hx, 'replicate');
-    Gy4 = imfilter(im4_dbl, Hy, 'replicate');
-    G4 = abs(Gx4) + abs(Gy4);
-    
-    filaCentral = round(M4 / 2);
-    perfilCentral = G4(filaCentral, :);
-    
-    % Representar la imagen con la línea de corte y la gráfica de la fila central
-    figure('Name', 'Práctica 1 - Análisis im4.jpg (Fila Central del Gradiente)', 'NumberTitle', 'off');
-    subplot(2, 1, 1);
-    imshow(im4);
-    hold on;
-    line([1, N4], [filaCentral, filaCentral], 'Color', 'r', 'LineWidth', 2);
-    title(sprintf('Imagen im4.jpg con fila central señalizada (Fila %d)', filaCentral));
-    hold off;
-    
-    subplot(2, 1, 2);
-    plot(1:N4, perfilCentral, 'b-', 'LineWidth', 1.2);
-    grid on;
-    title(['Perfil del módulo del gradiente en la fila central (' num2str(filaCentral) ')']);
-    xlabel('Columna (píxeles)');
-    ylabel('Magnitud del gradiente');
-    xlim([1, N4]);
-    
-    % Cálculo de magnitudes físicas:
-    % En la imagen se han capturado 90 cm de dicha cinta a lo largo de las N4 columnas.
-    longitudCintaCm = 90.0;
-    escalaCmPorPixel = longitudCintaCm / N4;
-    
-    % Detección de picos significativos que corresponden a los bordes de las botellas
-    umbralPico = 0.25 * max(perfilCentral);
-    [picos, locs] = findpeaks(perfilCentral, 'MinPeakHeight', umbralPico, 'MinPeakDistance', round(N4 * 0.03));
-    
-    % Resaltar picos detectados en la gráfica
-    hold on;
-    plot(locs, picos, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 5);
-    legend('Gradiente', 'Bordes detectados');
-    hold off;
-    
-    fprintf('Datos obtenidos de im4.jpg:\n');
-    fprintf(' - Resolución: %d x %d píxeles\n', M4, N4);
-    fprintf(' - Longitud real de la cinta: %.1f cm (en %d píxeles)\n', longitudCintaCm, N4);
-    fprintf(' - Factor de escala: %.4f cm/píxel (o %.2f píxeles/cm)\n', escalaCmPorPixel, 1/escalaCmPorPixel);
-    fprintf(' - Picos de gradiente detectados: %d bordes\n', length(locs));
-    
-    if length(locs) >= 4
-        % Agrupamos pares de bordes (borde izquierdo y derecho de cada botella)
-        anchosPix = [];
-        separacionesPix = [];
-        for i = 1:2:(length(locs)-1)
-            anchosPix = [anchosPix, locs(i+1) - locs(i)];
-            if (i+2) <= length(locs)
-                separacionesPix = [separacionesPix, locs(i+2) - locs(i+1)];
-            end
+im4 = imread(r4);
+if size(im4, 3) == 3
+    im4 = rgb2gray(im4);
+end
+[m4, n4] = size(im4);
+im4_d = im2double(im4);
+
+gx4 = imfilter(im4_d, hx, 'replicate');
+gy4 = imfilter(im4_d, hy, 'replicate');
+g4 = abs(gx4) + abs(gy4);
+
+fila_c = round(m4 / 2);
+perfil = g4(fila_c, :);
+
+figure;
+subplot(2, 1, 1);
+imshow(im4);
+hold on;
+plot([1 n4], [fila_c fila_c], 'r-', 'LineWidth', 2);
+title(['im4.jpg con fila central ' num2str(fila_c)]);
+hold off;
+
+subplot(2, 1, 2);
+plot(1:n4, perfil, 'b');
+grid on;
+title(['Perfil del gradiente en fila ' num2str(fila_c)]);
+xlabel('Columna (pixeles)');
+ylabel('Gradiente');
+xlim([1 n4]);
+
+% La cinta mide 90 cm en horizontal
+escala = 90 / n4; % cm por pixel
+[picos, locs] = findpeaks(perfil, 'MinPeakHeight', 0.25 * max(perfil), 'MinPeakDistance', round(n4 * 0.03));
+
+hold on;
+plot(locs, picos, 'ro');
+legend('Gradiente', 'Bordes');
+hold off;
+
+if length(locs) >= 4
+    anchos = [];
+    seps = [];
+    for i = 1:2:(length(locs) - 1)
+        anchos = [anchos, (locs(i + 1) - locs(i)) * escala];
+        if (i + 2) <= length(locs)
+            seps = [seps, (locs(i + 2) - locs(i + 1)) * escala];
         end
-        anchoMedioCm = mean(anchosPix) * escalaCmPorPixel;
-        sepMediaCm = mean(separacionesPix) * escalaCmPorPixel;
-        fprintf(' -> Ancho aproximado de cada botella: %.2f cm (aprox. %.1f px)\n', anchoMedioCm, mean(anchosPix));
-        fprintf(' -> Separación aproximada entre botellas: %.2f cm (aprox. %.1f px)\n', sepMediaCm, mean(separacionesPix));
-    else
-        fprintf(' -> Para medir interactivamente en la gráfica, utiliza la herramienta Data Cursor o Zoom.\n');
     end
+    fprintf('\nResultados im4.jpg:\n');
+    fprintf('Ancho medio de botella: %.2f cm\n', mean(anchos));
+    fprintf('Separacion media entre botellas: %.2f cm\n', mean(seps));
 end
 
-fprintf('\nPráctica 1 completada correctamente.\n');
+disp('Practica 1 terminada.');
