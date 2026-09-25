@@ -15,9 +15,7 @@ if exist('IMG', 'dir') == 7
     addpath('IMG');
 end
 
-%%
 %% Apartado 1: Carga y comprobacion de imagen en color
-%%
 valida = false;
 while ~valida
     nom = input('Nombre de la imagen en color (ej. im7.jpg) [Enter = im7.jpg]: ', 's');
@@ -51,9 +49,7 @@ title(['Imagen en color: ' nom]);
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 2: Mostrar canales R, G, B y sus histogramas
-%%
 canal_r = img(:, :, 1);
 canal_g = img(:, :, 2);
 canal_b = img(:, :, 3);
@@ -70,9 +66,7 @@ subplot(2, 3, 6); imhist(canal_b); grid on; title('Histograma B'); xlabel('Nivel
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 3: Espacio HSV e histogramas
-%%
 img_d = im2double(img);
 img_hsv = rgb2hsv(img_d);
 
@@ -92,9 +86,7 @@ subplot(2, 3, 6); imhist(canal_v); grid on; title('Histograma V');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 4: Espacio YCbCr e histogramas
-%%
 img_ycbcr = rgb2ycbcr(img);
 
 canal_y  = img_ycbcr(:, :, 1);
@@ -113,9 +105,7 @@ subplot(2, 3, 6); imhist(canal_cr); grid on; title('Histograma Cr');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 5: Seleccionar color con impixel y dejar el resto en gris
-%%
 disp('Selecciona un color en la imagen haciendo clic y pulsa Enter:');
 [cx, cy, p] = impixel(img);
 
@@ -158,9 +148,7 @@ subplot(1, 3, 3); imshow(img_salida); title('Color aislado');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
-%% Apartado 6 y 7: Cargar imagen en grises y aplicar colormap
-%%
+%% Apartado 6: Cargar imagen en escala de grises
 nom_gris = input('Nombre de imagen en escala de grises [Enter = im1.jpg]: ', 's');
 if isempty(nom_gris)
     nom_gris = 'im1.jpg';
@@ -183,6 +171,14 @@ else
     end
 end
 
+figure;
+imshow(img_g2);
+title(['Escala de grises: ' nom_gris]);
+
+disp('Pulsa una tecla para continuar...');
+pause;
+
+%% Apartado 7: Aplicar mapa de color (colormap)
 disp('Elige un mapa de color: 1. jet | 2. hot | 3. cool | 4. copper | 5. pink | 6. hsv');
 opc_map = input('Opcion [1 a 6] (por defecto 1): ');
 if isempty(opc_map) || opc_map < 1 || opc_map > 6
@@ -207,9 +203,7 @@ title(['Colormap: ' mapa_sel]);
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 8: Colorear en HSV con colorWheel.png
-%%
 if exist('colorWheel.png', 'file')
     r_rueda = 'colorWheel.png';
 elseif ~isempty(which('colorWheel.png'))
@@ -276,9 +270,7 @@ title(['Tintada H=' num2str(h_sel, 2) ' S=' num2str(s_sel, 2)]);
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 9: Diametro de la moneda en im10.jpg
-%%
 if exist('im10.jpg', 'file')
     r10 = 'im10.jpg';
 elseif ~isempty(which('im10.jpg'))

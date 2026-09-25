@@ -15,9 +15,7 @@ if exist('IMG', 'dir') == 7
     addpath('IMG');
 end
 
-%%
 %% Apartado 1: Carga de imagen en escala de grises e histograma
-%%
 valida = false;
 while ~valida
     nom = input('Nombre de la imagen (ej. im1.jpg) [Enter = im1.jpg]: ', 's');
@@ -59,9 +57,7 @@ ylabel('Pixeles');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 2: Aumentar o disminuir brillo
-%%
 delta = input('Variacion de brillo [-255 a 255] (por defecto 40): ');
 if isempty(delta)
     delta = 40;
@@ -85,9 +81,7 @@ ylabel('Pixeles');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 3: Ecualizacion de la imagen
-%%
 img_eq = histeq(img);
 
 figure;
@@ -105,9 +99,7 @@ ylabel('Pixeles');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 4: Eliminar pixeles con intensidad menor a un umbral
-%%
 umbral = input('Umbral de intensidad [0 a 255] (por defecto 100): ');
 if isempty(umbral)
     umbral = 100;
@@ -128,9 +120,7 @@ title(['Pixeles menores a ' num2str(umbral) ' eliminados']);
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 5: Suavizado con filtro de media y gaussiano
-%%
 n_med = input('Tamano de filtro de media (por defecto 5): ');
 if isempty(n_med)
     n_med = 5;
@@ -162,9 +152,7 @@ title(['Gaussiano sigma=' num2str(sigma)]);
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 6: Gradiente de la imagen con operador Prewitt
-%%
 img_d = im2double(img);
 
 hx = fspecial('prewitt');
@@ -190,9 +178,7 @@ title('Modulo gradiente G');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 7: Realzado con gradiente y laplaciano
-%%
 % Realzado con gradiente
 img_realz_g = img_d + 0.5 * (gx + gy);
 img_realz_g = min(max(img_realz_g, 0), 1);
@@ -219,9 +205,7 @@ title('Realzado laplaciano');
 disp('Pulsa una tecla para continuar...');
 pause;
 
-%%
 %% Apartado 8: Analisis de cinta transportadora y botellas en im4.jpg
-%%
 if exist('im4.jpg', 'file')
     r4 = 'im4.jpg';
 elseif ~isempty(which('im4.jpg'))
@@ -263,7 +247,23 @@ xlim([1 n4]);
 
 % La cinta mide 90 cm en horizontal
 escala = 90 / n4; % cm por pixel
-[picos, locs] = findpeaks(perfil, 'MinPeakHeight', 0.25 * max(perfil), 'MinPeakDistance', round(n4 * 0.03));
+
+% Deteccion de picos locales sin depender de toolboxes adicionales
+umbral_pico = 0.25 * max(perfil);
+dist_min = round(n4 * 0.03);
+locs = [];
+picos = [];
+for i = 2:(n4 - 1)
+    if perfil(i) > perfil(i - 1) && perfil(i) > perfil(i + 1) && perfil(i) > umbral_pico
+        if isempty(locs) || (i - locs(end)) > dist_min
+            locs = [locs, i];
+            picos = [picos, perfil(i)];
+        elseif perfil(i) > picos(end)
+            locs(end) = i;
+            picos(end) = perfil(i);
+        end
+    end
+end
 
 hold on;
 plot(locs, picos, 'ro');
