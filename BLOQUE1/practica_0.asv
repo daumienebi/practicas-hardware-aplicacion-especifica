@@ -1,0 +1,41 @@
+% 1 : Crear los vectores
+v1 = [1,2,3];
+v2 = [3,2,1];
+v3 = [5,7,-1];
+
+% 2 : Asignar valores a M1,2 y3
+M1 = size(v1);
+M2 = size(v2);
+M3 = size(v3);
+
+% 3 : Mostrar los valores
+disp(M1)
+disp(M2)
+disp(M3)
+
+% 4 : Definir matriz A y B
+A = [1,2,3;4,5,6;7,8,9];
+B = [9,8,7;6,5,4;3,2,1];
+disp(A)
+disp(B)
+
+% 5 : Multiplicar A y B componente a componente
+C = A .* B;
+disp("A x B :");
+disp(C)
+
+% 6 : Crear las submatrices A2 y B2
+A2 = A(1:2,1:2)
+B2 = B(2:3,2:3)
+
+% 7 : Crear un cell array de tamaño 2x2 que contenga los vectores v1 y v2 en la primera fila y
+% las matrices A y B en la segunda fila.
+CA = {v1 v2;A B}
+%luego acceder con CA{2,2} por ejemplo
+
+% 8 :  Crear una matriz D de tamaño 10 x 15 formada toda ella por doses.
+% Creamos una matriz lleno de unos y multiplicamos cada uno de los
+% elementos por 2
+D = ones(10,15) * 2
+
+% 
