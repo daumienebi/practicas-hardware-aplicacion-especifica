@@ -38,4 +38,43 @@ CA = {v1 v2;A B}
 % elementos por 2
 D = ones(10,15) * 2
 
-% 
+% 9: Sustituir la columna central de la matriz D por el mayor valor de A.
+% La siguiente linea devuelve un vector con el mayor elemento de cada columna
+vector_mayor_elemento_A = max(A)
+% Ahora del vector anterior, obtenemos el mayor valor
+mayor_elemento_A = max(vector_mayor_elemento_A)
+D(:,8) = mayor_elemento_A
+
+%10: Dada la matriz E
+E = [3 2 1 5 6; 2 3 4 2 3;7 8 9 10 11;3 2 2 1 2;2 0 2 2 2]
+% Encontrar la posición del elemento menor.
+vector_menor_elemento_E = min(E)
+menor_elemento_E = min(vector_menor_elemento_E)
+% posicion = ?
+% he conseguido coger el menor elemento pero no su posición
+
+% 11 : A partir de la matriz E, crear una máscara binaria con el valor ‘1’ en la posición de los
+% doses y de los treses y con el valor ‘0’ en el resto de posiciones utilizando para ello
+% operadores relacionales. MB = Mascara Binaria
+MB = (E == 2 | E == 3)
+
+% 12 : A partir de la máscara anterior, obtener otra matriz F donde sólo aparezcan los ‘2’ y ‘3’
+% de la matriz E y cero (‘0’) en el resto de posiciones.
+
+% Solucion facil : Como la mascara binaria ya tiene 1's en las posiciones
+% donde la matriz E original tenia 2's y 3's, podemos obtener la matriz F
+% simplemente 
+F = MB .* E
+
+% 13 : Generar una matriz G de tamaño 1000×1000 con números aleatorios comprendidos entre
+% 0 y 10.
+G = rand(1000,1000) .* 10 + 1
+
+% 14 : Obtener una matriz H con los valores de G comprendidos entre 4 y 5 y cero en el resto.
+% Representar gráficamente la fila 500 utilizando la función stem. Medir el tiempo de
+% ejecución en milisegundos (ms). 
+
+% Primero creamos una mascara binaria
+MB = G(G >= 4 & G <= 5)
+
+
