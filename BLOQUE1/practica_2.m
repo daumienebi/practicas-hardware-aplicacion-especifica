@@ -1,7 +1,7 @@
 % Practica 2 : Procesado de imágenes en color
 
-% % Trabajando con RGB
-% I = imread("im22.jpg");
+% Trabajando con RGB
+% I = im2double(imread("im22.jpg"));
 % 
 % R=I(:,:,1);
 % G=I(:,:,2);
@@ -12,8 +12,8 @@
 % 
 % impixel(I)
 
-% Abrir un fichero con extension jpg
-% filename = uigetfile('*.jpg')
+% %Abrir un fichero con extension jpg
+%filename = uigetfile('*.jpg')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fichero

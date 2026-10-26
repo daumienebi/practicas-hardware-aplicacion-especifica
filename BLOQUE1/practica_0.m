@@ -50,7 +50,7 @@ E = [3 2 1 5 6; 2 3 4 2 3;7 8 9 10 11;3 2 2 1 2;2 0 2 2 2]
 % Encontrar la posición del elemento menor.
 vector_menor_elemento_E = min(E)
 menor_elemento_E = min(vector_menor_elemento_E)
-% posicion = ?
+% posicion = ? con find
 % he conseguido coger el menor elemento pero no su posición
 
 % 11 : A partir de la matriz E, crear una máscara binaria con el valor ‘1’ en la posición de los

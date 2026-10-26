@@ -13,9 +13,9 @@ I_fondo = imread(nom_fondo);
 I_obj_d = im2double(I_obj);
 I_fondo_d = im2double(I_fondo);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Visualizar ambas imagenes en una ventana
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure('Name', 'Imágenes Originales');
 subplot(1,2,1), imshow(I_obj), title('Motivo Principal');
 subplot(1,2,2), imshow(I_fondo), title('Nuevo Fondo');
