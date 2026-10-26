@@ -1,4 +1,4 @@
-% Practica 3 Chroma Key
+% Práctica 3 Chroma Key
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Lectura de las imágenes
