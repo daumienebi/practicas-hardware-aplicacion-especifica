@@ -20,13 +20,13 @@ BW = not(imbinarize(I_gray, umbral));
 BW_rellena = imfill(BW, 'holes');
 BW_limpia = bwareaopen(BW_rellena, 100); % Limpiamos ruido pequeño
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Visualizar los objetos detectados con su rectángulo de área mínima 
 % y etiquetarlos utilizando la función text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [L, num_objetos] = bwlabel(BW_limpia);
 rprop = regionprops(L, 'BoundingBox', 'Centroid');
-
 figure('Name', 'Detección y Etiquetado');
 imshow(I);
 title('Objetos detectados');
