@@ -113,6 +113,26 @@
 }
 
 % =========================================================
+% Figura del reto: capturas/captura_r_N.png
+\newcommand{\capturareto}[2]{%
+	\begin{figure}[H]
+		\centering
+		\IfFileExists{capturas/captura_r_#1.png}{%
+			\includegraphics[width=0.85\textwidth]{capturas/captura_r_#1.png}%
+		}{%
+			\fbox{%
+				\parbox[c][4.5cm][c]{0.80\textwidth}{%
+					\centering
+					Insertar aquí la captura\\[0.3cm]
+					\texttt{captura\_r\_#1.png}%
+				}%
+			}%
+		}
+		\caption{#2}
+		\label{fig:r-#1}
+	\end{figure}%
+}
+
 % FORMATO DE TÍTULOS
 % =========================================================
 \titleformat{\section}
@@ -358,6 +378,20 @@
 	% =========================================================
 	\section{Reto nº 1: ¿Cuántos EUROS hay?}
 	
+	\subsection{Segmentación de los objetos (imagen im00.jpg)}
+	Se binariza la imagen, se rellenan los huecos de las regiones y se elimina el ruido de pequeño tamaño.
+	\capturareto{1}{Pasos intermedios de la segmentación: relleno de huecos y máscara limpia.}
+	\capturareto{2}{Máscara limpia y objetos etiquetados con falso color.}
+	
+	\subsection{Descriptores de los objetos}
+	Para distinguir las monedas de euro del resto de objetos se calculan el factor de forma y la media del canal H de cada región.
+	\capturareto{3}{Media del canal H y factor de forma de cada uno de los objetos.}
+	
+	\subsection{Detección de las monedas}
+	Se señalan los objetos con forma circular y el tono propio de las monedas de euro, descartando las fichas de colores y las monedas de otros valores.
+	\capturareto{4}{Monedas de euro señaladas sobre la imagen original.}
+	
+	\subsection{Clasificación por valor e importe total}
 	Pendiente de realizar.
 	
 	\clearpage
