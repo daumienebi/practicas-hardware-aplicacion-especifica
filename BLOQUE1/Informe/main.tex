@@ -1,0 +1,410 @@
+\documentclass[12pt,a4paper]{article}
+
+% =========================================================
+% PAQUETES
+% =========================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{makecell}
+
+% =========================================================
+% CONFIGURACIÓN GENERAL
+% =========================================================
+\geometry{
+	top=2.5cm,
+	bottom=2.5cm,
+	left=2.7cm,
+	right=2.7cm
+}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\definecolor{UBUblue}{RGB}{0,82,147}
+\definecolor{UBUlight}{RGB}{235,243,249}
+\definecolor{UBUdark}{RGB}{34,45,58}
+
+\graphicspath{{logo/}}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UBUblue,
+	urlcolor=UBUblue,
+	citecolor=UBUblue,
+	pdftitle={Bloque I - Procesamiento digital de imagen y vídeo},
+	pdfauthor={Estudiantes del Grado en Ingeniería Informática}
+}
+
+% =========================================================
+% DATOS DEL DOCUMENTO
+% =========================================================
+\newcommand{\universidad}{Universidad de Burgos}
+\newcommand{\escuela}{Escuela Politécnica Superior}
+\newcommand{\campus}{Campus Río Vena}
+\newcommand{\grado}{Grado en Ingeniería Informática}
+\newcommand{\asignatura}{Hardware de Aplicación Específica}
+
+\newcommand{\numbloque}{I}
+\newcommand{\nombrebloque}{Bloque I: Fundamentos y Procesado de Imágenes}
+
+% Estudiantes
+\newcommand{\estudiantes}{%
+	\begin{tabular}[t]{@{}l@{}}
+		Amin Hussien Castillo\\
+		Derick Daumienebi Sakpa\\
+		Sergiy Khudoley Macarenco
+	\end{tabular}%
+}
+\newcommand{\correos}{%
+	\begin{tabular}[t]{@{}l@{}}
+		ahc1015@alu.ubu.es\\
+		dsx1019@alu.ubu.es\\
+		skx1024@alu.ubu.es
+	\end{tabular}%
+}
+\newcommand{\estudiantespie}{Hussien, Sakpa y Khudoley}
+
+\newcommand{\grupo}{Grupo 03}
+\newcommand{\profesor}{Cesar Represa Perez}
+\newcommand{\cursoacademico}{2026--2027}
+\newcommand{\fechaentrega}{\today}
+
+% =========================================================
+% MACRO PARA CAPTURAS
+% Uso: \captura{num_practica}{num_captura}{Pie de figura}
+% Ejemplo: \captura{1}{2}{Histograma} -> captura_p1_2.png
+% =========================================================
+\newcommand{\captura}[3]{%
+	\begin{figure}[H]
+		\centering
+		\IfFileExists{captura_p#1_#2.png}{%
+			\includegraphics[width=0.85\textwidth]{captura_p#1_#2.png}%
+		}{%
+			\fbox{%
+				\parbox[c][4.5cm][c]{0.80\textwidth}{%
+					\centering
+					Insertar aquí la captura\\[0.3cm]
+					\texttt{captura\_p#1\_#2.png}%
+				}%
+			}%
+		}
+		\caption{#3}
+		\label{fig:p#1-#2}
+	\end{figure}%
+}
+
+% =========================================================
+% FORMATO DE TÍTULOS
+% =========================================================
+\titleformat{\section}
+{\Large\bfseries\color{UBUblue}}
+{\thesection.}{0.6em}{}
+
+\titleformat{\subsection}
+{\large\bfseries\color{UBUblue}}
+{\thesubsection.}{0.6em}{}
+
+\titleformat{\subsubsection}
+{\normalsize\bfseries\color{UBUdark}}
+{\thesubsubsection.}{0.6em}{}
+
+% =========================================================
+% CABECERA Y PIE DE PÁGINA
+% =========================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \asignatura}
+\fancyhead[R]{\small Bloque \numbloque}
+\fancyfoot[L]{\small \universidad}
+\fancyfoot[C]{\small \estudiantespie}
+\fancyfoot[R]{\small Página \thepage\ de \pageref{LastPage}}
+
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% =========================================================
+% DOCUMENTO
+% =========================================================
+\begin{document}
+	
+	% ---------------------------------------------------------
+	% PORTADA (Sin salto de página previo)
+	% ---------------------------------------------------------
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\setlength{\parskip}{0pt}
+		\noindent\makebox[0pt][l]{%
+			\begin{tikzpicture}[remember picture,overlay]
+				\fill[UBUblue]
+				(current page.north west)
+				rectangle
+				([xshift=1.15cm]current page.south west);
+				
+				\fill[UBUblue]
+				([xshift=1.15cm,yshift=-0.8cm]current page.north west)
+				rectangle
+				([yshift=-0.95cm]current page.north east);
+				
+				\fill[UBUlight]
+				([xshift=1.15cm,yshift=4.0cm]current page.south west)
+				rectangle
+				(current page.south east);
+			\end{tikzpicture}%
+		}%
+		\hspace*{0.8cm}%
+		\begin{minipage}[t][0.92\textheight][t]{0.89\textwidth}
+			\vspace*{0.2cm}
+			
+			\IfFileExists{logo/logo_ubu.png}{%
+				\includegraphics[width=0.64\textwidth]{logo/logo_ubu.png}%
+			}{%
+				\fbox{%
+					\parbox[c][2.4cm][c]{0.62\textwidth}{%
+						\centering
+						\textbf{LOGO UNIVERSIDAD DE BURGOS}\\[0.25cm]
+						Añadir \texttt{logo/logo\_ubu.png}%
+					}%
+				}%
+			}
+			
+			\vspace{1.1cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
+			{\large\color{UBUdark}\escuela}\\[0.10cm]
+			{\large\color{UBUdark}\universidad}
+			
+			\vspace{1.2cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
+			{\LARGE\bfseries\color{UBUdark}\asignatura}
+			
+			\vspace{0.6cm}
+			{\color{UBUblue}\rule{0.22\textwidth}{3pt}}
+			
+			\vspace{0.8cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Bloque \numbloque}}\\[0.25cm]
+			{\huge\bfseries\color{UBUdark}Prácticas 1 a 5 y Reto 1}
+			
+			\vfill
+			
+			\noindent
+			\colorbox{UBUlight}{%
+				\parbox{0.96\linewidth}{%
+					\vspace{0.3cm}
+					\begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
+						Estudiantes & \estudiantes \\[0.15cm]
+						\makecell[l]{Correos \\ electrónicos} & \correos \\[0.15cm]
+						Grupo & \grupo \\[0.15cm]
+						Profesor/a & \profesor \\[0.15cm]
+						Curso académico & \cursoacademico \\[0.15cm]
+						Fecha de entrega & \fechaentrega \\
+					\end{tabularx}
+					\vspace{0.1cm}
+				}%
+			}
+			
+			\vspace{0.6cm}
+			
+			{\small\color{UBUdark}
+				\escuela, \campus\hfill
+				\textbf{Universidad de Burgos}}
+		\end{minipage}
+	\end{titlepage}
+	
+	% ---------------------------------------------------------
+	% ÍNDICE GENERAL
+	% ---------------------------------------------------------
+	\tableofcontents
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 1
+	% =========================================================
+	\section{Práctica nº 01: Procesado básico de imágenes}
+	
+	\subsection{Lectura y visualización con histograma}
+	\captura{1}{1}{Carga de la imagen original y visualización de su histograma.}
+	
+	\subsection{Modificación de brillo}
+	\captura{1}{2}{Aumento y disminución del brillo y sus respectivos histogramas.}
+	
+	\subsection{Ecualización de la imagen}
+	\captura{1}{3}{Imagen ecualizada y comparación de histogramas.}
+	
+	\subsection{Eliminación de píxeles por umbral de intensidad}
+	\captura{1}{4}{Resultado tras descartar intensidades inferiores al umbral seleccionado.}
+	
+	\subsection{Suavizado de imágenes}
+	\subsubsection{Suavizado de media}
+	\captura{1}{5}{Resultado del filtrado de media con la máscara especificada.}
+	
+	\subsubsection{Suavizado gaussiano}
+	\captura{1}{6}{Resultado del filtrado gaussiano ajustando tamaño y parámetro sigma.}
+	
+	\subsection{Cálculo del gradiente}
+	\captura{1}{7}{Componentes horizontal ($G_x$), vertical ($G_y$) y módulo del gradiente.}
+	
+	\subsection{Realzado de imágenes}
+	\subsubsection{Realzado mediante gradiente}
+	\captura{1}{8}{Realzado combinando la imagen original con las componentes del gradiente.}
+	
+	\subsubsection{Realzado mediante laplaciano}
+	\captura{1}{9}{Realzado mediante la resta del operador laplaciano a la imagen original.}
+	
+	\subsection{Análisis de cinta transportadora (imagen im4.jpg)}
+	\captura{1}{10}{Perfil de la fila central del gradiente para la medición de botellas.}
+	
+	\subsubsection{Cuestiones sobre la cinta transportadora}
+	% Responder aquí a la separación aproximada y ancho de cada botella
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 2
+	% =========================================================
+	\section{Práctica nº 02: Procesado de imágenes en color}
+	
+	\subsection{Descomposición de canales en espacio RGB}
+	\captura{2}{1}{Canales R, G y B individuales con sus respectivos histogramas.}
+	
+	\subsection{Conversión al espacio HSV}
+	\captura{2}{2}{Canales H (tono), S (saturación) y V (brillo) e histogramas.}
+	
+	\subsection{Conversión al espacio YCbCr}
+	\captura{2}{3}{Canales Y (luminancia), Cb y Cr (crominancias) e histogramas.}
+	
+	\subsection{Aislamiento de color mediante selección interactiva (impixel)}
+	\captura{2}{4}{Imagen con preservación del color escogido y fondo a escala de grises.}
+	
+	\subsection{Generación de falso color mediante mapa de color (colormap)}
+	\captura{2}{5}{Imagen en escala de grises coloreada junto a su barra de color.}
+	
+	\subsection{Conversión de escala de grises a color mediante espacio HSV}
+	\captura{2}{6}{Coloreado en HSV utilizando la referencia de colorWheel.png.}
+	
+	\subsection{Estimación de dimensiones sobre superficie (imagen im10.jpg)}
+	\captura{2}{7}{Medición y cálculo del diámetro de la moneda.}
+	
+	\subsubsection{Cuestiones sobre la moneda}
+	% Responder aquí al cálculo del diámetro
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 3
+	% =========================================================
+	\section{Práctica nº 03: Chroma Key}
+	
+	\subsection{Imágenes originales de motivo principal y nuevo fondo}
+	\captura{3}{1}{Visualización de la imagen con fondo uniforme y la escena de destino.}
+	
+	\subsection{Extracción de mascarilla por distancia de color}
+	\subsubsection{Canal alfa sin ajustar y ajustado}
+	\captura{3}{2}{Comparativa entre la mascarilla continua y la mascarilla binarizada.}
+	
+	\subsubsection{Composición digital final}
+	\captura{3}{3}{Motivo recortado, fondo preparado y composición final.}
+	
+	\subsection{Extracción de mascarilla por diferencia de color}
+	\subsubsection{Matriz de diferencias y canal alfa}
+	\captura{3}{4}{Matriz de diferencias de intensidad y mascarilla resultante invertida.}
+	
+	\subsubsection{Composición digital final}
+	\captura{3}{5}{Composición final generada a partir de diferencia de color.}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 4
+	% =========================================================
+	\section{Práctica nº 04: Imágenes binarias}
+	
+	\subsection{Análisis del histograma del blíster (imagen im6.jpg)}
+	\captura{4}{1}{Visualización del blíster y estudio de la bimodalidad del histograma.}
+	
+	\subsection{Segmentación de pastillas}
+	\captura{4}{2}{Etapas intermedias de binarización y rellenado de huecos (imfill).}
+	
+	\subsection{Etiquetado de componentes conexas}
+	\captura{4}{3}{Matriz de etiquetas visualizada con mapa de colores adaptado.}
+	
+	\subsection{Detección y enumeración de objetos}
+	\captura{4}{4}{Pastillas señaladas con rectángulos de área mínima y texto numerado.}
+	
+	\subsection{Detección de ranuras horizontales}
+	\captura{4}{5}{Aislamiento de ranuras horizontales mediante elementos estructurantes.}
+	
+	\captura{4}{6}{Ranuras horizontales localizadas sobre la imagen original con recuadros.}
+	
+	\subsubsection{Cuestiones sobre las ranuras}
+	% Responder aquí al recuento de ranuras encontradas
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 5
+	% =========================================================
+	\section{Práctica nº 05: Reconocimiento y Clasificación}
+	
+	\subsection{Segmentación y detección de objetos (imagen im12.jpg)}
+	\captura{5}{1}{Objetos segmentados, etiquetados y señalados con su BoundingBox.}
+	
+	\subsection{Extracción de descriptores de forma: Factor de forma}
+	\captura{5}{2}{Representación mediante stem del factor de forma de cada objeto.}
+	
+	\subsection{Extracción de descriptores de textura: Entropía}
+	\captura{5}{3}{Representación mediante stem del valor de entropía de cada objeto.}
+	
+	\subsection{Espacio de características y clasificación}
+	\captura{5}{4}{Gráfico de dispersión bidimensional: factor de forma frente a entropía.}
+	
+	\subsection{Discriminación de elementos no reales}
+	\captura{5}{5}{Identificación y marcado sobre la imagen original de elementos circulares ficticios.}
+	
+	\clearpage
+	
+	% =========================================================
+	% RETO 1
+	% =========================================================
+	\section{Reto nº 1: ¿Cuántos EUROS hay?}
+	
+	\subsection{Estrategia de segmentación (imagen im00.jpg)}
+	\captura{1}{11}{Separación de monedas y objetos respecto al fondo.}
+	
+	\subsection{Descriptores seleccionados y clasificación por valor}
+	\captura{1}{12}{Diferenciación de monedas de 10, 20 y 50 céntimos frente al resto de objetos.}
+	
+	\subsection{Resultado final del conteo e importe total}
+	\captura{1}{13}{Imagen final con el valor asignado a cada moneda y la suma calculada.}
+	
+	\clearpage
+	
+	% =========================================================
+	% CONCLUSIONES GLOBALES
+	% =========================================================
+	\section{Conclusiones globales del Bloque \numbloque}
+	
+	% Resumen global del bloque
+	
+\end{document}
