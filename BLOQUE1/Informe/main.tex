@@ -321,6 +321,9 @@
 
 	Tras descartar los picos pegados quedan nueve distancias: 24, 25, 25 y 31 px (huecos entre botellas), 90, 91 y 91 px (botellas completas) y 52 y 56 px (botellas cortadas por el borde de la imagen). Como 498 px equivalen a 90 cm, la escala es de 5,53 px/cm, de modo que 24 px son unos 4,34 cm y 91 px unos 16,45 cm.
 	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_1.m}}]{../practica_1.m}
+	
 	\clearpage
 	
 	% =========================================================
@@ -351,6 +354,9 @@
 
 	Este valor es bastante mayor que el de una moneda de euro real (entre 16 y 26 mm). La superficie de 4800 mm$^2$ es aproximada y el umbral incluye todo lo que no es blanco, así que el resultado es una estimación de orden de magnitud y no una medida exacta.
 	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_2.m}}]{../practica_2.m}
+	
 	\clearpage
 	
 	% =========================================================
@@ -361,6 +367,9 @@
 	\subsection{Extracción de mascarilla y composición final}
 	Se obtiene la mascarilla por diferencia de color (con el color de fondo verde) y se compone el motivo sobre el nuevo fondo. El resultado final es el siguiente.
 	\captura{3}{4}{Composición final generada a partir de la diferencia de color.}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_3.m}}]{../practica_3.m}
 	
 	\clearpage
 	
@@ -384,6 +393,9 @@
 	\subsubsection{Cuestiones sobre las ranuras}
 	Aproximadamente hay 24 ranuras horizontales en el blíster. Se obtienen filtrando los objetos detectados por su geometría: se conservan los rectángulos de área mínima cuya anchura es mayor que su altura, es decir, los objetos alargados en horizontal.
 	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_4.m}}]{../practica_4.m}
+	
 	\clearpage
 	
 	% =========================================================
@@ -402,6 +414,9 @@
 	
 	\subsection{Discriminación de elementos no reales}
 	\captura{5}{4}{Identificación y marcado sobre la imagen original de elementos circulares ficticios.}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_5.m}}]{../practica_5.m}
 	
 	\clearpage
 	
@@ -426,6 +441,9 @@
 	\subsection{Clasificación por valor e importe total}
 	Pendiente de realizar.
 	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{reto.m}}]{../reto.m}
+	
 	\clearpage
 	
 	% =========================================================
@@ -435,34 +453,4 @@
 	
 	% Resumen global del bloque
 	
-% =========================================================
-% ANEXO: CODIGO FUENTE
-% =========================================================
-\clearpage
-\appendix
-
-\section{Código fuente de las prácticas}
-
-Se incluyen a continuación los listados completos de los scripts entregados. Son los
-mismos ficheros que se adjuntan por separado, y se insertan en el documento
-directamente desde su ubicación en la carpeta \texttt{BLOQUE1}.
-
-\subsection{Práctica 1: Procesado básico de imágenes}
-\lstinputlisting[caption={\texttt{practica\_1.m}}]{../practica_1.m}
-
-\subsection{Práctica 2: Procesado de imágenes en color}
-\lstinputlisting[caption={\texttt{practica\_2.m}}]{../practica_2.m}
-
-\subsection{Práctica 3: Chroma Key}
-\lstinputlisting[caption={\texttt{practica\_3.m}}]{../practica_3.m}
-
-\subsection{Práctica 4: Imágenes binarias}
-\lstinputlisting[caption={\texttt{practica\_4.m}}]{../practica_4.m}
-
-\subsection{Práctica 5: Reconocimiento y clasificación}
-\lstinputlisting[caption={\texttt{practica\_5.m}}]{../practica_5.m}
-
-\subsection{Reto 1: ¿Cuántos euros hay?}
-\lstinputlisting[caption={\texttt{reto.m}}]{../reto.m}
-
 \end{document}
