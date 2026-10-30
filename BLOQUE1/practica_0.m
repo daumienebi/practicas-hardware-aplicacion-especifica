@@ -3,10 +3,13 @@ v1 = [1,2,3];
 v2 = [3,2,1];
 v3 = [5,7,-1];
 
-% 2 : Asignar valores a M1,2 y3
-M1 = size(v1);
-M2 = size(v2);
-M3 = size(v3);
+% 2 : Concatenar v1, v2 y v3 en las dimensiones 1, 2 y 3
+% Dimension 1 : apilamos los tres vectores en vertical
+M1 = cat(1, v1, v2, v3);
+% Dimension 2 : concatenamos en horizontal
+M2 = cat(2, v1, v2, v3);
+% Dimension 3 : matriz 3D, cada 'capa' es un vector en vertical
+M3 = cat(3, v1, v2, v3);
 
 % 3 : Mostrar los valores
 disp(M1)
@@ -43,6 +46,8 @@ D = ones(10,15) * 2
 vector_mayor_elemento_A = max(A)
 % Ahora del vector anterior, obtenemos el mayor valor
 mayor_elemento_A = max(vector_mayor_elemento_A)
+
+% Columna central de una matriz de 15 columnas : la 8
 D(:,8) = mayor_elemento_A
 
 %10: Dada la matriz E
@@ -50,8 +55,8 @@ E = [3 2 1 5 6; 2 3 4 2 3;7 8 9 10 11;3 2 2 1 2;2 0 2 2 2]
 % Encontrar la posición del elemento menor.
 vector_menor_elemento_E = min(E)
 menor_elemento_E = min(vector_menor_elemento_E)
-% posicion = ? con find
-% he conseguido coger el menor elemento pero no su posición
+% find localiza la posicion; devuelve el indice lineal y las coordenadas
+[filas, cols] = find(E == menor_elemento_E)
 
 % 11 : A partir de la matriz E, crear una máscara binaria con el valor ‘1’ en la posición de los
 % doses y de los treses y con el valor ‘0’ en el resto de posiciones utilizando para ello
@@ -68,17 +73,21 @@ F = MB .* E
 
 % 13 : Generar una matriz G de tamaño 1000×1000 con números aleatorios comprendidos entre
 % 0 y 10.
-G = rand(1000,1000) .* 10 + 1
+G = rand(1000,1000) .* 10
 
 % 14 : Obtener una matriz H con los valores de G comprendidos entre 4 y 5 y cero en el resto.
 % Representar gráficamente la fila 500 utilizando la función stem. Medir el tiempo de
 % ejecución en milisegundos (ms). 
 
+% Cronometramos todo el proceso con tic/toc (segundos) y lo pasamos a ms
+tic
 % Primero creamos una mascara binaria
-MB = (G >= 4 & G <= 5)
+MB = (G >= 4 & G <= 5);
 % Ahora obtenemos H
-H = MB .* G
+H = MB .* G;
 % Ahora representamos la fila 500
 figure, stem(H(500,:))
+tiempo_ms = toc * 1000;
+disp(['Tiempo de ejecucion: ', num2str(tiempo_ms), ' ms'])
 
 
