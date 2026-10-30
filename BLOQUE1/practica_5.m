@@ -36,7 +36,7 @@ for i = 1:num_objetos
     rectangle('Position', caja, 'EdgeColor', 'g', 'LineWidth', 2);
     
     centro = rprop(i).Centroid;
-    text(centro(1), centro(2), num2str(i), 'Color', 'r', 'FontSize', 12, ...
+    text(centro(1), centro(2), num2str(i), 'Color', 'w', 'FontSize', 12, ...
         'FontWeight', 'bold');
 end
 
