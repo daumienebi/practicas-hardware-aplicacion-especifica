@@ -439,7 +439,14 @@
 	\capturareto{4}{Monedas de euro señaladas sobre la imagen original.}
 	
 	\subsection{Clasificación por valor e importe total}
-	Pendiente de realizar.
+	Para asignar un valor a cada moneda se utiliza su área en píxeles, ya que las monedas de mayor valor son también las de mayor diámetro. Se establecen tres intervalos: área menor que 31000 píxeles para las de 10 céntimos, entre 31000 y 40000 para las de 20, y mayor que 40000 para las de 50. El valor se escribe sobre cada moneda.
+	\capturareto{5}{Clasificación de las monedas de euro por su valor, en euros.}
+	
+	En la imagen se detectan 11 monedas de euro: 2 de 50 céntimos, 5 de 20 céntimos y 4 de 10 céntimos. El importe total es, por tanto:
+	\[
+	2 \times 0{,}50 + 5 \times 0{,}20 + 4 \times 0{,}10 = \mathbf{2{,}40\ \text{\texteuro}}
+	\]
+	Las monedas de otros valores y las fichas de colores quedan descartadas por el criterio de forma y tono.
 	
 	\subsection{Código fuente}
 	\lstinputlisting[caption={\texttt{reto.m}}]{../reto.m}
