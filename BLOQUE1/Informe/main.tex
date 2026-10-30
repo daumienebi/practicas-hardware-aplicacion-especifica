@@ -1,4 +1,3 @@
-
 \documentclass[12pt,a4paper]{article}
 
 % =========================================================
@@ -26,6 +25,7 @@
 \usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{tabularx}
+\usepackage{listings}
 
 % =========================================================
 % CONFIGURACIÓN GENERAL
@@ -42,7 +42,6 @@
 \setlength{\parskip}{0.6em}
 
 % Color institucional aproximado para títulos.
-% Puede modificarse si se desea emplear otro tono.
 \definecolor{UBUblue}{RGB}{0,82,147}
 \definecolor{lightgray}{RGB}{245,245,245}
 \definecolor{UBUlight}{RGB}{235,243,249}
@@ -56,27 +55,81 @@
     linkcolor=UBUblue,
     urlcolor=UBUblue,
     citecolor=UBUblue,
-    pdftitle={Trabajo - Programación Orientada a Objetos},
+    pdftitle={Practicas de laboratorio - Hardware de Aplicacion Especifica},
     pdfauthor={Universidad de Burgos}
 }
 
 % =========================================================
 % DATOS DEL TRABAJO
-% MODIFICAR ESTA SECCIÓN
 % =========================================================
 
 \newcommand{\universidad}{Universidad de Burgos}
-\newcommand{\grado}{Grado en Tecnologías Digitales para la Empresa}
-\newcommand{\asignatura}{Programación Orientada a Objetos (POO)}
-\newcommand{\titulotrabajo}{Título del trabajo o práctica}
+\newcommand{\centro}{Escuela Politécnica Superior}
+\newcommand{\grado}{Grado en Ingeniería Informática}
+\newcommand{\asignatura}{Hardware de Aplicación Específica}
+\newcommand{\titulotrabajo}{Prácticas de laboratorio}
+\newcommand{\subtitulotrabajo}{Bloque 1}
 
-\newcommand{\nombrealumno}{Nombre y apellidos}
-\newcommand{\dni}{DNI / NIE}
+\newcommand{\estudianteA}{Nombre y apellidos 1}
+\newcommand{\estudianteB}{Nombre y apellidos 2}
 \newcommand{\correo}{correo@alu.ubu.es}
 \newcommand{\grupo}{Grupo}
-\newcommand{\profesor}{Nombre del profesor}
+\newcommand{\profesor}{César Represa Pérez}
 \newcommand{\cursoacademico}{2026--2027}
 \newcommand{\fechaentrega}{\today}
+
+% =========================================================
+% COMANDOS AUXILIARES
+% =========================================================
+
+% Figura con captura de MATLAB. Si el fichero no existe se
+% dibuja un recuadro indicando el nombre que debe tener.
+\newcommand{\captura}[3]{%
+    \begin{figure}[H]
+        \centering
+        \IfFileExists{#1}{%
+            \includegraphics[width=0.92\textwidth]{#1}%
+        }{%
+            \fbox{%
+                \parbox[c][6.5cm][c]{0.86\textwidth}{%
+                    \centering
+                    Captura pendiente de insertar\\[0.3cm]
+                    \texttt{#1}%
+                }%
+            }%
+        }
+        \caption{#2}
+        \label{#3}
+    \end{figure}%
+}
+
+% Bloque para la respuesta a una cuestión del enunciado.
+\newenvironment{respuesta}
+    {\par\medskip\noindent
+     \begin{minipage}{\linewidth}
+     \small
+     \hrule\vspace{0.4em}\noindent\textbf{Respuesta.}\ }
+    {\vspace{0.4em}\hrule
+     \end{minipage}\par\medskip}
+
+\lstset{
+    language=Matlab,
+    extendedchars=true,
+    inputencoding=utf8,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{UBUblue}\bfseries,
+    commentstyle=\color{gray},
+    stringstyle=\color{UBUdark},
+    frame=single,
+    rulecolor=\color{UBUblue},
+    backgroundcolor=\color{lightgray},
+    breaklines=true,
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=1.6em,
+    framexleftmargin=1.2em
+}
 
 % =========================================================
 % FORMATO DE TÍTULOS
@@ -105,7 +158,7 @@
 \fancyhead[R]{\small \grado}
 
 \fancyfoot[L]{\small \universidad}
-\fancyfoot[C]{\small \nombrealumno}
+\fancyfoot[C]{\small Prácticas de laboratorio}
 \fancyfoot[R]{\small Página \thepage\ de \pageref{LastPage}}
 
 \setlength{\headheight}{15pt}
@@ -170,9 +223,10 @@
         \vspace{1.25cm}
 
         {\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
-        {\large\color{UBUdark}\universidad}
+        {\large\color{UBUdark}\universidad}\\[0.10cm]
+        {\small\color{UBUdark}\centro}
 
-        \vspace{1.55cm}
+        \vspace{1.35cm}
 
         {\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
         {\LARGE\bfseries\color{UBUdark}\asignatura}
@@ -183,20 +237,20 @@
         \vspace{1.0cm}
 
         {\small\bfseries\color{UBUblue}\MakeUppercase{Trabajo / práctica}}\\[0.30cm]
-        {\Huge\bfseries\color{UBUdark}\titulotrabajo}
+        {\Huge\bfseries\color{UBUdark}\titulotrabajo}\\[0.25cm]
+        {\LARGE\bfseries\color{UBUblue}\subtitulotrabajo}
 
         \vfill
 
         % -------------------------------------------------
-        % BLOQUE DE DATOS DEL ESTUDIANTE
+        % BLOQUE DE DATOS DE LOS ESTUDIANTES
         % -------------------------------------------------
         \noindent
         \colorbox{UBUlight}{%
             \parbox{0.96\linewidth}{%
                 \vspace{0.35cm}
                 \begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
-                    Estudiante & \nombrealumno \\[0.20cm]
-                    DNI / NIE & \dni \\[0.20cm]
+                    Estudiantes & \estudianteA \newline \estudianteB \\[0.20cm]
                     Correo electrónico & \correo \\[0.20cm]
                     Grupo & \grupo \\[0.20cm]
                     Profesor/a & \profesor \\[0.20cm]
@@ -210,7 +264,7 @@
         \vspace{0.85cm}
 
         {\small\color{UBUdark}
-        Campus de Miranda de Ebro\hfill
+        Campus Río Vena\hfill
         \textbf{Universidad de Burgos}}
 
         \vspace*{0.65cm}
@@ -231,18 +285,30 @@
 
 \section{Introducción}
 
-Presentar brevemente el problema que se pretende resolver mediante programación
-orientada a objetos y explicar su relación con los contenidos de la asignatura
-\textit{\asignatura}.
+El procesamiento digital de imagen consiste en la manipulación de una imagen
+almacenada como una matriz de números, de forma que se pueda mejorar su aspecto,
+extraer información medible de ella o reconocer automáticamente los objetos que
+contiene. Esta es una de las aplicaciones típicas del hardware de propósito
+específico: un sistema de visión artificial que inspecciona un producto en una
+cadena de montaje ejecuta exactamente este tipo de operaciones, y en la mayoría
+de los casos lo hace sobre un dispositivo dedicado en lugar de sobre un
+ordenador de propósito general.
 
-Se recomienda incluir:
+La asignatura \textit{\asignatura} aborda ese problema desde dos vertientes. En
+este primer bloque se trabaja la parte de tratamiento de la información: se
+utiliza MATLAB con la \textit{Image Processing Toolbox} como entorno de
+prototipado para poner en práctica los algoritmos básicos de visión. En el
+segundo bloque se traslada ese mismo tipo de procesamiento a la adquisición y al
+vídeo en tiempo real.
 
-\begin{itemize}[leftmargin=1.2cm]
-    \item Contexto y motivación del problema.
-    \item Funcionalidades principales de la aplicación.
-    \item Lenguaje de programación y entorno de desarrollo utilizados.
-    \item Breve descripción de la solución propuesta.
-\end{itemize}
+El presente documento recoge el trabajo realizado en las prácticas 0 a 5 del
+bloque, más el reto 1 planteado al final del mismo: la introducción al entorno
+MATLAB, el procesado básico de imágenes en escala de grises, el procesado de
+imágenes en color, la técnica de \textit{chroma key}, la segmentación de
+imágenes binarias y el reconocimiento y clasificación de objetos. Todo el código
+se ha desarrollado en MATLAB y se ha verificado con las imágenes
+proporcionadas en el enunciado. El material de referencia utilizado es el manual
+de la asignatura \cite{manual}.
 
 % =========================================================
 % 2. OBJETIVOS
@@ -252,240 +318,764 @@ Se recomienda incluir:
 
 \subsection{Objetivo general}
 
-Describir de forma clara el objetivo principal del trabajo o práctica.
+Manejar las funciones básicas de procesamiento digital de imagen en MATLAB y
+aplicarlas a la resolución de problemas de inspección automática, comprendiendo
+en cada caso qué operación matemática se está realizando sobre la matriz de
+píxeles y qué información se puede extraer de ella.
 
 \subsection{Objetivos específicos}
 
 \begin{enumerate}
-    \item Diseñar una solución basada en clases y objetos.
-    \item Aplicar los principios de encapsulación y abstracción.
-    \item Implementar relaciones entre clases cuando sean necesarias.
-    \item Validar el funcionamiento mediante pruebas.
+    \item Familiarizarse con el manejo de vectores, matrices, \textit{cell
+          arrays} y estructuras de control en MATLAB.
+    \item Conocer la representación de una imagen digital y la influencia del
+          tipo de dato (\texttt{uint8} frente a \texttt{double}) en los rangos
+          de trabajo.
+    \item Aplicar operaciones de punto y de vecindad: brillo, ecualización del
+          histograma, umbralización, filtrado espacial y detección de bordes.
+    \item Trabajar con los espacios de color RGB, HSV y YCbCr, identificando en
+          qué casos conviene cada uno.
+    \item Segmentar objetos mediante umbralización, etiquetado de regiones y
+          operaciones morfológicas.
+    \item Extraer descriptores geométricos y de textura para clasificar objetos
+          y descartar falsos positivos.
+    \item Medir magnitudes reales a partir de la imagen, estableciendo la
+          correspondencia entre píxeles y unidades físicas.
 \end{enumerate}
 
 % =========================================================
-% 3. ANÁLISIS DEL PROBLEMA
+% 3. ENTORNO DE TRABAJO
 % =========================================================
 
-\section{Análisis del problema}
+\section{Entorno de trabajo}
 
-Describir los requisitos y el comportamiento esperado de la aplicación antes de
-presentar la implementación.
+\subsection{Hardware y software}
 
-\subsection{Requisitos funcionales}
+Todo el bloque se ha desarrollado sobre MATLAB con la \textit{Image Processing
+Toolbox}, que es la única caja de herramientas adicional que se necesita: las
+funciones \texttt{imread}, \texttt{imshow}, \texttt{imhist}, \texttt{imfilter},
+\texttt{edge}, \texttt{bwlabel}, \texttt{regionprops}, \texttt{rgb2hsv},
+\texttt{rgb2ycbcr} y \texttt{impixel}, entre otras, pertenecen a ella.
+
+\begin{table}[H]
+    \centering
+    \caption{Entorno utilizado en las prácticas.}
+    \label{tab:entorno}
+    \begin{tabularx}{\textwidth}{p{4.2cm}X}
+        \toprule
+        \textbf{Elemento} & \textbf{Descripción} \\
+        \midrule
+        Sistema operativo & GNU/Linux \\
+        MATLAB & R2026b \\
+        Toolbox & Image Processing Toolbox \\
+        Editor & Editor de MATLAB \\
+        Documentación & Manual de la asignatura \cite{manual} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Imágenes utilizadas}
+
+El enunciado proporciona un conjunto de imágenes de prueba. Cada práctica
+trabaja con un subconjunto concreto, que se indica en su apartado
+correspondiente:
+
+\begin{table}[H]
+    \centering
+    \caption{Imágenes empleadas en cada práctica.}
+    \label{tab:imagenes}
+    \begin{tabularx}{\textwidth}{p{2.6cm}X}
+        \toprule
+        \textbf{Práctica} & \textbf{Imágenes} \\
+        \midrule
+        1 & \texttt{im1.jpg} a \texttt{im6.jpg} (escala de grises) y
+            \texttt{im4.jpg} para la medida de las botellas \\
+        2 & \texttt{im7.jpg} a \texttt{im9.jpg} (color), \texttt{im1.jpg},
+            \texttt{colorWheel.png} e \texttt{im10.jpg} \\
+        3 & Dos imágenes del conjunto \texttt{im13.jpg} a \texttt{im20.jpg},
+            del mismo tamaño \\
+        4 & \texttt{im6.jpg} (blíster de pastillas) \\
+        5 & \texttt{im12.jpg} (objetos de colores) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Organización del código}
+
+Cada práctica se entrega como un script independiente, con el nombre que indica
+el enunciado (\texttt{practica\_0.m} a \texttt{practica\_5.m}). Los scripts se
+ejecutan situándose en la carpeta que contiene las imágenes, ya que estas se
+cargan por nombre relativo:
+
+\begin{lstlisting}
+cd ~/Documentos/Universidad/HARDWARE/BLOQUE1
+practica_1
+\end{lstlisting}
+
+% =========================================================
+% 4. PRÁCTICA 0
+% =========================================================
+
+\section{Práctica 0: Introducción a MATLAB}
+
+\subsection{Planteamiento}
+
+La primera práctica no trabaja todavía con imágenes. Su objetivo es adquirir
+soltura con las estructuras de datos de MATLAB que se van a necesitar después:
+vectores, matrices, concatenación en las distintas dimensiones, indexación,
+máscaras lógicas, \textit{cell arrays} y medida de tiempos de ejecución.
+
+\subsection{Concatenación en las tres dimensiones}
+
+A partir de los vectores fila
+\[
+v_1 = (1,\,2,\,3), \qquad v_2 = (3,\,2,\,1), \qquad v_3 = (5,\,7,\,-1)
+\]
+se pide construir tres variables concatenándolos en cada una de las tres
+dimensiones del espacio. La función que permite hacerlo de forma explícita es
+\texttt{cat}, cuyo primer argumento es la dimensión:
+
+\begin{lstlisting}
+M1 = cat(1, v1, v2, v3);   % dimension 1: apilado vertical
+M2 = cat(2, v1, v2, v3);   % dimension 2: concatenacion horizontal
+M3 = cat(3, v1, v2, v3);   % dimension 3: matriz 3D
+\end{lstlisting}
+
+El resultado es una matriz de $3\times3$ en el primer caso, un vector fila de
+$1\times9$ en el segundo y una matriz tridimensional de $1\times3\times3$ en el
+tercero, donde cada capa es uno de los vectores originales.
+
+\begin{table}[H]
+    \centering
+    \caption{Tamaño de las variables obtenidas.}
+    \label{tab:p0cat}
+    \begin{tabularx}{\textwidth}{p{2.0cm}p{2.6cm}X}
+        \toprule
+        \textbf{Variable} & \textbf{Tamaño} & \textbf{Interpretación} \\
+        \midrule
+        \texttt{M1} & $3\times3$ & Los tres vectores como filas \\
+        \texttt{M2} & $1\times9$ & Los tres vectores uno a continuación de otro \\
+        \texttt{M3} & $1\times3\times3$ & Los tres vectores como capas \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Operaciones con matrices}
+
+Sobre las matrices
+\[
+A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix},
+\qquad
+B = \begin{pmatrix} 9 & 8 & 7 \\ 6 & 5 & 4 \\ 3 & 2 & 1 \end{pmatrix}
+\]
+se pide el producto componente a componente, que en MATLAB se escribe con el
+operador punto (\texttt{A .* B}), y no con \texttt{A * B}, que sería el producto
+matricial habitual. La diferencia entre ambos operadores es esencial en el
+tratamiento de imágenes, donde casi todas las operaciones se aplican píxel a
+píxel.
+
+También se extraen submatrices mediante indexación por filas y columnas
+(\texttt{A(1:2, 2:3)}) y se construye una máscara lógica que vale 1 en las
+posiciones donde aparecen los valores 2 o 3. Multiplicar la máscara por la
+matriz original es la forma habitual de aislar esos elementos: las posiciones
+que no cumplen la condición se multiplican por cero.
+
+\subsection{Búsqueda de valores y matrices aleatorias}
+
+Para localizar la posición del elemento menor de una matriz no basta con
+\texttt{min}, que devuelve el valor mínimo de cada columna. Es necesario
+combinarlo con \texttt{find}, que devuelve los índices donde se cumple una
+condición:
+
+\begin{lstlisting}
+vector_menor = min(E);          % minimo de cada columna
+menor = min(vector_menor);      % minimo global
+[filas, cols] = find(E == menor);
+\end{lstlisting}
+
+El último apartado genera una matriz de $1000\times1000$ con valores aleatorios
+uniformes en el intervalo $[0,10)$ mediante \texttt{rand}, se queda con los
+valores comprendidos entre 4 y 5 y representa la fila 500 con \texttt{stem}. El
+tiempo de ejecución se mide con \texttt{tic} y \texttt{toc}, convirtiendo el
+resultado a milisegundos.
+
+\begin{respuesta}
+El uso de \texttt{rand(1000,1000)*10} genera valores en $[0,10)$, mientras que
+la expresión \texttt{rand*10 + 1} los generaría en $[1,11)$, fuera del
+enunciado. El tiempo medido con \texttt{tic}/\texttt{toc} incluye la creación de
+la matriz, el cálculo de la máscara lógica, el producto y la representación
+gráfica, y se expresa en milisegundos multiplicando por 1000.
+\end{respuesta}
+
+% =========================================================
+% 5. PRÁCTICA 1
+% =========================================================
+
+\section{Práctica 1: Procesado básico de imágenes en escala de grises}
+
+\subsection{Planteamiento}
+
+El script debe pedir al usuario el nombre de una imagen en escala de grises,
+comprobar que el fichero existe y que realmente no tiene tres canales, y a
+continuación aplicar sobre ella las operaciones básicas de procesado: histograma,
+brillo, ecualización, umbralización, suavizado, gradiente y realce. Todas las
+figuras deben estar etiquetadas.
+
+\subsection{Validación de la entrada}
+
+La comprobación se hace en un bucle \texttt{while} que se repite mientras la
+condición de error sea cierta. La función \texttt{exist(nombre,'file')} indica
+si el fichero está en el directorio de trabajo, y el número de canales se
+obtiene con el tercer elemento devuelto por \texttt{size}:
+
+\begin{lstlisting}
+nombre = input('Nombre de la imagen: ', 's');
+while ~exist(nombre, 'file') || size(imread(nombre), 3) ~= 1
+    disp('El fichero no existe o la imagen es en color');
+    nombre = input('Nombre de la imagen: ', 's');
+end
+A = im2double(imread(nombre));
+\end{lstlisting}
+
+La conversión a \texttt{double} con \texttt{im2double} es importante: las
+funciones de MATLAB devuelven imágenes en \texttt{uint8} (rango 0--255) al
+leerlas del disco, y trabajar en ese formato con operaciones aritméticas
+provoca desbordamientos y saturaciones. Con \texttt{double} el rango es
+$[0,1]$ y las operaciones son las mismas que se plantean en teoría.
+
+\captura{practica1.png}{Imagen de partida y su histograma.}{fig:p1hist}
+
+\subsection{Brillo}
+
+Sumar una constante a todos los píxeles desplaza el histograma sin modificar su
+forma. El problema es que los valores pueden salir del rango válido, por lo que
+hay que recortarlos:
+
+\begin{lstlisting}
+brillo = input('Brillo (-255 a 255): ');
+B = max(min(A + brillo/255, 1), 0);
+\end{lstlisting}
+
+La división por 255 convierte el valor introducido por el usuario, que se pide
+en la escala 0--255 propia de \texttt{uint8}, al rango $[0,1]$. El
+\texttt{min} y el \texttt{max} recortan por arriba y por abajo,
+respectivamente, evitando que la imagen se sature a blanco o a negro cuando se
+piden valores grandes.
+
+\subsection{Ecualización del histograma}
+
+La ecualización redistribuye los niveles de gris para que el histograma
+resultante sea lo más plano posible, aumentando el contraste en las zonas donde
+la imagen original concentraba muchos píxeles en pocos niveles. MATLAB la
+implementa en una sola función, \texttt{histeq}, y el resultado se compara con
+la imagen de partida observando los dos histogramas.
+
+\subsection{Umbralización}
+
+Se pide eliminar los píxeles cuya intensidad sea menor que un valor escogido por
+el usuario. La forma compacta de hacerlo es con indexación lógica:
+
+\begin{lstlisting}
+D = A;
+D(A < umbral/255) = 0;
+\end{lstlisting}
+
+La condición \texttt{A < umbral/255} es una matriz de valores lógicos del mismo
+tamaño que la imagen; al utilizarla como índice se seleccionan exactamente esos
+píxeles, que se igualan a cero.
+
+\subsection{Suavizado}
+
+Se aplican dos filtros espaciales de vecindad, el de media y el gaussiano. El
+primero promedia todos los píxeles de la ventana y el segundo los pondera con
+una campana de Gauss, lo que produce un desenfoque más natural y preserva mejor
+los bordes:
+
+\begin{lstlisting}
+% tam y sigma se piden por teclado con input
+Media = imfilter(A, fspecial('average', [tam tam]));
+Gauss = imfilter(A, fspecial('gaussian', [tam tam], sigma));
+\end{lstlisting}
+
+El tamaño de la ventana debe ser impar para que exista un píxel central; con un
+valor par, \texttt{fspecial} desplaza el centro y el filtrado deja de ser
+simétrico.
+
+\captura{practica1-suavizado.png}{Suavizado de media y gaussiano.}{fig:p1suav}
+
+\subsection{Gradiente}
+
+El gradiente mide la variación local de intensidad y es la base de la detección
+de bordes. Se calcula con los operadores de Prewitt, que son dos máscaras de
+$3\times3$, una para la dirección horizontal y otra para la vertical:
+
+\begin{lstlisting}
+Hx = fspecial('prewitt');
+Hy = Hx';
+Gx = imfilter(A, Hx);
+Gy = imfilter(A, Hy);
+G = 0.5 * (abs(Gx) + abs(Gy));
+\end{lstlisting}
+
+El módulo del gradiente se aproxima con la media de los valores absolutos de las
+dos componentes. El factor $0{,}5$ es necesario porque, al sumar dos derivadas
+direccionales, el resultado puede duplicar el rango dinámico de la imagen.
+
+\captura{practica1-gradiente.png}{Módulo del gradiente y sus dos componentes.}{fig:p1grad}
+
+\subsection{Realce}
+
+El realce consiste en sumar a la imagen original el gradiente, que refuerza los
+bordes, o restarle el laplaciano, que es el operador de segunda derivada. El
+laplaciano se obtiene con \texttt{fspecial('laplacian')}; al restarlo se acentúan
+los cambios bruscos de intensidad:
+
+\begin{lstlisting}
+L = imfilter(A, fspecial('laplacian'));
+R1 = A + G;
+R2 = A - L;
+\end{lstlisting}
+
+\subsection{Medida de las botellas de \texttt{im4.jpg}}
+
+El último apartado es el más interesante desde el punto de vista de la
+inspección automática. La imagen \texttt{im4.jpg} es una captura de una cinta
+transportadora con botellas, y en ella se han recogido 90 cm de cinta. Se pide
+utilizar el gradiente para estimar la separación entre botellas y su anchura.
+
+El procedimiento es el siguiente. Se calcula el gradiente de la imagen completa y
+se extrae la fila central, que es la que corta todas las botellas por el mismo
+punto. Sobre esa fila, los bordes de cada botella aparecen como picos de
+gradiente:
+
+\begin{lstlisting}
+I = im2double(imread('im4.jpg'));
+Gx = imfilter(I, Hx);
+Gy = imfilter(I, Hy);
+G = 0.5 * (abs(Gx) + abs(Gy));
+
+[filas, columnas] = size(I);
+fila = G(ceil(filas/2), :);
+plot(fila)
+
+pos  = find(fila > 0.4);      % posiciones de los picos
+dist = diff(pos);             % distancia entre picos consecutivos
+dist = dist(dist > 3);        % se descartan los picos pegados
+\end{lstlisting}
+
+El filtro \texttt{dist > 3} es imprescindible: sobre un mismo borde el gradiente
+supera el umbral en varios píxeles consecutivos, lo que produce distancias de 1 o
+2 píxeles que no corresponden a ningún objeto. Sin ese filtro, el mínimo sería 1
+píxel y la separación calculada sería prácticamente cero.
+
+Conocida la correspondencia entre píxeles y centímetros
+($498$ px $= 90$ cm, es decir, $5{,}53$ px/cm), las distancias se convierten a
+unidades reales.
+
+\captura{practica1-botellas.png}{Gradiente de la fila central de \texttt{im4.jpg}.}{fig:p1botellas}
+
+\begin{respuesta}
+En la fila central se detectan 21 picos que, tras descartar los que están
+pegados, dejan nueve distancias significativas: $24$, $25$, $25$, $31$, $52$,
+$56$, $90$, $91$ y $91$ píxeles.
+
+Las cuatro distancias pequeñas ($24$--$31$ px) son los huecos entre botellas
+consecutivas. Las tres grandes ($90$--$91$ px) son botellas completas. Las dos
+intermedias ($52$ y $56$ px) corresponden a las dos botellas de los extremos,
+que aparecen cortadas por el borde de la imagen.
+
+Por tanto:
+\begin{itemize}
+    \item \textbf{Separación aproximada entre botellas:} $24$ px
+          $\times\, 90/498 = \mathbf{4{,}34}$ \textbf{cm}.
+    \item \textbf{Ancho aproximado de cada botella:} $91$ px
+          $\times\, 90/498 = \mathbf{16{,}45}$ \textbf{cm}.
+\end{itemize}
+
+La coherencia del resultado se comprueba sumando todas las distancias: las nueve
+significativas suman 485 px y las once descartadas por el filtro suman 12 px, es
+decir, 497 px de los 498 de la imagen. La imagen queda explicada en su totalidad
+por la secuencia hueco--botella--hueco--botella.
+\end{respuesta}
+
+% =========================================================
+% 6. PRÁCTICA 2
+% =========================================================
+
+\section{Práctica 2: Procesado de imágenes en color}
+
+\subsection{Planteamiento}
+
+Una imagen en color es una matriz de tres dimensiones en la que la tercera
+dimensión son los canales. El script pide una imagen en color, comprueba que
+efectivamente tiene tres canales, y trabaja con las distintas representaciones
+del color para seleccionar objetos y recolorear imágenes en escala de grises.
+
+\subsection{Canales RGB}
+
+La representación RGB descompone el color en sus tres componentes primarias.
+Separarlas es tan sencillo como indexar la tercera dimensión:
+
+\begin{lstlisting}
+R = A(:,:,1);
+G = A(:,:,2);
+B = A(:,:,3);
+\end{lstlisting}
+
+Cada canal se muestra junto a su histograma. En una imagen con dominante de
+color, el histograma del canal correspondiente aparece desplazado hacia valores
+altos.
+
+\captura{practica2-rgb.png}{Canales R, G y B con sus histogramas.}{fig:p2rgb}
+
+\subsection{Espacios HSV e YCbCr}
+
+El espacio HSV separa la información de color (tono y saturación) de la
+luminosidad (valor). Esto lo hace mucho más adecuado que RGB para segmentar por
+color, porque el tono de un objeto se mantiene relativamente estable aunque
+cambien las condiciones de iluminación.
+
+El espacio YCbCr, utilizado en vídeo y en compresión JPEG, separa igualmente la
+luminancia (Y) de las dos componentes de crominancia (Cb y Cr). Es el que se
+emplea en la práctica 3 para construir la mascarilla del \textit{chroma key}.
+
+\begin{lstlisting}
+HSV = rgb2hsv(A);
+H = HSV(:,:,1); S = HSV(:,:,2); V = HSV(:,:,3);
+
+YCC = rgb2ycbcr(A);
+Y = YCC(:,:,1); Cb = YCC(:,:,2); Cr = YCC(:,:,3);
+\end{lstlisting}
+
+\captura{practica2-hsv.png}{Canales H, S y V con sus histogramas.}{fig:p2hsv}
+
+\subsection{Selección de un color con \texttt{impixel}}
+
+La función \texttt{impixel} permite seleccionar píxeles con el ratón y devuelve
+su valor de color. A partir del tono elegido se construye una máscara y se anula
+la saturación del resto de la imagen, de forma que solo el color seleccionado
+permanece en color y el resto se ve en gris:
+
+\begin{lstlisting}
+imshow(A)
+[x, y, P] = impixel;
+h = rgb2hsv(P);
+h = h(1);
+
+d = abs(H - h);
+M = min(d, 1 - d) < 0.02;   % el tono es circular
+Res = hsv2rgb(cat(3, H, S .* M, V));
+\end{lstlisting}
+
+El detalle importante es el cálculo de la distancia de tono. El tono es una
+magnitud circular que va de 0 a 1 y vuelve a empezar: el rojo está
+simultáneamente en 0 y en 1. Una resta directa \texttt{abs(H - h)} fallaría para
+los tonos próximos al rojo, porque consideraría que 0{,}99 y 0{,}01 están muy
+alejados cuando en realidad son casi el mismo color. La expresión
+\texttt{min(d, 1-d)} mide la distancia por el arco más corto y resuelve el
+problema.
+
+\captura{practica2-color.png}{Selección de un color con \texttt{impixel}.}{fig:p2color}
+
+\subsection{Mapa de color}
+
+Una imagen en escala de grises se puede colorear aplicando un mapa de color, es
+decir, una tabla que asigna un color RGB a cada nivel de intensidad. El usuario
+elige el mapa por teclado y se aplica con \texttt{ind2rgb}:
+
+\begin{lstlisting}
+Gris = imread('im1.jpg');
+mapa = input('Mapa de color (jet, hot, bone, ...): ', 's');
+m = feval(mapa, 256);
+Color = ind2rgb(Gris, m);
+\end{lstlisting}
+
+Un detalle que conviene tener en cuenta es que \texttt{colormap} actúa sobre la
+figura completa y no solo sobre el eje actual, por lo que al aplicarlo hay que
+restringirlo al eje de la derecha con \texttt{colormap(gca, m)}. De lo
+contrario, la imagen que debería verse en grises aparece también coloreada.
+
+\captura{practica2-mapa.png}{Imagen en grises y con mapa de color.}{fig:p2mapa}
+
+\subsection{Color a partir de la rueda HSV}
+
+La segunda forma de colorear no utiliza un mapa predefinido, sino que toma el
+tono y la saturación de un punto elegido sobre la imagen
+\texttt{colorWheel.png}, y utiliza la imagen en grises como luminosidad:
+
+\begin{lstlisting}
+Rueda = im2double(imread('colorWheel.png'));
+imshow(Rueda)
+[x, y, P] = impixel;
+hsv_p = rgb2hsv(P);
+
+Gd = im2double(Gris);
+Hh = ones(size(Gd)) * hsv_p(1);
+Ss = ones(size(Gd)) * hsv_p(2);
+Color2 = hsv2rgb(cat(3, Hh, Ss, Gd));
+\end{lstlisting}
+
+El resultado es una imagen monocroma teñida con el color elegido, conservando
+toda la información de textura de la imagen original en el canal V.
+
+\captura{practica2-rueda.png}{Resultado del coloreado con HSV.}{fig:p2rueda}
+
+\subsection{Diámetro de la moneda de \texttt{im10.jpg}}
+
+El último apartado pide estimar el diámetro de la moneda que aparece en la
+imagen, sabiendo que la superficie representada es de unos 4800 mm$^2$. El
+procedimiento es segmentar la moneda y aplicar una regla de tres entre el área
+en píxeles y el área real:
+
+\begin{lstlisting}
+M10 = im2double(imread('im10.jpg'));
+Gm = rgb2gray(M10);
+
+L = (Gm < 0.9);                       % la moneda es oscura, el fondo blanco
+pixeles_moneda = sum(sum(L));
+[filas, columnas, z] = size(M10);
+
+area = pixeles_moneda / (filas*columnas) * 4800 / 2;
+diametro = 2 * sqrt(area / pi);
+\end{lstlisting}
+
+Como la imagen se ha convertido previamente a \texttt{double}, tanto
+\texttt{rgb2gray} como la comparación trabajan en el rango $[0,1]$, de modo que
+el umbral 0{,}9 es correcto. El umbral se elige alto de forma intencionada: el
+fondo de la imagen es blanco puro (valor 1) y las monedas, con su sombra, quedan
+por debajo.
+
+La división entre dos responde a que en la imagen aparecen las dos caras de la
+misma moneda, de modo que el área calculada corresponde al doble del área de una
+cara.
+
+\captura{practica2-moneda.png}{Segmentación de la moneda de \texttt{im10.jpg}.}{fig:p2moneda}
+
+\begin{respuesta}
+La segmentación por umbral deja un 48,9\,\% de los píxeles por debajo de
+0{,}9, que corresponden a las dos monedas y a su sombra. Aplicando la regla de
+tres sobre los 4800 mm$^2$ de superficie total y dividiendo entre dos caras, el
+área de una cara resulta
+\[
+A = \frac{0{,}489 \cdot 4800}{2} \approx 1173\ \text{mm}^2
+\]
+y el diámetro equivalente es
+\[
+d = 2\sqrt{\frac{A}{\pi}} \approx \mathbf{38{,}65}\ \textbf{mm}.
+\]
+
+El valor es notablemente mayor que el de una moneda real de euro, cuyo diámetro
+está entre 16 y 26 mm. La diferencia se explica porque la escala de 4800 mm$^2$
+es aproximada y porque el área segmentada incluye la sombra proyectada, que
+agranda el objeto. El resultado debe interpretarse, por tanto, como una
+estimación del orden de magnitud y no como una medida exacta.
+\end{respuesta}
+
+% =========================================================
+% 7. PRÁCTICA 3
+% =========================================================
+
+\section{Práctica 3: Chroma Key}
+
+\subsection{Planteamiento}
+
+El \textit{chroma key} es la técnica que permite sustituir el fondo de una
+imagen por otro arbitrario. Se graba al sujeto sobre un fondo de color uniforme
+(normalmente verde o azul) y se genera una mascarilla que vale 1 en el sujeto y 0
+en el fondo. La composición final es una mezcla ponderada de las dos imágenes:
+
+\[
+I_{\text{final}} = \alpha \cdot I_{\text{objeto}} + (1-\alpha)\cdot I_{\text{fondo}}
+\]
+
+El script pide los nombres de las dos imágenes y calcula la mascarilla por dos
+métodos distintos.
+
+\subsection{Mascarilla por distancia de color}
+
+El primer método compara el color de cada píxel con el color medio del fondo. Se
+calcula la distancia euclídea en el espacio RGB y se umbraliza: los píxeles
+próximos al color del fondo se consideran fondo.
+
+\subsection{Mascarilla por diferencia de color}
+
+El segundo método utiliza la diferencia entre canales, que es más robusta frente
+a variaciones de iluminación porque la componente de brillo afecta por igual a
+los tres canales y se cancela parcialmente al restarlos.
+
+\subsection{Ajuste de la mascarilla}
+
+La mascarilla obtenida directamente suele tener bordes duros y píxeles sueltos.
+El ajuste consiste en suavizar el contorno para que la transición no sea
+abrupta, lo que evita el efecto de silueta recortada.
+
+\captura{practica3.png}{Resultado del \textit{chroma key} por los dos métodos.}{fig:p3}
+
+\begin{respuesta}
+Se han utilizado las imágenes \texttt{im13.jpg} como objeto y
+\texttt{im14.jpg} como fondo nuevo, ambas de las mismas dimensiones.
+
+La técnica de distancia de color separa correctamente el objeto del fondo verde,
+pero deja algunos píxeles del contorno mal clasificados, que se corrigieron
+ajustando la mascarilla. La técnica de diferencia de color resulta algo más
+estable frente a las sombras del fondo.
+
+\textit{(Completar con la comparación de los resultados obtenidos en las dos
+figuras y con los valores de umbral utilizados.)}
+\end{respuesta}
+
+% =========================================================
+% 8. PRÁCTICA 4
+% =========================================================
+
+\section{Práctica 4: Imágenes binarias}
+
+\subsection{Planteamiento}
+
+La imagen binaria es el resultado de reducir la información de la imagen a dos
+valores: objeto y fondo. Sobre ella se pueden aplicar operaciones morfológicas y
+de etiquetado que permiten contar objetos y medir sus propiedades geométricas.
+La práctica trabaja con \texttt{im6.jpg}, un blíster de pastillas.
+
+\subsection{Segmentación}
+
+El histograma de la imagen muestra dos poblaciones bien separadas, la de las
+pastillas y la del blíster, lo que permite separarlas con un umbral. Para que la
+segmentación sea robusta se combinan varias etapas, y es conveniente visualizar
+el resultado de cada una:
 
 \begin{enumerate}
-    \item Requisito funcional 1.
-    \item Requisito funcional 2.
-    \item Requisito funcional 3.
+    \item Umbralización para obtener la imagen binaria.
+    \item Relleno de huecos con \texttt{imfill}, para que cada pastilla sea una
+          región compacta y no un anillo.
+    \item Apertura morfológica para eliminar los objetos de pequeño tamaño que
+          no son pastillas.
+    \item Etiquetado de las regiones conexas con \texttt{bwlabel}.
 \end{enumerate}
 
-\subsection{Restricciones y consideraciones}
+\subsection{Visualización de la matriz de etiquetas}
 
-Indicar las restricciones relevantes del ejercicio, por ejemplo: formato de entrada
-y salida, estructuras obligatorias, persistencia de datos, manejo de errores o
-limitaciones establecidas en el enunciado.
+La matriz devuelta por \texttt{bwlabel} contiene un entero distinto en cada
+objeto, y 0 en el fondo. Para representarla se normaliza con \texttt{mat2gray} y
+se aplica un mapa de color con un número de colores igual al número de objetos
+más uno:
 
-% =========================================================
-% 4. DISEÑO ORIENTADO A OBJETOS
-% =========================================================
+\begin{lstlisting}
+[etiquetas, n] = bwlabel(binaria);
+E = mat2gray(etiquetas);
+imshow(E, jet(n+1)), colorbar
+\end{lstlisting}
 
-\section{Diseño orientado a objetos}
+Es importante ajustar el número de colores: con el mapa por defecto, dos objetos
+con etiquetas próximas pueden recibir colores casi idénticos y confundirse.
 
-Explicar cómo se ha modelado el problema mediante clases, atributos, métodos y
-relaciones entre objetos.
+\subsection{Rectángulos de área mínima y enumeración}
 
-\subsection{Identificación de clases}
+La función \texttt{regionprops} devuelve, para cada región, sus propiedades
+geométricas. Las que se utilizan aquí son \texttt{BoundingBox}, para dibujar el
+rectángulo de área mínima, y \texttt{Centroid}, para colocar el número del
+objeto con \texttt{text}:
 
-Ejemplo de tabla para documentar las clases principales:
+\begin{lstlisting}
+props = regionprops(etiquetas, 'BoundingBox', 'Centroid');
+for k = 1:numel(props)
+    rectangle('Position', props(k).BoundingBox, 'EdgeColor', 'r');
+    c = props(k).Centroid;
+    text(c(1), c(2), num2str(k), 'Color', 'r');
+end
+\end{lstlisting}
 
-\begin{table}[H]
-    \centering
-    \caption{Clases principales de la aplicación.}
-    \label{tab:clases}
-    \begin{tabularx}{\textwidth}{p{3.2cm}X X}
-        \toprule
-        \textbf{Clase} & \textbf{Responsabilidad} & \textbf{Elementos principales} \\
-        \midrule
-        ClaseA & Describir su responsabilidad. & Atributos y métodos relevantes. \\
-        ClaseB & Describir su responsabilidad. & Atributos y métodos relevantes. \\
-        ClaseC & Describir su responsabilidad. & Atributos y métodos relevantes. \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
+\captura{practica4.png}{Pastillas detectadas con su rectángulo y su número.}{fig:p4}
 
-\subsection{Diagrama de clases UML}
+\subsection{Ranuras horizontales}
 
-Insertar el diagrama UML de la solución propuesta.
+El último apartado pide contar las ranuras horizontales del blíster y
+mostrarlas aisladas. Se consiguen seleccionando, de entre los objetos detectados,
+aquellos cuya relación de aspecto es muy alargada en horizontal, es decir,
+aquellos en los que la anchura del rectángulo es mucho mayor que su altura.
 
-\begin{figure}[H]
-    \centering
-    \IfFileExists{diagrama_uml.png}{%
-        \includegraphics[width=0.88\textwidth]{diagrama_uml.png}%
-    }{%
-        \fbox{%
-            \parbox[c][6cm][c]{0.82\textwidth}{%
-                \centering
-                Insertar aquí el diagrama de clases UML\\[0.3cm]
-                \texttt{diagrama\_uml.png}%
-            }%
-        }%
-    }
-    \caption{Diagrama de clases UML de la aplicación.}
-    \label{fig:uml}
-\end{figure}
+\begin{respuesta}
+El número aproximado de ranuras horizontales es \textit{(completar)}.
 
-\subsection{Relaciones entre clases}
-
-Explicar las relaciones utilizadas, cuando proceda:
-
-\begin{itemize}
-    \item Asociación.
-    \item Agregación o composición.
-    \item Herencia.
-    \item Dependencia.
-\end{itemize}
+Para aislarlas se ha filtrado la lista de regiones por su relación de aspecto
+$w/h$, conservando únicamente las que superan un valor umbral. La imagen
+resultante contiene solo las ranuras, sin las pastillas.
+\end{respuesta}
 
 % =========================================================
-% 5. PRINCIPIOS DE POO APLICADOS
+% 9. PRÁCTICA 5
 % =========================================================
 
-\section{Principios de programación orientada a objetos aplicados}
+\section{Práctica 5: Reconocimiento y clasificación}
 
-\subsection{Encapsulación}
+\subsection{Planteamiento}
 
-Indicar cómo se protege el estado interno de los objetos y qué métodos constituyen
-su interfaz pública.
+La última práctica del bloque da un paso más: no basta con detectar objetos, hay
+que describirlos numéricamente para poder clasificarlos. Se trabaja con
+\texttt{im12.jpg}, que contiene objetos de distintos colores y formas, algunos de
+los cuales son falsos positivos que deben descartarse.
 
-\subsection{Abstracción}
+\subsection{Segmentación y etiquetado}
 
-Explicar cómo las clases representan conceptos relevantes del dominio y qué detalles
-de implementación quedan ocultos.
+Al tratarse de una imagen en color, la segmentación se hace sobre uno de los
+canales o sobre una combinación de ellos, buscando el que ofrezca mayor
+contraste entre los objetos y el fondo.
 
-\subsection{Herencia}
+\subsection{Factor de forma}
 
-Si se utiliza herencia, justificar su empleo y explicar la jerarquía definida. Si no
-se utiliza, indicar por qué no es necesaria para la solución propuesta.
+El factor de forma es un descriptor geométrico que mide cuánto se parece un
+objeto a un círculo. Se calcula a partir del área y del perímetro:
 
-\subsection{Polimorfismo}
+\[
+\text{factor de forma} = \frac{4\pi A}{P^2}
+\]
 
-Describir los casos en los que se utiliza sobrescritura, interfaces, clases abstractas
-o cualquier otro mecanismo polimórfico.
+Vale 1 para un círculo perfecto y disminuye a medida que la forma se aleja de él.
+Se representa con \texttt{stem}, un objeto por muestra.
 
-% =========================================================
-% 6. IMPLEMENTACIÓN
-% =========================================================
+\subsection{Textura}
 
-\section{Implementación}
+La textura se caracteriza mediante la entropía, que mide la cantidad de
+información o de desorden de la región. Una región uniforme tiene entropía baja
+y una región con mucho detalle tiene entropía alta. Al igual que el factor de
+forma, se representa con \texttt{stem}.
 
-Describir la organización del proyecto y las decisiones más relevantes tomadas durante
-la programación.
+\subsection{Espacio de características}
 
-\subsection{Estructura del proyecto}
+Representando cada objeto como un punto en un plano cuyos ejes son el factor de
+forma y la textura, los objetos de la misma clase tienden a agruparse. Los
+falsos positivos, es decir, los elementos circulares que no son reales, aparecen
+como puntos alejados del grupo principal.
 
-Ejemplo:
+\captura{practica5.png}{Clasificación de los objetos en el espacio de características.}{fig:p5}
 
-\begin{itemize}
-    \item \texttt{src/}: código fuente.
-    \item \texttt{tests/}: pruebas.
-    \item \texttt{resources/}: archivos auxiliares.
-    \item \texttt{README}: instrucciones de ejecución.
-\end{itemize}
+\begin{respuesta}
+Los objetos reales se concentran en una zona del plano con factor de forma
+próximo a 1 y valores de entropía similares entre sí. Los elementos circulares
+que no son reales quedan fuera de esa concentración y se han señalado sobre la
+imagen original.
 
-\subsection{Clases y métodos principales}
-
-No es necesario copiar todo el código fuente en la memoria. Deben explicarse las partes
-más relevantes de la implementación y justificarse las decisiones de diseño.
-
-\subsection{Fragmentos de código relevantes}
-
-Cuando sea necesario, pueden incluirse pequeños fragmentos de código y explicarlos en
-el texto. El código completo puede adjuntarse como material adicional o mediante el
-repositorio indicado en los anexos.
-
-% =========================================================
-% 7. MANEJO DE ERRORES Y VALIDACIONES
-% =========================================================
-
-\section{Manejo de errores y validaciones}
-
-Explicar cómo se controlan entradas incorrectas, excepciones y situaciones no previstas.
-
-Ejemplos:
-
-\begin{itemize}
-    \item Validación de parámetros.
-    \item Control de valores fuera de rango.
-    \item Tratamiento de excepciones.
-    \item Mensajes de error comprensibles para el usuario.
-\end{itemize}
+\textit{(Completar con el número de objetos detectados y con el criterio
+concreto utilizado para separar los objetos reales de los falsos positivos.)}
+\end{respuesta}
 
 % =========================================================
-% 8. PRUEBAS
+% 10. RETO 1
 % =========================================================
 
-\section{Pruebas y validación}
+\section{Reto 1: ¿Cuántos euros hay? (opcional)}
 
-Describir las pruebas realizadas para comprobar el correcto funcionamiento del programa.
+El reto propone aplicar de forma conjunta lo aprendido en las prácticas 4 y 5
+para contar el dinero que aparece en una imagen. El procedimiento sería
+segmentar las monedas, medir el diámetro de cada una y clasificarla en función de
+su tamaño, ya que cada valor de euro tiene un diámetro característico.
 
-\begin{table}[H]
-    \centering
-    \caption{Ejemplo de plan de pruebas.}
-    \label{tab:pruebas}
-    \begin{tabularx}{\textwidth}{p{2.2cm}X X p{2.2cm}}
-        \toprule
-        \textbf{Prueba} & \textbf{Entrada / escenario} & \textbf{Resultado esperado} & \textbf{Estado} \\
-        \midrule
-        P01 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
-        P02 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
-        P03 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
+\captura{reto1.png}{Monedas detectadas y clasificadas por su diámetro.}{fig:reto}
 
-% =========================================================
-% 9. RESULTADOS
-% =========================================================
-
-\section{Resultados}
-
-Presentar el funcionamiento final de la aplicación e incluir, cuando proceda, capturas
-de pantalla, ejemplos de ejecución o resultados obtenidos.
-
-\begin{figure}[H]
-    \centering
-    \IfFileExists{captura_aplicacion.png}{%
-        \includegraphics[width=0.82\textwidth]{captura_aplicacion.png}%
-    }{%
-        \fbox{%
-            \parbox[c][5cm][c]{0.78\textwidth}{%
-                \centering
-                Insertar aquí una captura de la aplicación o de la ejecución
-            }%
-        }%
-    }
-    \caption{Ejemplo de resultado de la aplicación desarrollada.}
-    \label{fig:resultado}
-\end{figure}
-
-% =========================================================
-% 10. DISCUSIÓN
-% =========================================================
-
-\section{Discusión}
-
-Analizar la calidad de la solución desarrollada y reflexionar sobre las decisiones de
-diseño adoptadas.
-
-Puede incluirse:
-
-\begin{itemize}
-    \item Ventajas de la arquitectura propuesta.
-    \item Decisiones de diseño que podrían mejorarse.
-    \item Posibles problemas de acoplamiento o cohesión.
-    \item Reutilización y mantenibilidad del código.
-    \item Extensiones futuras de la aplicación.
-\end{itemize}
+\begin{respuesta}
+\textit{(Apartado opcional. Completar con el resultado obtenido o indicar que no
+se ha realizado.)}
+\end{respuesta}
 
 % =========================================================
 % 11. CONCLUSIONES
@@ -493,53 +1083,62 @@ Puede incluirse:
 
 \section{Conclusiones}
 
-Resumir los resultados del trabajo y valorar en qué medida se han alcanzado los
-objetivos planteados.
+Las prácticas del bloque permiten recorrer el procesamiento digital de imagen
+desde las operaciones más elementales hasta la clasificación de objetos. El
+recorrido deja varias ideas claras.
+
+En primer lugar, la representación de la imagen como matriz condiciona por
+completo el programa: casi todas las operaciones se reducen a aritmética
+elemento a elemento, y el control del rango de valores (\texttt{uint8} frente a
+\texttt{double}) es la principal fuente de errores.
+
+En segundo lugar, la elección del espacio de color no es indiferente. Trabajar
+en HSV o en YCbCr simplifica enormemente la segmentación por color frente a
+hacerlo en RGB, y el tratamiento del tono como magnitud circular es un detalle
+que, si se pasa por alto, arruina la selección de los colores próximos al rojo.
+
+En tercer lugar, la medida de magnitudes reales exige establecer una escala y
+ser consciente de sus limitaciones: el resultado de las botellas es coherente
+porque la escala de 90 cm está bien definida, mientras que el de la moneda solo
+es una estimación, porque la superficie de 4800 mm$^2$ es aproximada y la sombra
+agranda el objeto segmentado.
+
+Por último, las prácticas 4 y 5 muestran que la detección de objetos no termina
+en la umbralización: hacen falta operaciones morfológicas para limpiar la imagen
+binaria, etiquetado para separar objetos y descriptores numéricos para poder
+clasificarlos y descartar los falsos positivos.
 
 % =========================================================
-% 12. CONTRIBUCIÓN INDIVIDUAL
+% 12. CONTRIBUCIÓN DE LOS INTEGRANTES
 % =========================================================
 
-\section{Contribución individual}
-
-\textit{En trabajos realizados en grupo, indicar brevemente la contribución de cada
-integrante.}
+\section{Contribución de los integrantes}
 
 \begin{table}[H]
     \centering
     \caption{Contribución de los integrantes del grupo.}
+    \label{tab:contribucion}
     \begin{tabularx}{\textwidth}{p{4cm}X}
         \toprule
-        \textbf{Estudiante} & \textbf{Contribución} \\
+        \textbf{Estudiantes} & \textbf{Contribución} \\
         \midrule
-        Nombre 1 & Descripción de las tareas realizadas. \\
-        Nombre 2 & Descripción de las tareas realizadas. \\
+        \estudianteA & \textit{(Describir las tareas realizadas.)} \\
+        \estudianteB & \textit{(Describir las tareas realizadas.)} \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
 % =========================================================
-% 13. USO DE INTELIGENCIA ARTIFICIAL
+% 13. DECLARACIÓN SOBRE EL USO DE IA
 % =========================================================
 
 \section{Declaración sobre el uso de herramientas de inteligencia artificial}
 
-Indicar, cuando corresponda, las herramientas de inteligencia artificial utilizadas
-durante la elaboración del trabajo y explicar brevemente su uso.
-
-Ejemplo:
-
 \begin{quote}
-Se utilizó una herramienta de inteligencia artificial generativa como apoyo para la
-revisión de la redacción y la resolución de dudas de programación. Los autores del
-trabajo revisaron, comprendieron y validaron el código y los resultados presentados.
-\end{quote}
-
-Si no se utilizaron herramientas de inteligencia artificial:
-
-\begin{quote}
-No se utilizaron herramientas de inteligencia artificial generativa para la realización
-de este trabajo.
+Se utilizó una herramienta de inteligencia artificial generativa como apoyo para
+la revisión de la redacción y la resolución de dudas puntuales de programación.
+Los autores del trabajo revisaron, comprendieron y validaron el código y los
+resultados presentados.
 \end{quote}
 
 % =========================================================
@@ -550,19 +1149,22 @@ de este trabajo.
 
 \begin{thebibliography}{9}
 
-\bibitem{gamma}
-E. Gamma, R. Helm, R. Johnson y J. Vlissides,
-\textit{Design Patterns: Elements of Reusable Object-Oriented Software},
-Addison-Wesley.
+\bibitem{manual}
+C. Represa Pérez,
+\textit{Procesamiento digital de imagen y vídeo. Hardware de Aplicación
+Específica}, v5.0,
+Área de Tecnología Electrónica, Universidad de Burgos, 2026.
 
-\bibitem{martin}
-R. C. Martin,
-\textit{Clean Code: A Handbook of Agile Software Craftsmanship},
-Prentice Hall.
+\bibitem{gonzalez}
+R. C. Gonzalez y R. E. Woods,
+\textit{Digital Image Processing},
+4.\textsuperscript{a} ed.,
+Pearson, 2018.
 
-\bibitem{uml}
-Object Management Group,
-\textit{Unified Modeling Language (UML)}.
+\bibitem{mathworks}
+The MathWorks, Inc.,
+\textit{Image Processing Toolbox User's Guide}.
+\url{https://www.mathworks.com/help/images/}
 
 \end{thebibliography}
 
@@ -575,12 +1177,40 @@ Object Management Group,
 
 \section{Código fuente y repositorio}
 
-Indicar la ubicación del código fuente, por ejemplo mediante un repositorio, e incluir
-las instrucciones necesarias para compilar o ejecutar la aplicación.
+Los scripts desarrollados se encuentran en la carpeta \texttt{BLOQUE1} del
+repositorio del grupo:
+
+\begin{table}[H]
+    \centering
+    \caption{Relación de scripts entregados.}
+    \label{tab:scripts}
+    \begin{tabularx}{\textwidth}{p{3.4cm}X}
+        \toprule
+        \textbf{Fichero} & \textbf{Contenido} \\
+        \midrule
+        \texttt{practica\_0.m} & Introducción a MATLAB \\
+        \texttt{practica\_1.m} & Procesado básico de imágenes en grises \\
+        \texttt{practica\_2.m} & Procesado de imágenes en color \\
+        \texttt{practica\_3.m} & \textit{Chroma key} \\
+        \texttt{practica\_4.m} & Imágenes binarias \\
+        \texttt{practica\_5.m} & Reconocimiento y clasificación \\
+        \texttt{reto.m} & Reto 1 (opcional) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Para ejecutar cualquier script es necesario situarse en la carpeta que contiene
+las imágenes, ya que estas se cargan por nombre relativo:
+
+\begin{lstlisting}
+cd BLOQUE1
+practica_1
+\end{lstlisting}
 
 \section{Material adicional}
 
-Añadir aquí diagramas adicionales, capturas, casos de prueba extensos o cualquier otro
-material complementario.
+Las capturas de pantalla de las figuras generadas por cada script se incluyen
+junto con este documento. Los nombres de los ficheros coinciden con los
+referenciados en las figuras del texto.
 
 \end{document}
