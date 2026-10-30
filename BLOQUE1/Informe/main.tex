@@ -1,0 +1,586 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% =========================================================
+% PAQUETES
+% =========================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tabularx}
+
+% =========================================================
+% CONFIGURACIÓN GENERAL
+% =========================================================
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.7cm,
+    right=2.7cm
+}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+% Color institucional aproximado para títulos.
+% Puede modificarse si se desea emplear otro tono.
+\definecolor{UBUblue}{RGB}{0,82,147}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{UBUlight}{RGB}{235,243,249}
+\definecolor{UBUdark}{RGB}{34,45,58}
+
+% Carpeta donde se encuentra el logotipo institucional
+\graphicspath{{logo/}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=UBUblue,
+    urlcolor=UBUblue,
+    citecolor=UBUblue,
+    pdftitle={Trabajo - Programación Orientada a Objetos},
+    pdfauthor={Universidad de Burgos}
+}
+
+% =========================================================
+% DATOS DEL TRABAJO
+% MODIFICAR ESTA SECCIÓN
+% =========================================================
+
+\newcommand{\universidad}{Universidad de Burgos}
+\newcommand{\grado}{Grado en Tecnologías Digitales para la Empresa}
+\newcommand{\asignatura}{Programación Orientada a Objetos (POO)}
+\newcommand{\titulotrabajo}{Título del trabajo o práctica}
+
+\newcommand{\nombrealumno}{Nombre y apellidos}
+\newcommand{\dni}{DNI / NIE}
+\newcommand{\correo}{correo@alu.ubu.es}
+\newcommand{\grupo}{Grupo}
+\newcommand{\profesor}{Nombre del profesor}
+\newcommand{\cursoacademico}{2026--2027}
+\newcommand{\fechaentrega}{\today}
+
+% =========================================================
+% FORMATO DE TÍTULOS
+% =========================================================
+
+\titleformat{\section}
+  {\Large\bfseries\color{UBUblue}}
+  {\thesection.}{0.6em}{}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{UBUblue}}
+  {\thesubsection.}{0.6em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries}
+  {\thesubsubsection.}{0.6em}{}
+
+% =========================================================
+% CABECERA Y PIE
+% =========================================================
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\small \asignatura}
+\fancyhead[R]{\small \grado}
+
+\fancyfoot[L]{\small \universidad}
+\fancyfoot[C]{\small \nombrealumno}
+\fancyfoot[R]{\small Página \thepage\ de \pageref{LastPage}}
+
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% =========================================================
+% DOCUMENTO
+% =========================================================
+
+\begin{document}
+
+% =========================================================
+% PORTADA
+% =========================================================
+
+\begin{titlepage}
+    \thispagestyle{empty}
+
+    % Elementos gráficos de fondo
+    \begin{tikzpicture}[remember picture,overlay]
+        % Banda institucional izquierda
+        \fill[UBUblue]
+            (current page.north west)
+            rectangle
+            ([xshift=1.15cm]current page.south west);
+
+        % Línea superior de acento
+        \fill[UBUblue]
+            ([xshift=1.15cm,yshift=-0.8cm]current page.north west)
+            rectangle
+            ([yshift=-0.95cm]current page.north east);
+
+        % Bloque inferior suave
+        \fill[UBUlight]
+            ([xshift=1.15cm,yshift=4.0cm]current page.south west)
+            rectangle
+            (current page.south east);
+    \end{tikzpicture}
+
+    \hspace*{0.8cm}
+    \begin{minipage}[t]{0.89\textwidth}
+
+        \vspace*{0.2cm}
+
+        % -------------------------------------------------
+        % LOGO UBU
+        % El archivo debe estar en: logo/logo_ubu.png
+        % -------------------------------------------------
+        \IfFileExists{logo/logo_ubu.png}{%
+            \includegraphics[width=0.64\textwidth]{logo/logo_ubu.png}%
+        }{%
+            \fbox{%
+                \parbox[c][2.8cm][c]{0.62\textwidth}{%
+                    \centering
+                    \textbf{LOGO UNIVERSIDAD DE BURGOS}\\[0.25cm]
+                    Añadir \texttt{logo/logo\_ubu.png}%
+                }%
+            }%
+        }
+
+        \vspace{1.25cm}
+
+        {\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
+        {\large\color{UBUdark}\universidad}
+
+        \vspace{1.55cm}
+
+        {\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
+        {\LARGE\bfseries\color{UBUdark}\asignatura}
+
+        \vspace{0.75cm}
+        {\color{UBUblue}\rule{0.22\textwidth}{3pt}}
+
+        \vspace{1.0cm}
+
+        {\small\bfseries\color{UBUblue}\MakeUppercase{Trabajo / práctica}}\\[0.30cm]
+        {\Huge\bfseries\color{UBUdark}\titulotrabajo}
+
+        \vfill
+
+        % -------------------------------------------------
+        % BLOQUE DE DATOS DEL ESTUDIANTE
+        % -------------------------------------------------
+        \noindent
+        \colorbox{UBUlight}{%
+            \parbox{0.96\linewidth}{%
+                \vspace{0.35cm}
+                \begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
+                    Estudiante & \nombrealumno \\[0.20cm]
+                    DNI / NIE & \dni \\[0.20cm]
+                    Correo electrónico & \correo \\[0.20cm]
+                    Grupo & \grupo \\[0.20cm]
+                    Profesor/a & \profesor \\[0.20cm]
+                    Curso académico & \cursoacademico \\[0.20cm]
+                    Fecha de entrega & \fechaentrega \\
+                \end{tabularx}
+                \vspace{0.15cm}
+            }%
+        }
+
+        \vspace{0.85cm}
+
+        {\small\color{UBUdark}
+        Campus de Miranda de Ebro\hfill
+        \textbf{Universidad de Burgos}}
+
+        \vspace*{0.65cm}
+
+    \end{minipage}
+\end{titlepage}
+
+% =========================================================
+% ÍNDICE
+% =========================================================
+
+\tableofcontents
+\newpage
+
+% =========================================================
+% 1. INTRODUCCIÓN
+% =========================================================
+
+\section{Introducción}
+
+Presentar brevemente el problema que se pretende resolver mediante programación
+orientada a objetos y explicar su relación con los contenidos de la asignatura
+\textit{\asignatura}.
+
+Se recomienda incluir:
+
+\begin{itemize}[leftmargin=1.2cm]
+    \item Contexto y motivación del problema.
+    \item Funcionalidades principales de la aplicación.
+    \item Lenguaje de programación y entorno de desarrollo utilizados.
+    \item Breve descripción de la solución propuesta.
+\end{itemize}
+
+% =========================================================
+% 2. OBJETIVOS
+% =========================================================
+
+\section{Objetivos}
+
+\subsection{Objetivo general}
+
+Describir de forma clara el objetivo principal del trabajo o práctica.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}
+    \item Diseñar una solución basada en clases y objetos.
+    \item Aplicar los principios de encapsulación y abstracción.
+    \item Implementar relaciones entre clases cuando sean necesarias.
+    \item Validar el funcionamiento mediante pruebas.
+\end{enumerate}
+
+% =========================================================
+% 3. ANÁLISIS DEL PROBLEMA
+% =========================================================
+
+\section{Análisis del problema}
+
+Describir los requisitos y el comportamiento esperado de la aplicación antes de
+presentar la implementación.
+
+\subsection{Requisitos funcionales}
+
+\begin{enumerate}
+    \item Requisito funcional 1.
+    \item Requisito funcional 2.
+    \item Requisito funcional 3.
+\end{enumerate}
+
+\subsection{Restricciones y consideraciones}
+
+Indicar las restricciones relevantes del ejercicio, por ejemplo: formato de entrada
+y salida, estructuras obligatorias, persistencia de datos, manejo de errores o
+limitaciones establecidas en el enunciado.
+
+% =========================================================
+% 4. DISEÑO ORIENTADO A OBJETOS
+% =========================================================
+
+\section{Diseño orientado a objetos}
+
+Explicar cómo se ha modelado el problema mediante clases, atributos, métodos y
+relaciones entre objetos.
+
+\subsection{Identificación de clases}
+
+Ejemplo de tabla para documentar las clases principales:
+
+\begin{table}[H]
+    \centering
+    \caption{Clases principales de la aplicación.}
+    \label{tab:clases}
+    \begin{tabularx}{\textwidth}{p{3.2cm}X X}
+        \toprule
+        \textbf{Clase} & \textbf{Responsabilidad} & \textbf{Elementos principales} \\
+        \midrule
+        ClaseA & Describir su responsabilidad. & Atributos y métodos relevantes. \\
+        ClaseB & Describir su responsabilidad. & Atributos y métodos relevantes. \\
+        ClaseC & Describir su responsabilidad. & Atributos y métodos relevantes. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Diagrama de clases UML}
+
+Insertar el diagrama UML de la solución propuesta.
+
+\begin{figure}[H]
+    \centering
+    \IfFileExists{diagrama_uml.png}{%
+        \includegraphics[width=0.88\textwidth]{diagrama_uml.png}%
+    }{%
+        \fbox{%
+            \parbox[c][6cm][c]{0.82\textwidth}{%
+                \centering
+                Insertar aquí el diagrama de clases UML\\[0.3cm]
+                \texttt{diagrama\_uml.png}%
+            }%
+        }%
+    }
+    \caption{Diagrama de clases UML de la aplicación.}
+    \label{fig:uml}
+\end{figure}
+
+\subsection{Relaciones entre clases}
+
+Explicar las relaciones utilizadas, cuando proceda:
+
+\begin{itemize}
+    \item Asociación.
+    \item Agregación o composición.
+    \item Herencia.
+    \item Dependencia.
+\end{itemize}
+
+% =========================================================
+% 5. PRINCIPIOS DE POO APLICADOS
+% =========================================================
+
+\section{Principios de programación orientada a objetos aplicados}
+
+\subsection{Encapsulación}
+
+Indicar cómo se protege el estado interno de los objetos y qué métodos constituyen
+su interfaz pública.
+
+\subsection{Abstracción}
+
+Explicar cómo las clases representan conceptos relevantes del dominio y qué detalles
+de implementación quedan ocultos.
+
+\subsection{Herencia}
+
+Si se utiliza herencia, justificar su empleo y explicar la jerarquía definida. Si no
+se utiliza, indicar por qué no es necesaria para la solución propuesta.
+
+\subsection{Polimorfismo}
+
+Describir los casos en los que se utiliza sobrescritura, interfaces, clases abstractas
+o cualquier otro mecanismo polimórfico.
+
+% =========================================================
+% 6. IMPLEMENTACIÓN
+% =========================================================
+
+\section{Implementación}
+
+Describir la organización del proyecto y las decisiones más relevantes tomadas durante
+la programación.
+
+\subsection{Estructura del proyecto}
+
+Ejemplo:
+
+\begin{itemize}
+    \item \texttt{src/}: código fuente.
+    \item \texttt{tests/}: pruebas.
+    \item \texttt{resources/}: archivos auxiliares.
+    \item \texttt{README}: instrucciones de ejecución.
+\end{itemize}
+
+\subsection{Clases y métodos principales}
+
+No es necesario copiar todo el código fuente en la memoria. Deben explicarse las partes
+más relevantes de la implementación y justificarse las decisiones de diseño.
+
+\subsection{Fragmentos de código relevantes}
+
+Cuando sea necesario, pueden incluirse pequeños fragmentos de código y explicarlos en
+el texto. El código completo puede adjuntarse como material adicional o mediante el
+repositorio indicado en los anexos.
+
+% =========================================================
+% 7. MANEJO DE ERRORES Y VALIDACIONES
+% =========================================================
+
+\section{Manejo de errores y validaciones}
+
+Explicar cómo se controlan entradas incorrectas, excepciones y situaciones no previstas.
+
+Ejemplos:
+
+\begin{itemize}
+    \item Validación de parámetros.
+    \item Control de valores fuera de rango.
+    \item Tratamiento de excepciones.
+    \item Mensajes de error comprensibles para el usuario.
+\end{itemize}
+
+% =========================================================
+% 8. PRUEBAS
+% =========================================================
+
+\section{Pruebas y validación}
+
+Describir las pruebas realizadas para comprobar el correcto funcionamiento del programa.
+
+\begin{table}[H]
+    \centering
+    \caption{Ejemplo de plan de pruebas.}
+    \label{tab:pruebas}
+    \begin{tabularx}{\textwidth}{p{2.2cm}X X p{2.2cm}}
+        \toprule
+        \textbf{Prueba} & \textbf{Entrada / escenario} & \textbf{Resultado esperado} & \textbf{Estado} \\
+        \midrule
+        P01 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
+        P02 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
+        P03 & Descripción del caso de prueba. & Resultado esperado. & Correcto \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% =========================================================
+% 9. RESULTADOS
+% =========================================================
+
+\section{Resultados}
+
+Presentar el funcionamiento final de la aplicación e incluir, cuando proceda, capturas
+de pantalla, ejemplos de ejecución o resultados obtenidos.
+
+\begin{figure}[H]
+    \centering
+    \IfFileExists{captura_aplicacion.png}{%
+        \includegraphics[width=0.82\textwidth]{captura_aplicacion.png}%
+    }{%
+        \fbox{%
+            \parbox[c][5cm][c]{0.78\textwidth}{%
+                \centering
+                Insertar aquí una captura de la aplicación o de la ejecución
+            }%
+        }%
+    }
+    \caption{Ejemplo de resultado de la aplicación desarrollada.}
+    \label{fig:resultado}
+\end{figure}
+
+% =========================================================
+% 10. DISCUSIÓN
+% =========================================================
+
+\section{Discusión}
+
+Analizar la calidad de la solución desarrollada y reflexionar sobre las decisiones de
+diseño adoptadas.
+
+Puede incluirse:
+
+\begin{itemize}
+    \item Ventajas de la arquitectura propuesta.
+    \item Decisiones de diseño que podrían mejorarse.
+    \item Posibles problemas de acoplamiento o cohesión.
+    \item Reutilización y mantenibilidad del código.
+    \item Extensiones futuras de la aplicación.
+\end{itemize}
+
+% =========================================================
+% 11. CONCLUSIONES
+% =========================================================
+
+\section{Conclusiones}
+
+Resumir los resultados del trabajo y valorar en qué medida se han alcanzado los
+objetivos planteados.
+
+% =========================================================
+% 12. CONTRIBUCIÓN INDIVIDUAL
+% =========================================================
+
+\section{Contribución individual}
+
+\textit{En trabajos realizados en grupo, indicar brevemente la contribución de cada
+integrante.}
+
+\begin{table}[H]
+    \centering
+    \caption{Contribución de los integrantes del grupo.}
+    \begin{tabularx}{\textwidth}{p{4cm}X}
+        \toprule
+        \textbf{Estudiante} & \textbf{Contribución} \\
+        \midrule
+        Nombre 1 & Descripción de las tareas realizadas. \\
+        Nombre 2 & Descripción de las tareas realizadas. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% =========================================================
+% 13. USO DE INTELIGENCIA ARTIFICIAL
+% =========================================================
+
+\section{Declaración sobre el uso de herramientas de inteligencia artificial}
+
+Indicar, cuando corresponda, las herramientas de inteligencia artificial utilizadas
+durante la elaboración del trabajo y explicar brevemente su uso.
+
+Ejemplo:
+
+\begin{quote}
+Se utilizó una herramienta de inteligencia artificial generativa como apoyo para la
+revisión de la redacción y la resolución de dudas de programación. Los autores del
+trabajo revisaron, comprendieron y validaron el código y los resultados presentados.
+\end{quote}
+
+Si no se utilizaron herramientas de inteligencia artificial:
+
+\begin{quote}
+No se utilizaron herramientas de inteligencia artificial generativa para la realización
+de este trabajo.
+\end{quote}
+
+% =========================================================
+% 14. REFERENCIAS
+% =========================================================
+
+\section{Referencias}
+
+\begin{thebibliography}{9}
+
+\bibitem{gamma}
+E. Gamma, R. Helm, R. Johnson y J. Vlissides,
+\textit{Design Patterns: Elements of Reusable Object-Oriented Software},
+Addison-Wesley.
+
+\bibitem{martin}
+R. C. Martin,
+\textit{Clean Code: A Handbook of Agile Software Craftsmanship},
+Prentice Hall.
+
+\bibitem{uml}
+Object Management Group,
+\textit{Unified Modeling Language (UML)}.
+
+\end{thebibliography}
+
+% =========================================================
+% ANEXOS
+% =========================================================
+
+\newpage
+\appendix
+
+\section{Código fuente y repositorio}
+
+Indicar la ubicación del código fuente, por ejemplo mediante un repositorio, e incluir
+las instrucciones necesarias para compilar o ejecutar la aplicación.
+
+\section{Material adicional}
+
+Añadir aquí diagramas adicionales, capturas, casos de prueba extensos o cualquier otro
+material complementario.
+
+\end{document}
