@@ -145,7 +145,7 @@ plot(fila)
 % diferencias entre botellas y las grandes son el ancho de las botellas
 
 % Buscamos los valores por encima de 0.4
-A = find(fila > 0,4);
+A = find(fila > 0.4);
 
 % Hallamos la diferencia entre cada par de valores del vector fila.
 % segundo - primero, cuarto - tercero etc..
@@ -156,3 +156,5 @@ C = B(B > 3);
 % El max seria el ancho de la botella y el minimo seria la separación
 ancho_botella = max(C);
 separacion_entre_botella = min(C);
+ancho_botella
+separacion_entre_botella

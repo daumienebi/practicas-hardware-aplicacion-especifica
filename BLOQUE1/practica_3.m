@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 nom_obj = input('Imagen del objeto (ej. im13.jpg): ', 's');
-nom_fondo = input('Imagen del nuevo fondo (ej. img14.jpg): ', 's');
+nom_fondo = input('Imagen del nuevo fondo (ej. im14.jpg): ', 's');
 
 I_obj = imread(nom_obj);
 I_fondo = imread(nom_fondo);
@@ -38,9 +38,9 @@ rf = P(1);
 gf = P(2); 
 bf = P(3);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mascarillas, ajustes y binariazión
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 alpha_sin_ajustar = abs(R - rf) + abs(G - gf) + abs(B - bf);
 % umbral cercano a cero según el derrame, con 0.2 y 0.1, todavia se veian
 % bastantes pixeles verdes

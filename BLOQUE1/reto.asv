@@ -1,11 +1,11 @@
-% =========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % RETO 1: CONTEO DE MONEDAS DE EURO
-% =========================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear; close all; clc;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Segmentación: Separar fondo y objetos
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 I = im2double(imread('im00.jpg'));
 ImagenHSV = rgb2hsv(I);
 I_gray = rgb2gray(I);
@@ -56,13 +56,15 @@ rprop_canalH = regionprops(L, canalH, 'PixelValues');
 % Inicializamos vectores para guardar los resultados
 factor_forma = zeros(1, num_objetos);
 mediaCanalH = zeros(1, num_objetos);
-
+area_obj = zeros(1,num_objetos);
 for i = 1:num_objetos
     % F = (4 * pi * Area) / Perimetro^2
     area = rprop_geo(i).Area;
     perimetro = rprop_geo(i).Perimeter;
     factor_forma(i) = (4 * pi * area) / (perimetro^2);
-    
+    % Almacenamos el area para utilizarlo luego para su identificación
+    area_obj(i) = area;
+
     % Cálculo de la media del canal H ya que eso nos indica el color de
     % cada uno de los objetos y de ahi podemos pillar el de la moneda
     valores = rprop_canalH(i).PixelValues;
@@ -84,21 +86,30 @@ stem(factor_forma);
 title('Factor forma de cada uno de los objetos');
 xlabel('Nº Objeto');
 
-% usar imshow y stem para mostrar los pasos intermedios
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Señalar los elementos circulares que sean falsos
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Señalar los objetos que sean de euro y los identificamos tambien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure('Name', 'Detección de las monedas Euro');
 imshow(I);
 title('Monedas de Euro');
 rprop = regionprops(L, 'BoundingBox', 'Centroid');
+contador = 0;
+% Necesitamos clasificar los distintos tipos de monedas
+
 for i = 1:num_objetos
     % Comprobamos la forma y el color
-   if factor_forma(i) >= 0.95 && (mediaCanalH(i) < 0.146374 && mediaCanalH(i) > 0.120044)
+   if factor_forma(i) >= 0.95 && (mediaCanalH(i) < 0.161675)
         caja = rprop(i).BoundingBox;
         rectangle('Position', caja, 'EdgeColor', 'y', 'LineWidth', 3);
+        centro = rprop(i).Centroid;
+        % Para poder identificar cada uno, nos basamos en el area
+        area_moneda = area_obj(i);
+        
+
+        text(centro(1), centro(2), num2str(valor), 'Color', 'w', 'FontSize', 12, ...
+        'FontWeight', 'bold');
     end
 end
 
-% Separar por tamaños al final para identificar los distintos tamaños
+% Finalmente identificar y separar cada tipo de moneda poniendo la etiqueta
+% 
