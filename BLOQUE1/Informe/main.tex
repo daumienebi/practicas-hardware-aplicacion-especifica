@@ -96,8 +96,8 @@
 \newcommand{\captura}[3]{%
 	\begin{figure}[H]
 		\centering
-		\IfFileExists{captura_p#1_#2.png}{%
-			\includegraphics[width=0.85\textwidth]{captura_p#1_#2.png}%
+		\IfFileExists{capturas/captura_p#1_#2.png}{%
+			\includegraphics[width=0.85\textwidth]{capturas/captura_p#1_#2.png}%
 		}{%
 			\fbox{%
 				\parbox[c][4.5cm][c]{0.80\textwidth}{%
@@ -246,37 +246,28 @@
 	\subsection{Lectura y visualización con histograma}
 	\captura{1}{1}{Carga de la imagen original y visualización de su histograma.}
 	
-	\subsection{Modificación de brillo}
-	\captura{1}{2}{Aumento y disminución del brillo y sus respectivos histogramas.}
-	
 	\subsection{Ecualización de la imagen}
-	\captura{1}{3}{Imagen ecualizada y comparación de histogramas.}
+	\captura{1}{2}{Imagen ecualizada y comparación de histogramas.}
 	
 	\subsection{Eliminación de píxeles por umbral de intensidad}
-	\captura{1}{4}{Resultado tras descartar intensidades inferiores al umbral seleccionado.}
+	\captura{1}{3}{Resultado tras descartar intensidades inferiores al umbral seleccionado.}
 	
 	\subsection{Suavizado de imágenes}
-	\subsubsection{Suavizado de media}
-	\captura{1}{5}{Resultado del filtrado de media con la máscara especificada.}
-	
-	\subsubsection{Suavizado gaussiano}
-	\captura{1}{6}{Resultado del filtrado gaussiano ajustando tamaño y parámetro sigma.}
+	\captura{1}{4}{Suavizado de media y gaussiano frente a la imagen original.}
 	
 	\subsection{Cálculo del gradiente}
-	\captura{1}{7}{Componentes horizontal ($G_x$), vertical ($G_y$) y módulo del gradiente.}
+	\captura{1}{5}{Componentes horizontal ($G_x$), vertical ($G_y$) y módulo del gradiente.}
 	
 	\subsection{Realzado de imágenes}
-	\subsubsection{Realzado mediante gradiente}
-	\captura{1}{8}{Realzado combinando la imagen original con las componentes del gradiente.}
-	
-	\subsubsection{Realzado mediante laplaciano}
-	\captura{1}{9}{Realzado mediante la resta del operador laplaciano a la imagen original.}
+	\captura{1}{6}{Realzado mediante gradiente y mediante laplaciano frente a la imagen original.}
 	
 	\subsection{Análisis de cinta transportadora (imagen im4.jpg)}
-	\captura{1}{10}{Perfil de la fila central del gradiente para la medición de botellas.}
+	\captura{1}{7}{Perfil de la fila central del gradiente para la medición de botellas.}
 	
 	\subsubsection{Cuestiones sobre la cinta transportadora}
-	% Responder aquí a la separación aproximada y ancho de cada botella
+	Según el gradiente de la fila central, la separación aproximada entre botellas es de 4,34 cm y el ancho aproximado de cada botella es de 16,45 cm.
+
+	Tras descartar los picos pegados quedan nueve distancias: 24, 25, 25 y 31 px (huecos entre botellas), 90, 91 y 91 px (botellas completas) y 52 y 56 px (botellas cortadas por el borde de la imagen). Como 498 px equivalen a 90 cm, la escala es de 5,53 px/cm, de modo que 24 px son unos 4,34 cm y 91 px unos 16,45 cm.
 	
 	\clearpage
 	
@@ -303,11 +294,10 @@
 	\subsection{Conversión de escala de grises a color mediante espacio HSV}
 	\captura{2}{6}{Coloreado en HSV utilizando la referencia de colorWheel.png.}
 	
-	\subsection{Estimación de dimensiones sobre superficie (imagen im10.jpg)}
-	\captura{2}{7}{Medición y cálculo del diámetro de la moneda.}
-	
 	\subsubsection{Cuestiones sobre la moneda}
-	% Responder aquí al cálculo del diámetro
+	Al segmentar por umbral (los píxeles con nivel de gris menor que 0,9 frente a un fondo blanco) el 48,9\,\% de la imagen corresponde a las monedas. Aplicando una regla de tres sobre los 4800 mm$^2$ y dividiendo entre 2 según la hipótesis del script, el área de una cara resulta de unos 1173 mm$^2$, y el diámetro equivalente es $d = 2\sqrt{A/\pi} \approx 38{,}65$ mm.
+
+	Este valor es bastante mayor que el de una moneda de euro real (entre 16 y 26 mm). La superficie de 4800 mm$^2$ es aproximada y el umbral incluye todo lo que no es blanco, así que el resultado es una estimación de orden de magnitud y no una medida exacta.
 	
 	\clearpage
 	
@@ -316,22 +306,9 @@
 	% =========================================================
 	\section{Práctica nº 03: Chroma Key}
 	
-	\subsection{Imágenes originales de motivo principal y nuevo fondo}
-	\captura{3}{1}{Visualización de la imagen con fondo uniforme y la escena de destino.}
-	
-	\subsection{Extracción de mascarilla por distancia de color}
-	\subsubsection{Canal alfa sin ajustar y ajustado}
-	\captura{3}{2}{Comparativa entre la mascarilla continua y la mascarilla binarizada.}
-	
-	\subsubsection{Composición digital final}
-	\captura{3}{3}{Motivo recortado, fondo preparado y composición final.}
-	
-	\subsection{Extracción de mascarilla por diferencia de color}
-	\subsubsection{Matriz de diferencias y canal alfa}
-	\captura{3}{4}{Matriz de diferencias de intensidad y mascarilla resultante invertida.}
-	
-	\subsubsection{Composición digital final}
-	\captura{3}{5}{Composición final generada a partir de diferencia de color.}
+	\subsection{Extracción de mascarilla y composición final}
+	Se obtiene la mascarilla por diferencia de color (con el color de fondo verde) y se compone el motivo sobre el nuevo fondo. El resultado final es el siguiente.
+	\captura{3}{4}{Composición final generada a partir de la diferencia de color.}
 	
 	\clearpage
 	
@@ -340,25 +317,20 @@
 	% =========================================================
 	\section{Práctica nº 04: Imágenes binarias}
 	
-	\subsection{Análisis del histograma del blíster (imagen im6.jpg)}
-	\captura{4}{1}{Visualización del blíster y estudio de la bimodalidad del histograma.}
-	
 	\subsection{Segmentación de pastillas}
-	\captura{4}{2}{Etapas intermedias de binarización y rellenado de huecos (imfill).}
+	\captura{4}{1}{Etapas intermedias de binarización y rellenado de huecos (imfill).}
 	
 	\subsection{Etiquetado de componentes conexas}
-	\captura{4}{3}{Matriz de etiquetas visualizada con mapa de colores adaptado.}
+	\captura{4}{2}{Matriz de etiquetas visualizada con mapa de colores adaptado.}
 	
 	\subsection{Detección y enumeración de objetos}
-	\captura{4}{4}{Pastillas señaladas con rectángulos de área mínima y texto numerado.}
+	\captura{4}{3}{Pastillas señaladas con rectángulos de área mínima y texto numerado.}
 	
 	\subsection{Detección de ranuras horizontales}
-	\captura{4}{5}{Aislamiento de ranuras horizontales mediante elementos estructurantes.}
-	
-	\captura{4}{6}{Ranuras horizontales localizadas sobre la imagen original con recuadros.}
+	\captura{4}{4}{Ranuras horizontales aisladas (izquierda) y localizadas sobre la imagen original (derecha).}
 	
 	\subsubsection{Cuestiones sobre las ranuras}
-	% Responder aquí al recuento de ranuras encontradas
+	Aproximadamente hay 24 ranuras horizontales en el blíster. Se obtienen filtrando los objetos detectados por su geometría: se conservan los rectángulos de área mínima cuya anchura es mayor que su altura, es decir, los objetos alargados en horizontal.
 	
 	\clearpage
 	
@@ -370,17 +342,14 @@
 	\subsection{Segmentación y detección de objetos (imagen im12.jpg)}
 	\captura{5}{1}{Objetos segmentados, etiquetados y señalados con su BoundingBox.}
 	
-	\subsection{Extracción de descriptores de forma: Factor de forma}
-	\captura{5}{2}{Representación mediante stem del factor de forma de cada objeto.}
-	
-	\subsection{Extracción de descriptores de textura: Entropía}
-	\captura{5}{3}{Representación mediante stem del valor de entropía de cada objeto.}
+	\subsection{Descriptores de forma y textura}
+	\captura{5}{2}{Factor de forma (izquierda) y entropía (derecha) de cada objeto.}
 	
 	\subsection{Espacio de características y clasificación}
-	\captura{5}{4}{Gráfico de dispersión bidimensional: factor de forma frente a entropía.}
+	\captura{5}{3}{Factor de forma frente a entropía de cada objeto, numerados como en la figura anterior.}
 	
 	\subsection{Discriminación de elementos no reales}
-	\captura{5}{5}{Identificación y marcado sobre la imagen original de elementos circulares ficticios.}
+	\captura{5}{4}{Identificación y marcado sobre la imagen original de elementos circulares ficticios.}
 	
 	\clearpage
 	
@@ -389,14 +358,7 @@
 	% =========================================================
 	\section{Reto nº 1: ¿Cuántos EUROS hay?}
 	
-	\subsection{Estrategia de segmentación (imagen im00.jpg)}
-	\captura{1}{11}{Separación de monedas y objetos respecto al fondo.}
-	
-	\subsection{Descriptores seleccionados y clasificación por valor}
-	\captura{1}{12}{Diferenciación de monedas de 10, 20 y 50 céntimos frente al resto de objetos.}
-	
-	\subsection{Resultado final del conteo e importe total}
-	\captura{1}{13}{Imagen final con el valor asignado a cada moneda y la suma calculada.}
+	Pendiente de realizar.
 	
 	\clearpage
 	
