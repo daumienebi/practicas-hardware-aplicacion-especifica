@@ -11,7 +11,6 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{longtable}
 \usepackage{float}
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
@@ -22,143 +21,121 @@
 \usepackage{setspace}
 \usepackage{lastpage}
 \usepackage{caption}
-\usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{tabularx}
-\usepackage{listings}
+\usepackage{makecell}
 
 % =========================================================
 % CONFIGURACIÓN GENERAL
 % =========================================================
 \geometry{
-    top=2.5cm,
-    bottom=2.5cm,
-    left=2.7cm,
-    right=2.7cm
+	top=2.5cm,
+	bottom=2.5cm,
+	left=2.7cm,
+	right=2.7cm
 }
 
 \setstretch{1.15}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.6em}
 
-% Color institucional aproximado para títulos.
 \definecolor{UBUblue}{RGB}{0,82,147}
-\definecolor{lightgray}{RGB}{245,245,245}
 \definecolor{UBUlight}{RGB}{235,243,249}
 \definecolor{UBUdark}{RGB}{34,45,58}
 
-% Carpeta donde se encuentra el logotipo institucional
 \graphicspath{{logo/}}
 
 \hypersetup{
-    colorlinks=true,
-    linkcolor=UBUblue,
-    urlcolor=UBUblue,
-    citecolor=UBUblue,
-    pdftitle={Practicas de laboratorio - Hardware de Aplicacion Especifica},
-    pdfauthor={Universidad de Burgos}
+	colorlinks=true,
+	linkcolor=UBUblue,
+	urlcolor=UBUblue,
+	citecolor=UBUblue,
+	pdftitle={Bloque I - Procesamiento digital de imagen y vídeo},
+	pdfauthor={Estudiantes del Grado en Ingeniería Informática}
 }
 
 % =========================================================
-% DATOS DEL TRABAJO
+% DATOS DEL DOCUMENTO
 % =========================================================
-
 \newcommand{\universidad}{Universidad de Burgos}
-\newcommand{\centro}{Escuela Politécnica Superior}
+\newcommand{\escuela}{Escuela Politécnica Superior}
+\newcommand{\campus}{Campus Río Vena}
 \newcommand{\grado}{Grado en Ingeniería Informática}
 \newcommand{\asignatura}{Hardware de Aplicación Específica}
-\newcommand{\titulotrabajo}{Prácticas de laboratorio}
-\newcommand{\subtitulotrabajo}{Bloque 1}
 
-\newcommand{\estudianteA}{Nombre y apellidos 1}
-\newcommand{\estudianteB}{Nombre y apellidos 2}
-\newcommand{\correo}{correo@alu.ubu.es}
-\newcommand{\grupo}{Grupo}
-\newcommand{\profesor}{César Represa Pérez}
+\newcommand{\numbloque}{I}
+\newcommand{\nombrebloque}{Bloque I: Fundamentos y Procesado de Imágenes}
+
+% Estudiantes
+\newcommand{\estudiantes}{%
+	\begin{tabular}[t]{@{}l@{}}
+		Amin Hussien Castillo\\
+		Derick Daumienebi Sakpa\\
+		Sergiy Khudoley Macarenco
+	\end{tabular}%
+}
+\newcommand{\correos}{%
+	\begin{tabular}[t]{@{}l@{}}
+		ahc1015@alu.ubu.es\\
+		dsx1019@alu.ubu.es\\
+		skx1024@alu.ubu.es
+	\end{tabular}%
+}
+\newcommand{\estudiantespie}{Hussien, Sakpa y Khudoley}
+
+\newcommand{\grupo}{Grupo 03}
+\newcommand{\profesor}{Cesar Represa Perez}
 \newcommand{\cursoacademico}{2026--2027}
 \newcommand{\fechaentrega}{\today}
 
 % =========================================================
-% COMANDOS AUXILIARES
+% MACRO PARA CAPTURAS
+% Uso: \captura{num_practica}{num_captura}{Pie de figura}
+% Ejemplo: \captura{1}{2}{Histograma} -> captura_p1_2.png
 % =========================================================
-
-% Figura con captura de MATLAB. Si el fichero no existe se
-% dibuja un recuadro indicando el nombre que debe tener.
 \newcommand{\captura}[3]{%
-    \begin{figure}[H]
-        \centering
-        \IfFileExists{#1}{%
-            \includegraphics[width=0.92\textwidth]{#1}%
-        }{%
-            \fbox{%
-                \parbox[c][6.5cm][c]{0.86\textwidth}{%
-                    \centering
-                    Captura pendiente de insertar\\[0.3cm]
-                    \texttt{#1}%
-                }%
-            }%
-        }
-        \caption{#2}
-        \label{#3}
-    \end{figure}%
-}
-
-% Bloque para la respuesta a una cuestión del enunciado.
-\newenvironment{respuesta}
-    {\par\medskip\noindent
-     \begin{minipage}{\linewidth}
-     \small
-     \hrule\vspace{0.4em}\noindent\textbf{Respuesta.}\ }
-    {\vspace{0.4em}\hrule
-     \end{minipage}\par\medskip}
-
-\lstset{
-    language=Matlab,
-    extendedchars=true,
-    inputencoding=utf8,
-    basicstyle=\ttfamily\footnotesize,
-    keywordstyle=\color{UBUblue}\bfseries,
-    commentstyle=\color{gray},
-    stringstyle=\color{UBUdark},
-    frame=single,
-    rulecolor=\color{UBUblue},
-    backgroundcolor=\color{lightgray},
-    breaklines=true,
-    showstringspaces=false,
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    xleftmargin=1.6em,
-    framexleftmargin=1.2em
+	\begin{figure}[H]
+		\centering
+		\IfFileExists{captura_p#1_#2.png}{%
+			\includegraphics[width=0.85\textwidth]{captura_p#1_#2.png}%
+		}{%
+			\fbox{%
+				\parbox[c][4.5cm][c]{0.80\textwidth}{%
+					\centering
+					Insertar aquí la captura\\[0.3cm]
+					\texttt{captura\_p#1\_#2.png}%
+				}%
+			}%
+		}
+		\caption{#3}
+		\label{fig:p#1-#2}
+	\end{figure}%
 }
 
 % =========================================================
 % FORMATO DE TÍTULOS
 % =========================================================
-
 \titleformat{\section}
-  {\Large\bfseries\color{UBUblue}}
-  {\thesection.}{0.6em}{}
+{\Large\bfseries\color{UBUblue}}
+{\thesection.}{0.6em}{}
 
 \titleformat{\subsection}
-  {\large\bfseries\color{UBUblue}}
-  {\thesubsection.}{0.6em}{}
+{\large\bfseries\color{UBUblue}}
+{\thesubsection.}{0.6em}{}
 
 \titleformat{\subsubsection}
-  {\normalsize\bfseries}
-  {\thesubsubsection.}{0.6em}{}
+{\normalsize\bfseries\color{UBUdark}}
+{\thesubsubsection.}{0.6em}{}
 
 % =========================================================
-% CABECERA Y PIE
+% CABECERA Y PIE DE PÁGINA
 % =========================================================
-
 \pagestyle{fancy}
 \fancyhf{}
-
 \fancyhead[L]{\small \asignatura}
-\fancyhead[R]{\small \grado}
-
+\fancyhead[R]{\small Bloque \numbloque}
 \fancyfoot[L]{\small \universidad}
-\fancyfoot[C]{\small Prácticas de laboratorio}
+\fancyfoot[C]{\small \estudiantespie}
 \fancyfoot[R]{\small Página \thepage\ de \pageref{LastPage}}
 
 \setlength{\headheight}{15pt}
@@ -168,1049 +145,266 @@
 % =========================================================
 % DOCUMENTO
 % =========================================================
-
 \begin{document}
-
-% =========================================================
-% PORTADA
-% =========================================================
-
-\begin{titlepage}
-    \thispagestyle{empty}
-
-    % Elementos gráficos de fondo
-    \begin{tikzpicture}[remember picture,overlay]
-        % Banda institucional izquierda
-        \fill[UBUblue]
-            (current page.north west)
-            rectangle
-            ([xshift=1.15cm]current page.south west);
-
-        % Línea superior de acento
-        \fill[UBUblue]
-            ([xshift=1.15cm,yshift=-0.8cm]current page.north west)
-            rectangle
-            ([yshift=-0.95cm]current page.north east);
-
-        % Bloque inferior suave
-        \fill[UBUlight]
-            ([xshift=1.15cm,yshift=4.0cm]current page.south west)
-            rectangle
-            (current page.south east);
-    \end{tikzpicture}
-
-    \hspace*{0.8cm}
-    \begin{minipage}[t]{0.89\textwidth}
-
-        \vspace*{0.2cm}
-
-        % -------------------------------------------------
-        % LOGO UBU
-        % El archivo debe estar en: logo/logo_ubu.png
-        % -------------------------------------------------
-        \IfFileExists{logo/logo_ubu.png}{%
-            \includegraphics[width=0.64\textwidth]{logo/logo_ubu.png}%
-        }{%
-            \fbox{%
-                \parbox[c][2.8cm][c]{0.62\textwidth}{%
-                    \centering
-                    \textbf{LOGO UNIVERSIDAD DE BURGOS}\\[0.25cm]
-                    Añadir \texttt{logo/logo\_ubu.png}%
-                }%
-            }%
-        }
-
-        \vspace{1.25cm}
-
-        {\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
-        {\large\color{UBUdark}\universidad}\\[0.10cm]
-        {\small\color{UBUdark}\centro}
-
-        \vspace{1.35cm}
-
-        {\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
-        {\LARGE\bfseries\color{UBUdark}\asignatura}
-
-        \vspace{0.75cm}
-        {\color{UBUblue}\rule{0.22\textwidth}{3pt}}
-
-        \vspace{1.0cm}
-
-        {\small\bfseries\color{UBUblue}\MakeUppercase{Trabajo / práctica}}\\[0.30cm]
-        {\Huge\bfseries\color{UBUdark}\titulotrabajo}\\[0.25cm]
-        {\LARGE\bfseries\color{UBUblue}\subtitulotrabajo}
-
-        \vfill
-
-        % -------------------------------------------------
-        % BLOQUE DE DATOS DE LOS ESTUDIANTES
-        % -------------------------------------------------
-        \noindent
-        \colorbox{UBUlight}{%
-            \parbox{0.96\linewidth}{%
-                \vspace{0.35cm}
-                \begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
-                    Estudiantes & \estudianteA \newline \estudianteB \\[0.20cm]
-                    Correo electrónico & \correo \\[0.20cm]
-                    Grupo & \grupo \\[0.20cm]
-                    Profesor/a & \profesor \\[0.20cm]
-                    Curso académico & \cursoacademico \\[0.20cm]
-                    Fecha de entrega & \fechaentrega \\
-                \end{tabularx}
-                \vspace{0.15cm}
-            }%
-        }
-
-        \vspace{0.85cm}
-
-        {\small\color{UBUdark}
-        Campus Río Vena\hfill
-        \textbf{Universidad de Burgos}}
-
-        \vspace*{0.65cm}
-
-    \end{minipage}
-\end{titlepage}
-
-% =========================================================
-% ÍNDICE
-% =========================================================
-
-\tableofcontents
-\newpage
-
-% =========================================================
-% 1. INTRODUCCIÓN
-% =========================================================
-
-\section{Introducción}
-
-El procesamiento digital de imagen consiste en la manipulación de una imagen
-almacenada como una matriz de números, de forma que se pueda mejorar su aspecto,
-extraer información medible de ella o reconocer automáticamente los objetos que
-contiene. Esta es una de las aplicaciones típicas del hardware de propósito
-específico: un sistema de visión artificial que inspecciona un producto en una
-cadena de montaje ejecuta exactamente este tipo de operaciones, y en la mayoría
-de los casos lo hace sobre un dispositivo dedicado en lugar de sobre un
-ordenador de propósito general.
-
-La asignatura \textit{\asignatura} aborda ese problema desde dos vertientes. En
-este primer bloque se trabaja la parte de tratamiento de la información: se
-utiliza MATLAB con la \textit{Image Processing Toolbox} como entorno de
-prototipado para poner en práctica los algoritmos básicos de visión. En el
-segundo bloque se traslada ese mismo tipo de procesamiento a la adquisición y al
-vídeo en tiempo real.
-
-El presente documento recoge el trabajo realizado en las prácticas 0 a 5 del
-bloque, más el reto 1 planteado al final del mismo: la introducción al entorno
-MATLAB, el procesado básico de imágenes en escala de grises, el procesado de
-imágenes en color, la técnica de \textit{chroma key}, la segmentación de
-imágenes binarias y el reconocimiento y clasificación de objetos. Todo el código
-se ha desarrollado en MATLAB y se ha verificado con las imágenes
-proporcionadas en el enunciado. El material de referencia utilizado es el manual
-de la asignatura \cite{manual}.
-
-% =========================================================
-% 2. OBJETIVOS
-% =========================================================
-
-\section{Objetivos}
-
-\subsection{Objetivo general}
-
-Manejar las funciones básicas de procesamiento digital de imagen en MATLAB y
-aplicarlas a la resolución de problemas de inspección automática, comprendiendo
-en cada caso qué operación matemática se está realizando sobre la matriz de
-píxeles y qué información se puede extraer de ella.
-
-\subsection{Objetivos específicos}
-
-\begin{enumerate}
-    \item Familiarizarse con el manejo de vectores, matrices, \textit{cell
-          arrays} y estructuras de control en MATLAB.
-    \item Conocer la representación de una imagen digital y la influencia del
-          tipo de dato (\texttt{uint8} frente a \texttt{double}) en los rangos
-          de trabajo.
-    \item Aplicar operaciones de punto y de vecindad: brillo, ecualización del
-          histograma, umbralización, filtrado espacial y detección de bordes.
-    \item Trabajar con los espacios de color RGB, HSV y YCbCr, identificando en
-          qué casos conviene cada uno.
-    \item Segmentar objetos mediante umbralización, etiquetado de regiones y
-          operaciones morfológicas.
-    \item Extraer descriptores geométricos y de textura para clasificar objetos
-          y descartar falsos positivos.
-    \item Medir magnitudes reales a partir de la imagen, estableciendo la
-          correspondencia entre píxeles y unidades físicas.
-\end{enumerate}
-
-% =========================================================
-% 3. ENTORNO DE TRABAJO
-% =========================================================
-
-\section{Entorno de trabajo}
-
-\subsection{Hardware y software}
-
-Todo el bloque se ha desarrollado sobre MATLAB con la \textit{Image Processing
-Toolbox}, que es la única caja de herramientas adicional que se necesita: las
-funciones \texttt{imread}, \texttt{imshow}, \texttt{imhist}, \texttt{imfilter},
-\texttt{edge}, \texttt{bwlabel}, \texttt{regionprops}, \texttt{rgb2hsv},
-\texttt{rgb2ycbcr} y \texttt{impixel}, entre otras, pertenecen a ella.
-
-\begin{table}[H]
-    \centering
-    \caption{Entorno utilizado en las prácticas.}
-    \label{tab:entorno}
-    \begin{tabularx}{\textwidth}{p{4.2cm}X}
-        \toprule
-        \textbf{Elemento} & \textbf{Descripción} \\
-        \midrule
-        Sistema operativo & GNU/Linux \\
-        MATLAB & R2026b \\
-        Toolbox & Image Processing Toolbox \\
-        Editor & Editor de MATLAB \\
-        Documentación & Manual de la asignatura \cite{manual} \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-\subsection{Imágenes utilizadas}
-
-El enunciado proporciona un conjunto de imágenes de prueba. Cada práctica
-trabaja con un subconjunto concreto, que se indica en su apartado
-correspondiente:
-
-\begin{table}[H]
-    \centering
-    \caption{Imágenes empleadas en cada práctica.}
-    \label{tab:imagenes}
-    \begin{tabularx}{\textwidth}{p{2.6cm}X}
-        \toprule
-        \textbf{Práctica} & \textbf{Imágenes} \\
-        \midrule
-        1 & \texttt{im1.jpg} a \texttt{im6.jpg} (escala de grises) y
-            \texttt{im4.jpg} para la medida de las botellas \\
-        2 & \texttt{im7.jpg} a \texttt{im9.jpg} (color), \texttt{im1.jpg},
-            \texttt{colorWheel.png} e \texttt{im10.jpg} \\
-        3 & Dos imágenes del conjunto \texttt{im13.jpg} a \texttt{im20.jpg},
-            del mismo tamaño \\
-        4 & \texttt{im6.jpg} (blíster de pastillas) \\
-        5 & \texttt{im12.jpg} (objetos de colores) \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-\subsection{Organización del código}
-
-Cada práctica se entrega como un script independiente, con el nombre que indica
-el enunciado (\texttt{practica\_0.m} a \texttt{practica\_5.m}). Los scripts se
-ejecutan situándose en la carpeta que contiene las imágenes, ya que estas se
-cargan por nombre relativo:
-
-\begin{lstlisting}
-cd ~/Documentos/Universidad/HARDWARE/BLOQUE1
-practica_1
-\end{lstlisting}
-
-% =========================================================
-% 4. PRÁCTICA 0
-% =========================================================
-
-\section{Práctica 0: Introducción a MATLAB}
-
-\subsection{Planteamiento}
-
-La primera práctica no trabaja todavía con imágenes. Su objetivo es adquirir
-soltura con las estructuras de datos de MATLAB que se van a necesitar después:
-vectores, matrices, concatenación en las distintas dimensiones, indexación,
-máscaras lógicas, \textit{cell arrays} y medida de tiempos de ejecución.
-
-\subsection{Concatenación en las tres dimensiones}
-
-A partir de los vectores fila
-\[
-v_1 = (1,\,2,\,3), \qquad v_2 = (3,\,2,\,1), \qquad v_3 = (5,\,7,\,-1)
-\]
-se pide construir tres variables concatenándolos en cada una de las tres
-dimensiones del espacio. La función que permite hacerlo de forma explícita es
-\texttt{cat}, cuyo primer argumento es la dimensión:
-
-\begin{lstlisting}
-M1 = cat(1, v1, v2, v3);   % dimension 1: apilado vertical
-M2 = cat(2, v1, v2, v3);   % dimension 2: concatenacion horizontal
-M3 = cat(3, v1, v2, v3);   % dimension 3: matriz 3D
-\end{lstlisting}
-
-El resultado es una matriz de $3\times3$ en el primer caso, un vector fila de
-$1\times9$ en el segundo y una matriz tridimensional de $1\times3\times3$ en el
-tercero, donde cada capa es uno de los vectores originales.
-
-\begin{table}[H]
-    \centering
-    \caption{Tamaño de las variables obtenidas.}
-    \label{tab:p0cat}
-    \begin{tabularx}{\textwidth}{p{2.0cm}p{2.6cm}X}
-        \toprule
-        \textbf{Variable} & \textbf{Tamaño} & \textbf{Interpretación} \\
-        \midrule
-        \texttt{M1} & $3\times3$ & Los tres vectores como filas \\
-        \texttt{M2} & $1\times9$ & Los tres vectores uno a continuación de otro \\
-        \texttt{M3} & $1\times3\times3$ & Los tres vectores como capas \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-\subsection{Operaciones con matrices}
-
-Sobre las matrices
-\[
-A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix},
-\qquad
-B = \begin{pmatrix} 9 & 8 & 7 \\ 6 & 5 & 4 \\ 3 & 2 & 1 \end{pmatrix}
-\]
-se pide el producto componente a componente, que en MATLAB se escribe con el
-operador punto (\texttt{A .* B}), y no con \texttt{A * B}, que sería el producto
-matricial habitual. La diferencia entre ambos operadores es esencial en el
-tratamiento de imágenes, donde casi todas las operaciones se aplican píxel a
-píxel.
-
-También se extraen submatrices mediante indexación por filas y columnas
-(\texttt{A(1:2, 2:3)}) y se construye una máscara lógica que vale 1 en las
-posiciones donde aparecen los valores 2 o 3. Multiplicar la máscara por la
-matriz original es la forma habitual de aislar esos elementos: las posiciones
-que no cumplen la condición se multiplican por cero.
-
-\subsection{Búsqueda de valores y matrices aleatorias}
-
-Para localizar la posición del elemento menor de una matriz no basta con
-\texttt{min}, que devuelve el valor mínimo de cada columna. Es necesario
-combinarlo con \texttt{find}, que devuelve los índices donde se cumple una
-condición:
-
-\begin{lstlisting}
-vector_menor = min(E);          % minimo de cada columna
-menor = min(vector_menor);      % minimo global
-[filas, cols] = find(E == menor);
-\end{lstlisting}
-
-El último apartado genera una matriz de $1000\times1000$ con valores aleatorios
-uniformes en el intervalo $[0,10)$ mediante \texttt{rand}, se queda con los
-valores comprendidos entre 4 y 5 y representa la fila 500 con \texttt{stem}. El
-tiempo de ejecución se mide con \texttt{tic} y \texttt{toc}, convirtiendo el
-resultado a milisegundos.
-
-\begin{respuesta}
-El uso de \texttt{rand(1000,1000)*10} genera valores en $[0,10)$, mientras que
-la expresión \texttt{rand*10 + 1} los generaría en $[1,11)$, fuera del
-enunciado. El tiempo medido con \texttt{tic}/\texttt{toc} incluye la creación de
-la matriz, el cálculo de la máscara lógica, el producto y la representación
-gráfica, y se expresa en milisegundos multiplicando por 1000.
-\end{respuesta}
-
-% =========================================================
-% 5. PRÁCTICA 1
-% =========================================================
-
-\section{Práctica 1: Procesado básico de imágenes en escala de grises}
-
-\subsection{Planteamiento}
-
-El script debe pedir al usuario el nombre de una imagen en escala de grises,
-comprobar que el fichero existe y que realmente no tiene tres canales, y a
-continuación aplicar sobre ella las operaciones básicas de procesado: histograma,
-brillo, ecualización, umbralización, suavizado, gradiente y realce. Todas las
-figuras deben estar etiquetadas.
-
-\subsection{Validación de la entrada}
-
-La comprobación se hace en un bucle \texttt{while} que se repite mientras la
-condición de error sea cierta. La función \texttt{exist(nombre,'file')} indica
-si el fichero está en el directorio de trabajo, y el número de canales se
-obtiene con el tercer elemento devuelto por \texttt{size}:
-
-\begin{lstlisting}
-nombre = input('Nombre de la imagen: ', 's');
-while ~exist(nombre, 'file') || size(imread(nombre), 3) ~= 1
-    disp('El fichero no existe o la imagen es en color');
-    nombre = input('Nombre de la imagen: ', 's');
-end
-A = im2double(imread(nombre));
-\end{lstlisting}
-
-La conversión a \texttt{double} con \texttt{im2double} es importante: las
-funciones de MATLAB devuelven imágenes en \texttt{uint8} (rango 0--255) al
-leerlas del disco, y trabajar en ese formato con operaciones aritméticas
-provoca desbordamientos y saturaciones. Con \texttt{double} el rango es
-$[0,1]$ y las operaciones son las mismas que se plantean en teoría.
-
-\captura{practica1.png}{Imagen de partida y su histograma.}{fig:p1hist}
-
-\subsection{Brillo}
-
-Sumar una constante a todos los píxeles desplaza el histograma sin modificar su
-forma. El problema es que los valores pueden salir del rango válido, por lo que
-hay que recortarlos:
-
-\begin{lstlisting}
-brillo = input('Brillo (-255 a 255): ');
-B = max(min(A + brillo/255, 1), 0);
-\end{lstlisting}
-
-La división por 255 convierte el valor introducido por el usuario, que se pide
-en la escala 0--255 propia de \texttt{uint8}, al rango $[0,1]$. El
-\texttt{min} y el \texttt{max} recortan por arriba y por abajo,
-respectivamente, evitando que la imagen se sature a blanco o a negro cuando se
-piden valores grandes.
-
-\subsection{Ecualización del histograma}
-
-La ecualización redistribuye los niveles de gris para que el histograma
-resultante sea lo más plano posible, aumentando el contraste en las zonas donde
-la imagen original concentraba muchos píxeles en pocos niveles. MATLAB la
-implementa en una sola función, \texttt{histeq}, y el resultado se compara con
-la imagen de partida observando los dos histogramas.
-
-\subsection{Umbralización}
-
-Se pide eliminar los píxeles cuya intensidad sea menor que un valor escogido por
-el usuario. La forma compacta de hacerlo es con indexación lógica:
-
-\begin{lstlisting}
-D = A;
-D(A < umbral/255) = 0;
-\end{lstlisting}
-
-La condición \texttt{A < umbral/255} es una matriz de valores lógicos del mismo
-tamaño que la imagen; al utilizarla como índice se seleccionan exactamente esos
-píxeles, que se igualan a cero.
-
-\subsection{Suavizado}
-
-Se aplican dos filtros espaciales de vecindad, el de media y el gaussiano. El
-primero promedia todos los píxeles de la ventana y el segundo los pondera con
-una campana de Gauss, lo que produce un desenfoque más natural y preserva mejor
-los bordes:
-
-\begin{lstlisting}
-% tam y sigma se piden por teclado con input
-Media = imfilter(A, fspecial('average', [tam tam]));
-Gauss = imfilter(A, fspecial('gaussian', [tam tam], sigma));
-\end{lstlisting}
-
-El tamaño de la ventana debe ser impar para que exista un píxel central; con un
-valor par, \texttt{fspecial} desplaza el centro y el filtrado deja de ser
-simétrico.
-
-\captura{practica1-suavizado.png}{Suavizado de media y gaussiano.}{fig:p1suav}
-
-\subsection{Gradiente}
-
-El gradiente mide la variación local de intensidad y es la base de la detección
-de bordes. Se calcula con los operadores de Prewitt, que son dos máscaras de
-$3\times3$, una para la dirección horizontal y otra para la vertical:
-
-\begin{lstlisting}
-Hx = fspecial('prewitt');
-Hy = Hx';
-Gx = imfilter(A, Hx);
-Gy = imfilter(A, Hy);
-G = 0.5 * (abs(Gx) + abs(Gy));
-\end{lstlisting}
-
-El módulo del gradiente se aproxima con la media de los valores absolutos de las
-dos componentes. El factor $0{,}5$ es necesario porque, al sumar dos derivadas
-direccionales, el resultado puede duplicar el rango dinámico de la imagen.
-
-\captura{practica1-gradiente.png}{Módulo del gradiente y sus dos componentes.}{fig:p1grad}
-
-\subsection{Realce}
-
-El realce consiste en sumar a la imagen original el gradiente, que refuerza los
-bordes, o restarle el laplaciano, que es el operador de segunda derivada. El
-laplaciano se obtiene con \texttt{fspecial('laplacian')}; al restarlo se acentúan
-los cambios bruscos de intensidad:
-
-\begin{lstlisting}
-L = imfilter(A, fspecial('laplacian'));
-R1 = A + G;
-R2 = A - L;
-\end{lstlisting}
-
-\subsection{Medida de las botellas de \texttt{im4.jpg}}
-
-El último apartado es el más interesante desde el punto de vista de la
-inspección automática. La imagen \texttt{im4.jpg} es una captura de una cinta
-transportadora con botellas, y en ella se han recogido 90 cm de cinta. Se pide
-utilizar el gradiente para estimar la separación entre botellas y su anchura.
-
-El procedimiento es el siguiente. Se calcula el gradiente de la imagen completa y
-se extrae la fila central, que es la que corta todas las botellas por el mismo
-punto. Sobre esa fila, los bordes de cada botella aparecen como picos de
-gradiente:
-
-\begin{lstlisting}
-I = im2double(imread('im4.jpg'));
-Gx = imfilter(I, Hx);
-Gy = imfilter(I, Hy);
-G = 0.5 * (abs(Gx) + abs(Gy));
-
-[filas, columnas] = size(I);
-fila = G(ceil(filas/2), :);
-plot(fila)
-
-pos  = find(fila > 0.4);      % posiciones de los picos
-dist = diff(pos);             % distancia entre picos consecutivos
-dist = dist(dist > 3);        % se descartan los picos pegados
-\end{lstlisting}
-
-El filtro \texttt{dist > 3} es imprescindible: sobre un mismo borde el gradiente
-supera el umbral en varios píxeles consecutivos, lo que produce distancias de 1 o
-2 píxeles que no corresponden a ningún objeto. Sin ese filtro, el mínimo sería 1
-píxel y la separación calculada sería prácticamente cero.
-
-Conocida la correspondencia entre píxeles y centímetros
-($498$ px $= 90$ cm, es decir, $5{,}53$ px/cm), las distancias se convierten a
-unidades reales.
-
-\captura{practica1-botellas.png}{Gradiente de la fila central de \texttt{im4.jpg}.}{fig:p1botellas}
-
-\begin{respuesta}
-En la fila central se detectan 21 picos que, tras descartar los que están
-pegados, dejan nueve distancias significativas: $24$, $25$, $25$, $31$, $52$,
-$56$, $90$, $91$ y $91$ píxeles.
-
-Las cuatro distancias pequeñas ($24$--$31$ px) son los huecos entre botellas
-consecutivas. Las tres grandes ($90$--$91$ px) son botellas completas. Las dos
-intermedias ($52$ y $56$ px) corresponden a las dos botellas de los extremos,
-que aparecen cortadas por el borde de la imagen.
-
-Por tanto:
-\begin{itemize}
-    \item \textbf{Separación aproximada entre botellas:} $24$ px
-          $\times\, 90/498 = \mathbf{4{,}34}$ \textbf{cm}.
-    \item \textbf{Ancho aproximado de cada botella:} $91$ px
-          $\times\, 90/498 = \mathbf{16{,}45}$ \textbf{cm}.
-\end{itemize}
-
-La coherencia del resultado se comprueba sumando todas las distancias: las nueve
-significativas suman 485 px y las once descartadas por el filtro suman 12 px, es
-decir, 497 px de los 498 de la imagen. La imagen queda explicada en su totalidad
-por la secuencia hueco--botella--hueco--botella.
-\end{respuesta}
-
-% =========================================================
-% 6. PRÁCTICA 2
-% =========================================================
-
-\section{Práctica 2: Procesado de imágenes en color}
-
-\subsection{Planteamiento}
-
-Una imagen en color es una matriz de tres dimensiones en la que la tercera
-dimensión son los canales. El script pide una imagen en color, comprueba que
-efectivamente tiene tres canales, y trabaja con las distintas representaciones
-del color para seleccionar objetos y recolorear imágenes en escala de grises.
-
-\subsection{Canales RGB}
-
-La representación RGB descompone el color en sus tres componentes primarias.
-Separarlas es tan sencillo como indexar la tercera dimensión:
-
-\begin{lstlisting}
-R = A(:,:,1);
-G = A(:,:,2);
-B = A(:,:,3);
-\end{lstlisting}
-
-Cada canal se muestra junto a su histograma. En una imagen con dominante de
-color, el histograma del canal correspondiente aparece desplazado hacia valores
-altos.
-
-\captura{practica2-rgb.png}{Canales R, G y B con sus histogramas.}{fig:p2rgb}
-
-\subsection{Espacios HSV e YCbCr}
-
-El espacio HSV separa la información de color (tono y saturación) de la
-luminosidad (valor). Esto lo hace mucho más adecuado que RGB para segmentar por
-color, porque el tono de un objeto se mantiene relativamente estable aunque
-cambien las condiciones de iluminación.
-
-El espacio YCbCr, utilizado en vídeo y en compresión JPEG, separa igualmente la
-luminancia (Y) de las dos componentes de crominancia (Cb y Cr). Es el que se
-emplea en la práctica 3 para construir la mascarilla del \textit{chroma key}.
-
-\begin{lstlisting}
-HSV = rgb2hsv(A);
-H = HSV(:,:,1); S = HSV(:,:,2); V = HSV(:,:,3);
-
-YCC = rgb2ycbcr(A);
-Y = YCC(:,:,1); Cb = YCC(:,:,2); Cr = YCC(:,:,3);
-\end{lstlisting}
-
-\captura{practica2-hsv.png}{Canales H, S y V con sus histogramas.}{fig:p2hsv}
-
-\subsection{Selección de un color con \texttt{impixel}}
-
-La función \texttt{impixel} permite seleccionar píxeles con el ratón y devuelve
-su valor de color. A partir del tono elegido se construye una máscara y se anula
-la saturación del resto de la imagen, de forma que solo el color seleccionado
-permanece en color y el resto se ve en gris:
-
-\begin{lstlisting}
-imshow(A)
-[x, y, P] = impixel;
-h = rgb2hsv(P);
-h = h(1);
-
-d = abs(H - h);
-M = min(d, 1 - d) < 0.02;   % el tono es circular
-Res = hsv2rgb(cat(3, H, S .* M, V));
-\end{lstlisting}
-
-El detalle importante es el cálculo de la distancia de tono. El tono es una
-magnitud circular que va de 0 a 1 y vuelve a empezar: el rojo está
-simultáneamente en 0 y en 1. Una resta directa \texttt{abs(H - h)} fallaría para
-los tonos próximos al rojo, porque consideraría que 0{,}99 y 0{,}01 están muy
-alejados cuando en realidad son casi el mismo color. La expresión
-\texttt{min(d, 1-d)} mide la distancia por el arco más corto y resuelve el
-problema.
-
-\captura{practica2-color.png}{Selección de un color con \texttt{impixel}.}{fig:p2color}
-
-\subsection{Mapa de color}
-
-Una imagen en escala de grises se puede colorear aplicando un mapa de color, es
-decir, una tabla que asigna un color RGB a cada nivel de intensidad. El usuario
-elige el mapa por teclado y se aplica con \texttt{ind2rgb}:
-
-\begin{lstlisting}
-Gris = imread('im1.jpg');
-mapa = input('Mapa de color (jet, hot, bone, ...): ', 's');
-m = feval(mapa, 256);
-Color = ind2rgb(Gris, m);
-\end{lstlisting}
-
-Un detalle que conviene tener en cuenta es que \texttt{colormap} actúa sobre la
-figura completa y no solo sobre el eje actual, por lo que al aplicarlo hay que
-restringirlo al eje de la derecha con \texttt{colormap(gca, m)}. De lo
-contrario, la imagen que debería verse en grises aparece también coloreada.
-
-\captura{practica2-mapa.png}{Imagen en grises y con mapa de color.}{fig:p2mapa}
-
-\subsection{Color a partir de la rueda HSV}
-
-La segunda forma de colorear no utiliza un mapa predefinido, sino que toma el
-tono y la saturación de un punto elegido sobre la imagen
-\texttt{colorWheel.png}, y utiliza la imagen en grises como luminosidad:
-
-\begin{lstlisting}
-Rueda = im2double(imread('colorWheel.png'));
-imshow(Rueda)
-[x, y, P] = impixel;
-hsv_p = rgb2hsv(P);
-
-Gd = im2double(Gris);
-Hh = ones(size(Gd)) * hsv_p(1);
-Ss = ones(size(Gd)) * hsv_p(2);
-Color2 = hsv2rgb(cat(3, Hh, Ss, Gd));
-\end{lstlisting}
-
-El resultado es una imagen monocroma teñida con el color elegido, conservando
-toda la información de textura de la imagen original en el canal V.
-
-\captura{practica2-rueda.png}{Resultado del coloreado con HSV.}{fig:p2rueda}
-
-\subsection{Diámetro de la moneda de \texttt{im10.jpg}}
-
-El último apartado pide estimar el diámetro de la moneda que aparece en la
-imagen, sabiendo que la superficie representada es de unos 4800 mm$^2$. El
-procedimiento es segmentar la moneda y aplicar una regla de tres entre el área
-en píxeles y el área real:
-
-\begin{lstlisting}
-M10 = im2double(imread('im10.jpg'));
-Gm = rgb2gray(M10);
-
-L = (Gm < 0.9);                       % la moneda es oscura, el fondo blanco
-pixeles_moneda = sum(sum(L));
-[filas, columnas, z] = size(M10);
-
-area = pixeles_moneda / (filas*columnas) * 4800 / 2;
-diametro = 2 * sqrt(area / pi);
-\end{lstlisting}
-
-Como la imagen se ha convertido previamente a \texttt{double}, tanto
-\texttt{rgb2gray} como la comparación trabajan en el rango $[0,1]$, de modo que
-el umbral 0{,}9 es correcto. El umbral se elige alto de forma intencionada: el
-fondo de la imagen es blanco puro (valor 1) y las monedas, con su sombra, quedan
-por debajo.
-
-La división entre dos responde a que en la imagen aparecen las dos caras de la
-misma moneda, de modo que el área calculada corresponde al doble del área de una
-cara.
-
-\captura{practica2-moneda.png}{Segmentación de la moneda de \texttt{im10.jpg}.}{fig:p2moneda}
-
-\begin{respuesta}
-La segmentación por umbral deja un 48,9\,\% de los píxeles por debajo de
-0{,}9, que corresponden a las dos monedas y a su sombra. Aplicando la regla de
-tres sobre los 4800 mm$^2$ de superficie total y dividiendo entre dos caras, el
-área de una cara resulta
-\[
-A = \frac{0{,}489 \cdot 4800}{2} \approx 1173\ \text{mm}^2
-\]
-y el diámetro equivalente es
-\[
-d = 2\sqrt{\frac{A}{\pi}} \approx \mathbf{38{,}65}\ \textbf{mm}.
-\]
-
-El valor es notablemente mayor que el de una moneda real de euro, cuyo diámetro
-está entre 16 y 26 mm. La diferencia se explica porque la escala de 4800 mm$^2$
-es aproximada y porque el área segmentada incluye la sombra proyectada, que
-agranda el objeto. El resultado debe interpretarse, por tanto, como una
-estimación del orden de magnitud y no como una medida exacta.
-\end{respuesta}
-
-% =========================================================
-% 7. PRÁCTICA 3
-% =========================================================
-
-\section{Práctica 3: Chroma Key}
-
-\subsection{Planteamiento}
-
-El \textit{chroma key} es la técnica que permite sustituir el fondo de una
-imagen por otro arbitrario. Se graba al sujeto sobre un fondo de color uniforme
-(normalmente verde o azul) y se genera una mascarilla que vale 1 en el sujeto y 0
-en el fondo. La composición final es una mezcla ponderada de las dos imágenes:
-
-\[
-I_{\text{final}} = \alpha \cdot I_{\text{objeto}} + (1-\alpha)\cdot I_{\text{fondo}}
-\]
-
-El script pide los nombres de las dos imágenes y calcula la mascarilla por dos
-métodos distintos.
-
-\subsection{Mascarilla por distancia de color}
-
-El primer método compara el color de cada píxel con el color medio del fondo. Se
-calcula la distancia euclídea en el espacio RGB y se umbraliza: los píxeles
-próximos al color del fondo se consideran fondo.
-
-\subsection{Mascarilla por diferencia de color}
-
-El segundo método utiliza la diferencia entre canales, que es más robusta frente
-a variaciones de iluminación porque la componente de brillo afecta por igual a
-los tres canales y se cancela parcialmente al restarlos.
-
-\subsection{Ajuste de la mascarilla}
-
-La mascarilla obtenida directamente suele tener bordes duros y píxeles sueltos.
-El ajuste consiste en suavizar el contorno para que la transición no sea
-abrupta, lo que evita el efecto de silueta recortada.
-
-\captura{practica3.png}{Resultado del \textit{chroma key} por los dos métodos.}{fig:p3}
-
-\begin{respuesta}
-Se han utilizado las imágenes \texttt{im13.jpg} como objeto y
-\texttt{im14.jpg} como fondo nuevo, ambas de las mismas dimensiones.
-
-La técnica de distancia de color separa correctamente el objeto del fondo verde,
-pero deja algunos píxeles del contorno mal clasificados, que se corrigieron
-ajustando la mascarilla. La técnica de diferencia de color resulta algo más
-estable frente a las sombras del fondo.
-
-\textit{(Completar con la comparación de los resultados obtenidos en las dos
-figuras y con los valores de umbral utilizados.)}
-\end{respuesta}
-
-% =========================================================
-% 8. PRÁCTICA 4
-% =========================================================
-
-\section{Práctica 4: Imágenes binarias}
-
-\subsection{Planteamiento}
-
-La imagen binaria es el resultado de reducir la información de la imagen a dos
-valores: objeto y fondo. Sobre ella se pueden aplicar operaciones morfológicas y
-de etiquetado que permiten contar objetos y medir sus propiedades geométricas.
-La práctica trabaja con \texttt{im6.jpg}, un blíster de pastillas.
-
-\subsection{Segmentación}
-
-El histograma de la imagen muestra dos poblaciones bien separadas, la de las
-pastillas y la del blíster, lo que permite separarlas con un umbral. Para que la
-segmentación sea robusta se combinan varias etapas, y es conveniente visualizar
-el resultado de cada una:
-
-\begin{enumerate}
-    \item Umbralización para obtener la imagen binaria.
-    \item Relleno de huecos con \texttt{imfill}, para que cada pastilla sea una
-          región compacta y no un anillo.
-    \item Apertura morfológica para eliminar los objetos de pequeño tamaño que
-          no son pastillas.
-    \item Etiquetado de las regiones conexas con \texttt{bwlabel}.
-\end{enumerate}
-
-\subsection{Visualización de la matriz de etiquetas}
-
-La matriz devuelta por \texttt{bwlabel} contiene un entero distinto en cada
-objeto, y 0 en el fondo. Para representarla se normaliza con \texttt{mat2gray} y
-se aplica un mapa de color con un número de colores igual al número de objetos
-más uno:
-
-\begin{lstlisting}
-[etiquetas, n] = bwlabel(binaria);
-E = mat2gray(etiquetas);
-imshow(E, jet(n+1)), colorbar
-\end{lstlisting}
-
-Es importante ajustar el número de colores: con el mapa por defecto, dos objetos
-con etiquetas próximas pueden recibir colores casi idénticos y confundirse.
-
-\subsection{Rectángulos de área mínima y enumeración}
-
-La función \texttt{regionprops} devuelve, para cada región, sus propiedades
-geométricas. Las que se utilizan aquí son \texttt{BoundingBox}, para dibujar el
-rectángulo de área mínima, y \texttt{Centroid}, para colocar el número del
-objeto con \texttt{text}:
-
-\begin{lstlisting}
-props = regionprops(etiquetas, 'BoundingBox', 'Centroid');
-for k = 1:numel(props)
-    rectangle('Position', props(k).BoundingBox, 'EdgeColor', 'r');
-    c = props(k).Centroid;
-    text(c(1), c(2), num2str(k), 'Color', 'r');
-end
-\end{lstlisting}
-
-\captura{practica4.png}{Pastillas detectadas con su rectángulo y su número.}{fig:p4}
-
-\subsection{Ranuras horizontales}
-
-El último apartado pide contar las ranuras horizontales del blíster y
-mostrarlas aisladas. Se consiguen seleccionando, de entre los objetos detectados,
-aquellos cuya relación de aspecto es muy alargada en horizontal, es decir,
-aquellos en los que la anchura del rectángulo es mucho mayor que su altura.
-
-\begin{respuesta}
-El número aproximado de ranuras horizontales es \textit{(completar)}.
-
-Para aislarlas se ha filtrado la lista de regiones por su relación de aspecto
-$w/h$, conservando únicamente las que superan un valor umbral. La imagen
-resultante contiene solo las ranuras, sin las pastillas.
-\end{respuesta}
-
-% =========================================================
-% 9. PRÁCTICA 5
-% =========================================================
-
-\section{Práctica 5: Reconocimiento y clasificación}
-
-\subsection{Planteamiento}
-
-La última práctica del bloque da un paso más: no basta con detectar objetos, hay
-que describirlos numéricamente para poder clasificarlos. Se trabaja con
-\texttt{im12.jpg}, que contiene objetos de distintos colores y formas, algunos de
-los cuales son falsos positivos que deben descartarse.
-
-\subsection{Segmentación y etiquetado}
-
-Al tratarse de una imagen en color, la segmentación se hace sobre uno de los
-canales o sobre una combinación de ellos, buscando el que ofrezca mayor
-contraste entre los objetos y el fondo.
-
-\subsection{Factor de forma}
-
-El factor de forma es un descriptor geométrico que mide cuánto se parece un
-objeto a un círculo. Se calcula a partir del área y del perímetro:
-
-\[
-\text{factor de forma} = \frac{4\pi A}{P^2}
-\]
-
-Vale 1 para un círculo perfecto y disminuye a medida que la forma se aleja de él.
-Se representa con \texttt{stem}, un objeto por muestra.
-
-\subsection{Textura}
-
-La textura se caracteriza mediante la entropía, que mide la cantidad de
-información o de desorden de la región. Una región uniforme tiene entropía baja
-y una región con mucho detalle tiene entropía alta. Al igual que el factor de
-forma, se representa con \texttt{stem}.
-
-\subsection{Espacio de características}
-
-Representando cada objeto como un punto en un plano cuyos ejes son el factor de
-forma y la textura, los objetos de la misma clase tienden a agruparse. Los
-falsos positivos, es decir, los elementos circulares que no son reales, aparecen
-como puntos alejados del grupo principal.
-
-\captura{practica5.png}{Clasificación de los objetos en el espacio de características.}{fig:p5}
-
-\begin{respuesta}
-Los objetos reales se concentran en una zona del plano con factor de forma
-próximo a 1 y valores de entropía similares entre sí. Los elementos circulares
-que no son reales quedan fuera de esa concentración y se han señalado sobre la
-imagen original.
-
-\textit{(Completar con el número de objetos detectados y con el criterio
-concreto utilizado para separar los objetos reales de los falsos positivos.)}
-\end{respuesta}
-
-% =========================================================
-% 10. RETO 1
-% =========================================================
-
-\section{Reto 1: ¿Cuántos euros hay? (opcional)}
-
-El reto propone aplicar de forma conjunta lo aprendido en las prácticas 4 y 5
-para contar el dinero que aparece en una imagen. El procedimiento sería
-segmentar las monedas, medir el diámetro de cada una y clasificarla en función de
-su tamaño, ya que cada valor de euro tiene un diámetro característico.
-
-\captura{reto1.png}{Monedas detectadas y clasificadas por su diámetro.}{fig:reto}
-
-\begin{respuesta}
-\textit{(Apartado opcional. Completar con el resultado obtenido o indicar que no
-se ha realizado.)}
-\end{respuesta}
-
-% =========================================================
-% 11. CONCLUSIONES
-% =========================================================
-
-\section{Conclusiones}
-
-Las prácticas del bloque permiten recorrer el procesamiento digital de imagen
-desde las operaciones más elementales hasta la clasificación de objetos. El
-recorrido deja varias ideas claras.
-
-En primer lugar, la representación de la imagen como matriz condiciona por
-completo el programa: casi todas las operaciones se reducen a aritmética
-elemento a elemento, y el control del rango de valores (\texttt{uint8} frente a
-\texttt{double}) es la principal fuente de errores.
-
-En segundo lugar, la elección del espacio de color no es indiferente. Trabajar
-en HSV o en YCbCr simplifica enormemente la segmentación por color frente a
-hacerlo en RGB, y el tratamiento del tono como magnitud circular es un detalle
-que, si se pasa por alto, arruina la selección de los colores próximos al rojo.
-
-En tercer lugar, la medida de magnitudes reales exige establecer una escala y
-ser consciente de sus limitaciones: el resultado de las botellas es coherente
-porque la escala de 90 cm está bien definida, mientras que el de la moneda solo
-es una estimación, porque la superficie de 4800 mm$^2$ es aproximada y la sombra
-agranda el objeto segmentado.
-
-Por último, las prácticas 4 y 5 muestran que la detección de objetos no termina
-en la umbralización: hacen falta operaciones morfológicas para limpiar la imagen
-binaria, etiquetado para separar objetos y descriptores numéricos para poder
-clasificarlos y descartar los falsos positivos.
-
-% =========================================================
-% 12. CONTRIBUCIÓN DE LOS INTEGRANTES
-% =========================================================
-
-\section{Contribución de los integrantes}
-
-\begin{table}[H]
-    \centering
-    \caption{Contribución de los integrantes del grupo.}
-    \label{tab:contribucion}
-    \begin{tabularx}{\textwidth}{p{4cm}X}
-        \toprule
-        \textbf{Estudiantes} & \textbf{Contribución} \\
-        \midrule
-        \estudianteA & \textit{(Describir las tareas realizadas.)} \\
-        \estudianteB & \textit{(Describir las tareas realizadas.)} \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-% =========================================================
-% 13. DECLARACIÓN SOBRE EL USO DE IA
-% =========================================================
-
-\section{Declaración sobre el uso de herramientas de inteligencia artificial}
-
-\begin{quote}
-Se utilizó una herramienta de inteligencia artificial generativa como apoyo para
-la revisión de la redacción y la resolución de dudas puntuales de programación.
-Los autores del trabajo revisaron, comprendieron y validaron el código y los
-resultados presentados.
-\end{quote}
-
-% =========================================================
-% 14. REFERENCIAS
-% =========================================================
-
-\section{Referencias}
-
-\begin{thebibliography}{9}
-
-\bibitem{manual}
-C. Represa Pérez,
-\textit{Procesamiento digital de imagen y vídeo. Hardware de Aplicación
-Específica}, v5.0,
-Área de Tecnología Electrónica, Universidad de Burgos, 2026.
-
-\bibitem{gonzalez}
-R. C. Gonzalez y R. E. Woods,
-\textit{Digital Image Processing},
-4.\textsuperscript{a} ed.,
-Pearson, 2018.
-
-\bibitem{mathworks}
-The MathWorks, Inc.,
-\textit{Image Processing Toolbox User's Guide}.
-\url{https://www.mathworks.com/help/images/}
-
-\end{thebibliography}
-
-% =========================================================
-% ANEXOS
-% =========================================================
-
-\newpage
-\appendix
-
-\section{Código fuente y repositorio}
-
-Los scripts desarrollados se encuentran en la carpeta \texttt{BLOQUE1} del
-repositorio del grupo:
-
-\begin{table}[H]
-    \centering
-    \caption{Relación de scripts entregados.}
-    \label{tab:scripts}
-    \begin{tabularx}{\textwidth}{p{3.4cm}X}
-        \toprule
-        \textbf{Fichero} & \textbf{Contenido} \\
-        \midrule
-        \texttt{practica\_0.m} & Introducción a MATLAB \\
-        \texttt{practica\_1.m} & Procesado básico de imágenes en grises \\
-        \texttt{practica\_2.m} & Procesado de imágenes en color \\
-        \texttt{practica\_3.m} & \textit{Chroma key} \\
-        \texttt{practica\_4.m} & Imágenes binarias \\
-        \texttt{practica\_5.m} & Reconocimiento y clasificación \\
-        \texttt{reto.m} & Reto 1 (opcional) \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-Para ejecutar cualquier script es necesario situarse en la carpeta que contiene
-las imágenes, ya que estas se cargan por nombre relativo:
-
-\begin{lstlisting}
-cd BLOQUE1
-practica_1
-\end{lstlisting}
-
-\section{Material adicional}
-
-Las capturas de pantalla de las figuras generadas por cada script se incluyen
-junto con este documento. Los nombres de los ficheros coinciden con los
-referenciados en las figuras del texto.
-
+	
+	% ---------------------------------------------------------
+	% PORTADA (Sin salto de página previo)
+	% ---------------------------------------------------------
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\setlength{\parskip}{0pt}
+		\noindent\makebox[0pt][l]{%
+			\begin{tikzpicture}[remember picture,overlay]
+				\fill[UBUblue]
+				(current page.north west)
+				rectangle
+				([xshift=1.15cm]current page.south west);
+				
+				\fill[UBUblue]
+				([xshift=1.15cm,yshift=-0.8cm]current page.north west)
+				rectangle
+				([yshift=-0.95cm]current page.north east);
+				
+				\fill[UBUlight]
+				([xshift=1.15cm,yshift=4.0cm]current page.south west)
+				rectangle
+				(current page.south east);
+			\end{tikzpicture}%
+		}%
+		\hspace*{0.8cm}%
+		\begin{minipage}[t][0.92\textheight][t]{0.89\textwidth}
+			\vspace*{0.2cm}
+			
+			\IfFileExists{logo/logo_ubu.png}{%
+				\includegraphics[width=0.64\textwidth]{logo/logo_ubu.png}%
+			}{%
+				\fbox{%
+					\parbox[c][2.4cm][c]{0.62\textwidth}{%
+						\centering
+						\textbf{LOGO UNIVERSIDAD DE BURGOS}\\[0.25cm]
+						Añadir \texttt{logo/logo\_ubu.png}%
+					}%
+				}%
+			}
+			
+			\vspace{1.1cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
+			{\large\color{UBUdark}\escuela}\\[0.10cm]
+			{\large\color{UBUdark}\universidad}
+			
+			\vspace{1.2cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
+			{\LARGE\bfseries\color{UBUdark}\asignatura}
+			
+			\vspace{0.6cm}
+			{\color{UBUblue}\rule{0.22\textwidth}{3pt}}
+			
+			\vspace{0.8cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Bloque \numbloque}}\\[0.25cm]
+			{\huge\bfseries\color{UBUdark}Prácticas 1 a 5 y Reto 1}
+			
+			\vfill
+			
+			\noindent
+			\colorbox{UBUlight}{%
+				\parbox{0.96\linewidth}{%
+					\vspace{0.3cm}
+					\begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
+						Estudiantes & \estudiantes \\[0.15cm]
+						\makecell[l]{Correos \\ electrónicos} & \correos \\[0.15cm]
+						Grupo & \grupo \\[0.15cm]
+						Profesor/a & \profesor \\[0.15cm]
+						Curso académico & \cursoacademico \\[0.15cm]
+						Fecha de entrega & \fechaentrega \\
+					\end{tabularx}
+					\vspace{0.1cm}
+				}%
+			}
+			
+			\vspace{0.6cm}
+			
+			{\small\color{UBUdark}
+				\escuela, \campus\hfill
+				\textbf{Universidad de Burgos}}
+		\end{minipage}
+	\end{titlepage}
+	
+	% ---------------------------------------------------------
+	% ÍNDICE GENERAL
+	% ---------------------------------------------------------
+	\tableofcontents
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 1
+	% =========================================================
+	\section{Práctica nº 01: Procesado básico de imágenes}
+	
+	\subsection{Lectura y visualización con histograma}
+	\captura{1}{1}{Carga de la imagen original y visualización de su histograma.}
+	
+	\subsection{Modificación de brillo}
+	\captura{1}{2}{Aumento y disminución del brillo y sus respectivos histogramas.}
+	
+	\subsection{Ecualización de la imagen}
+	\captura{1}{3}{Imagen ecualizada y comparación de histogramas.}
+	
+	\subsection{Eliminación de píxeles por umbral de intensidad}
+	\captura{1}{4}{Resultado tras descartar intensidades inferiores al umbral seleccionado.}
+	
+	\subsection{Suavizado de imágenes}
+	\subsubsection{Suavizado de media}
+	\captura{1}{5}{Resultado del filtrado de media con la máscara especificada.}
+	
+	\subsubsection{Suavizado gaussiano}
+	\captura{1}{6}{Resultado del filtrado gaussiano ajustando tamaño y parámetro sigma.}
+	
+	\subsection{Cálculo del gradiente}
+	\captura{1}{7}{Componentes horizontal ($G_x$), vertical ($G_y$) y módulo del gradiente.}
+	
+	\subsection{Realzado de imágenes}
+	\subsubsection{Realzado mediante gradiente}
+	\captura{1}{8}{Realzado combinando la imagen original con las componentes del gradiente.}
+	
+	\subsubsection{Realzado mediante laplaciano}
+	\captura{1}{9}{Realzado mediante la resta del operador laplaciano a la imagen original.}
+	
+	\subsection{Análisis de cinta transportadora (imagen im4.jpg)}
+	\captura{1}{10}{Perfil de la fila central del gradiente para la medición de botellas.}
+	
+	\subsubsection{Cuestiones sobre la cinta transportadora}
+	% Responder aquí a la separación aproximada y ancho de cada botella
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 2
+	% =========================================================
+	\section{Práctica nº 02: Procesado de imágenes en color}
+	
+	\subsection{Descomposición de canales en espacio RGB}
+	\captura{2}{1}{Canales R, G y B individuales con sus respectivos histogramas.}
+	
+	\subsection{Conversión al espacio HSV}
+	\captura{2}{2}{Canales H (tono), S (saturación) y V (brillo) e histogramas.}
+	
+	\subsection{Conversión al espacio YCbCr}
+	\captura{2}{3}{Canales Y (luminancia), Cb y Cr (crominancias) e histogramas.}
+	
+	\subsection{Aislamiento de color mediante selección interactiva (impixel)}
+	\captura{2}{4}{Imagen con preservación del color escogido y fondo a escala de grises.}
+	
+	\subsection{Generación de falso color mediante mapa de color (colormap)}
+	\captura{2}{5}{Imagen en escala de grises coloreada junto a su barra de color.}
+	
+	\subsection{Conversión de escala de grises a color mediante espacio HSV}
+	\captura{2}{6}{Coloreado en HSV utilizando la referencia de colorWheel.png.}
+	
+	\subsection{Estimación de dimensiones sobre superficie (imagen im10.jpg)}
+	\captura{2}{7}{Medición y cálculo del diámetro de la moneda.}
+	
+	\subsubsection{Cuestiones sobre la moneda}
+	% Responder aquí al cálculo del diámetro
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 3
+	% =========================================================
+	\section{Práctica nº 03: Chroma Key}
+	
+	\subsection{Imágenes originales de motivo principal y nuevo fondo}
+	\captura{3}{1}{Visualización de la imagen con fondo uniforme y la escena de destino.}
+	
+	\subsection{Extracción de mascarilla por distancia de color}
+	\subsubsection{Canal alfa sin ajustar y ajustado}
+	\captura{3}{2}{Comparativa entre la mascarilla continua y la mascarilla binarizada.}
+	
+	\subsubsection{Composición digital final}
+	\captura{3}{3}{Motivo recortado, fondo preparado y composición final.}
+	
+	\subsection{Extracción de mascarilla por diferencia de color}
+	\subsubsection{Matriz de diferencias y canal alfa}
+	\captura{3}{4}{Matriz de diferencias de intensidad y mascarilla resultante invertida.}
+	
+	\subsubsection{Composición digital final}
+	\captura{3}{5}{Composición final generada a partir de diferencia de color.}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 4
+	% =========================================================
+	\section{Práctica nº 04: Imágenes binarias}
+	
+	\subsection{Análisis del histograma del blíster (imagen im6.jpg)}
+	\captura{4}{1}{Visualización del blíster y estudio de la bimodalidad del histograma.}
+	
+	\subsection{Segmentación de pastillas}
+	\captura{4}{2}{Etapas intermedias de binarización y rellenado de huecos (imfill).}
+	
+	\subsection{Etiquetado de componentes conexas}
+	\captura{4}{3}{Matriz de etiquetas visualizada con mapa de colores adaptado.}
+	
+	\subsection{Detección y enumeración de objetos}
+	\captura{4}{4}{Pastillas señaladas con rectángulos de área mínima y texto numerado.}
+	
+	\subsection{Detección de ranuras horizontales}
+	\captura{4}{5}{Aislamiento de ranuras horizontales mediante elementos estructurantes.}
+	
+	\captura{4}{6}{Ranuras horizontales localizadas sobre la imagen original con recuadros.}
+	
+	\subsubsection{Cuestiones sobre las ranuras}
+	% Responder aquí al recuento de ranuras encontradas
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 5
+	% =========================================================
+	\section{Práctica nº 05: Reconocimiento y Clasificación}
+	
+	\subsection{Segmentación y detección de objetos (imagen im12.jpg)}
+	\captura{5}{1}{Objetos segmentados, etiquetados y señalados con su BoundingBox.}
+	
+	\subsection{Extracción de descriptores de forma: Factor de forma}
+	\captura{5}{2}{Representación mediante stem del factor de forma de cada objeto.}
+	
+	\subsection{Extracción de descriptores de textura: Entropía}
+	\captura{5}{3}{Representación mediante stem del valor de entropía de cada objeto.}
+	
+	\subsection{Espacio de características y clasificación}
+	\captura{5}{4}{Gráfico de dispersión bidimensional: factor de forma frente a entropía.}
+	
+	\subsection{Discriminación de elementos no reales}
+	\captura{5}{5}{Identificación y marcado sobre la imagen original de elementos circulares ficticios.}
+	
+	\clearpage
+	
+	% =========================================================
+	% RETO 1
+	% =========================================================
+	\section{Reto nº 1: ¿Cuántos EUROS hay?}
+	
+	\subsection{Estrategia de segmentación (imagen im00.jpg)}
+	\captura{1}{11}{Separación de monedas y objetos respecto al fondo.}
+	
+	\subsection{Descriptores seleccionados y clasificación por valor}
+	\captura{1}{12}{Diferenciación de monedas de 10, 20 y 50 céntimos frente al resto de objetos.}
+	
+	\subsection{Resultado final del conteo e importe total}
+	\captura{1}{13}{Imagen final con el valor asignado a cada moneda y la suma calculada.}
+	
+	\clearpage
+	
+	% =========================================================
+	% CONCLUSIONES GLOBALES
+	% =========================================================
+	\section{Conclusiones globales del Bloque \numbloque}
+	
+	% Resumen global del bloque
+	
 \end{document}
