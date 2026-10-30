@@ -133,6 +133,38 @@
 	\end{figure}%
 }
 
+% =========================================================
+% LISTADOS DE CODIGO (anexo)
+% Se leen los .m directamente para no duplicar el codigo
+% =========================================================
+\usepackage{listings}
+\definecolor{codebg}{RGB}{247,247,247}
+\lstset{
+	language=Matlab,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{UBUblue},
+	commentstyle=\color{gray},
+	stringstyle=\color{UBUdark},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	numbersep=8pt,
+	frame=single,
+	rulecolor=\color{UBUblue},
+	backgroundcolor=\color{codebg},
+	breaklines=true,
+	showstringspaces=false,
+	tabsize=4,
+	captionpos=b,
+	xleftmargin=2em,
+	framexleftmargin=1.5em,
+	literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {Ü}{{\"U}}1
+	{º}{{\textordmasculine}}1 {ª}{{\textordfeminine}}1
+	{¿}{{?`}}1 {¡}{{!`}}1 {×}{{$\times$}}1
+	{‘}{{`}}1 {’}{{'}}1
+}
+
 % FORMATO DE TÍTULOS
 % =========================================================
 \titleformat{\section}
@@ -403,4 +435,37 @@
 	
 	% Resumen global del bloque
 	
+% =========================================================
+% ANEXO: CODIGO FUENTE
+% =========================================================
+\clearpage
+\appendix
+
+\section{Código fuente de las prácticas}
+
+Se incluyen a continuación los listados completos de los scripts entregados. Son los
+mismos ficheros que se adjuntan por separado, y se insertan en el documento
+directamente desde su ubicación en la carpeta \texttt{BLOQUE1}.
+
+\subsection{Práctica 0: Introducción a MATLAB}
+\lstinputlisting[caption={\texttt{practica\_0.m}}]{../practica_0.m}
+
+\subsection{Práctica 1: Procesado básico de imágenes}
+\lstinputlisting[caption={\texttt{practica\_1.m}}]{../practica_1.m}
+
+\subsection{Práctica 2: Procesado de imágenes en color}
+\lstinputlisting[caption={\texttt{practica\_2.m}}]{../practica_2.m}
+
+\subsection{Práctica 3: Chroma Key}
+\lstinputlisting[caption={\texttt{practica\_3.m}}]{../practica_3.m}
+
+\subsection{Práctica 4: Imágenes binarias}
+\lstinputlisting[caption={\texttt{practica\_4.m}}]{../practica_4.m}
+
+\subsection{Práctica 5: Reconocimiento y clasificación}
+\lstinputlisting[caption={\texttt{practica\_5.m}}]{../practica_5.m}
+
+\subsection{Reto 1: ¿Cuántos euros hay?}
+\lstinputlisting[caption={\texttt{reto.m}}]{../reto.m}
+
 \end{document}
