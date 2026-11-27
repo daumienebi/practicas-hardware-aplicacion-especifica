@@ -52,6 +52,7 @@ imagen2 = im2double(frame2); % Almacenamos la imágen 2
 
 % Cerramos el preview tras tomar las imagenes
 closePreview(cam)
+delete(cam)
 %% Mostrar las dos imágenes capturadas.
 figure('Name', 'Imágenes originales capturadas');
 subplot(1,2,1);
@@ -84,24 +85,32 @@ imshow(mascara);
 title("Máscara inicial")
 
 % Creamos un umbral para poder decidir que elementos han cambiado o no
-umbral = 0.05;
-mascara_limpia = mascara > umbral;
+umbral = 0.15;
+mascara_bin = mascara > umbral;
 subplot(2,2,4);
-imshow(mascara_limpia);
+imshow(mascara_bin);
 title("Máscara limpia");
+
+% Eliminamos objetos pequeños de ruido
+mascara_limpia = bwareaopen(mascara_bin, 100);
+
+% Unimos regiones cercanas y rellenamos agujeros
+se = strel('disk', 5);
+mascara_limpia = imclose(mascara_limpia, se);
+mascara_limpia = imfill(mascara_limpia, 'holes');
 
 %mostramos la diferencia
 
-% falta mostrar esto bien
 [L, nDiff] = bwlabel(mascara_limpia);
-rprop = regionprops(L,'BoundingBox','Centroid');
-figure('Name', 'Detección de cambios');
+rprop = regionprops(L, 'BoundingBox');
+
+figure;
 imshow(imagen2);
-title('Cambios detectados')
+title(['Cambios detectados: ' num2str(nDiff)]);
 
 for i = 1:nDiff
     caja = rprop(i).BoundingBox;
-    rectangle('Position',caja,'EdgeColor','y','LineWidth',2)
+    rectangle('Position', caja, 'EdgeColor', 'y', 'LineWidth', 2);
 end
 
 %%
