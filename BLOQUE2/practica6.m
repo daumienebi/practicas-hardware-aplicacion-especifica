@@ -103,7 +103,6 @@ mascara_limpia = imfill(mascara_limpia, 'holes');
 
 [L, nDiff] = bwlabel(mascara_limpia);
 rprop = regionprops(L, 'BoundingBox');
-
 figure;
 imshow(imagen2);
 title(['Cambios detectados: ' num2str(nDiff)]);
@@ -112,5 +111,4 @@ for i = 1:nDiff
     caja = rprop(i).BoundingBox;
     rectangle('Position', caja, 'EdgeColor', 'y', 'LineWidth', 2);
 end
-
 %%
