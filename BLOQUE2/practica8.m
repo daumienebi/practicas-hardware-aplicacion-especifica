@@ -1,5 +1,5 @@
 % Práctica 8: Procesado de vídeo
-% script para script para la lectura y procesado de un archivo de vídeo
+% script para la lectura y procesado de un archivo de vídeo
 
 %% Seleccionar el archivo de vídeo con el que se desea trabajar. 
 % Mostramos la interfaz de usuario para que se selecione el video
