@@ -124,7 +124,7 @@
 				\parbox[c][4.5cm][c]{0.80\textwidth}{%
 					\centering
 					Insertar aquí la captura\\[0.3cm]
-					\texttt{captura\_r\_#1.png}%
+					\texttt{\detokenize{captura_r_#1.png}}%
 				}%
 			}%
 		}
@@ -298,8 +298,8 @@
 	\subsection{Lectura y visualización con histograma}
 	\captura{1}{1}{Carga de la imagen original y visualización de su histograma.}
 	
-	\subsection{Ecualización de la imagen}
-	\captura{1}{2}{Imagen ecualizada y comparación de histogramas.}
+	\subsection{Imagen con brillo}
+	\captura{1}{2}{Imagen con brillo.}
 	
 	\subsection{Eliminación de píxeles por umbral de intensidad}
 	\captura{1}{3}{Resultado tras descartar intensidades inferiores al umbral seleccionado.}
@@ -391,7 +391,7 @@
 	\captura{4}{4}{Ranuras horizontales aisladas (izquierda) y localizadas sobre la imagen original (derecha).}
 	
 	\subsubsection{Cuestiones sobre las ranuras}
-	Aproximadamente hay 24 ranuras horizontales en el blíster. Se obtienen filtrando los objetos detectados por su geometría: se conservan los rectángulos de área mínima cuya anchura es mayor que su altura, es decir, los objetos alargados en horizontal.
+Aproximadamente hay 42 ranuras horizontales en el blíster. Se obtienen filtrando los objetos detectados por su geometría: se conservan los de anchura mayor que tres veces su altura y área pequeña (menos de 2000 píxeles), es decir, los trazos alargados en horizontal, excluyendo las pastillas.
 	
 	\subsection{Código fuente}
 	\lstinputlisting[caption={\texttt{practica\_4.m}}]{../practica_4.m}
@@ -458,6 +458,14 @@
 	% =========================================================
 	\section{Conclusiones globales del Bloque \numbloque}
 	
-	% Resumen global del bloque
+	A lo largo de las prácticas de este primer bloque se ha abordado de forma progresiva el flujo clásico de procesado digital de imágenes: desde operaciones elementales a nivel de píxel hasta algoritmos de segmentación morfológica, extracción de características y clasificación geométrica.
+	
+	\begin{itemize}[leftmargin=1.5em]
+		\item \textbf{Preprocesado y análisis espacial:} En las prácticas 1 y 2 se comprobó la eficacia de la ecualización del histograma y el filtrado espacial (gradiente y laplaciano) para realzar bordes y realizar estimaciones dimensionales. Asimismo, se evidenció la ventaja de trabajar en espacios de color desacoplados como HSV o YCbCr frente al RGB convencional a la hora de aislar tonalidades y compensar variaciones de iluminación.
+		\item \textbf{Segmentación y análisis morfológico:} Las prácticas 3 y 4 demostraron la importancia de una correcta binarización y del uso de operadores morfológicos (\texttt{imfill}, apertura y cierre) para eliminar ruido y aislar componentes conexas sin artefactos, permitiendo la discriminación geométrica de patrones como las ranuras del blíster.
+		\item \textbf{Extracción de descriptores y clasificación:} Las prácticas 5 y el reto integrador consolidaron el uso combinado de propiedades geométricas (factor de forma, compacidad, área) y estadísticas de color (media del tono $H$). Este enfoque multivariable demostró ser robusto frente a distractores visuales (fichas y monedas no comunitarias), logrando clasificar y cuantificar con éxito el valor monetario total en la escena.
+	\end{itemize}
+	
+	En conclusión, las técnicas implementadas evidencian que una adecuada combinación de filtrado, segmentación morfológica y selección de descriptores invariantes resulta suficiente para resolver problemas de visión por computador y control de calidad industrial sin necesidad de recurrir a modelos de aprendizaje computacionalmente más costosos.
 	
 \end{document}

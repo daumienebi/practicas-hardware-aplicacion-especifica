@@ -94,6 +94,7 @@ imshow(I);
 title('Monedas de Euro');
 rprop = regionprops(L, 'BoundingBox', 'Centroid');
 contador = 0;
+total = 0;
 % Necesitamos clasificar los distintos tipos de monedas
 
 for i = 1:num_objetos
@@ -111,7 +112,14 @@ for i = 1:num_objetos
         else
             valor = 0.5;
         end
+
+        contador = contador + 1;
+        total = total + valor;
+
         text(centro(1), centro(2), num2str(valor), 'Color', 'w', 'FontSize', 12, ...
         'FontWeight', 'bold');
     end
 end
+
+title(sprintf('Hay %d monedas de Euro: TOTAL = %.2f EUR', contador, total));
+disp(['Monedas: ' num2str(contador) '  Total: ' num2str(total, '%.2f') ' EUR']);

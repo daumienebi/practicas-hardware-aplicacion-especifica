@@ -46,7 +46,7 @@ title('Objetos etiquetados en falso color');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Señalar sobre la imagen original los objetos detectados y enumerarlos
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-rprop = regionprops(L, 'BoundingBox', 'Centroid');
+rprop = regionprops(L, 'BoundingBox', 'Centroid', 'Area');
 
 figure('Name', 'Objetos Detectados');
 imshow(I);
@@ -66,7 +66,18 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ¿Cuántas ranuras horizontales hay? Mostrar imagen y señalarlas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Segmentación de las ranuras: apertura con una línea horizontal y
+% exclusión de las pastillas (objetos grandes)
+BW_trazos = imopen(BW, strel('line', 21, 0));
+pastillas = imdilate(bwareaopen(BW_limpia, 5000), strel('disk', 8));
+BW_trazos = bwareaopen(BW_trazos & ~pastillas, 20);
+[L, num_objetos] = bwlabel(BW_trazos);
+rprop = regionprops(L, 'BoundingBox', 'Area');
+
 % Inicializar imagen vacía y contador
+
 [filas, columnas] = size(BW_limpia);
 BW_ranuras = false(filas, columnas);
 contador = 0;
@@ -77,8 +88,8 @@ for i = 1:num_objetos
     ancho = caja(3);
     alto = caja(4);
     
-    % Si el ancho es mayor que el alto, la consideramos ranura horizontal
-    if ancho > alto
+    % Si el ancho es mayor que 3 veces el alto y área pequeña
+    if ancho > 3*alto && rprop(i).Area < 2000
         contador = contador + 1;
         BW_ranuras = BW_ranuras | (L == i);
     end
@@ -101,9 +112,9 @@ title('Ranuras en imagen original');
 
 for i = 1:num_objetos
     caja = rprop(i).BoundingBox;
-    % Comparamos el valor del ancho caja(3) con el alto caja(4) para poder
-    % separar las ranurar horizontales
-    if caja(3) > caja(4)
+    % Comparamos el ancho caja(3) con el alto caja(4) y el área para poder
+    % separar las ranuras horizontales 
+    if caja(3) > 3*caja(4) && rprop(i).Area < 2000
         rectangle('Position', caja, 'EdgeColor', 'g', 'LineWidth', 2);
     end
 end

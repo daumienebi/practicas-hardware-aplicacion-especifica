@@ -1,0 +1,458 @@
+\documentclass[12pt,a4paper]{article}
+
+% =========================================================
+% PAQUETES
+% =========================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{makecell}
+
+% =========================================================
+% CONFIGURACIÓN GENERAL
+% =========================================================
+\geometry{
+	top=2.5cm,
+	bottom=2.5cm,
+	left=2.7cm,
+	right=2.7cm
+}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\definecolor{UBUblue}{RGB}{0,82,147}
+\definecolor{UBUlight}{RGB}{235,243,249}
+\definecolor{UBUdark}{RGB}{34,45,58}
+
+\graphicspath{{logo/}}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UBUblue,
+	urlcolor=UBUblue,
+	citecolor=UBUblue,
+	pdftitle={Bloque II - Procesamiento digital de imagen y vídeo},
+	pdfauthor={Estudiantes del Grado en Ingeniería Informática}
+}
+
+% =========================================================
+% DATOS DEL DOCUMENTO
+% =========================================================
+\newcommand{\universidad}{Universidad de Burgos}
+\newcommand{\escuela}{Escuela Politécnica Superior}
+\newcommand{\campus}{Campus Río Vena}
+\newcommand{\grado}{Grado en Ingeniería Informática}
+\newcommand{\asignatura}{Hardware de Aplicación Específica}
+
+\newcommand{\numbloque}{II}
+\newcommand{\nombrebloque}{Bloque II: Adquisición y Procesado de Vídeo}
+
+% Estudiantes
+\newcommand{\estudiantes}{%
+	\begin{tabular}[t]{@{}l@{}}
+		Amin Hussien Castillo\\
+		Derick Daumienebi Sakpa\\
+		Sergiy Khudoley Macarenco
+	\end{tabular}%
+}
+\newcommand{\correos}{%
+	\begin{tabular}[t]{@{}l@{}}
+		ahc1015@alu.ubu.es\\
+		dsx1019@alu.ubu.es\\
+		skx1024@alu.ubu.es
+	\end{tabular}%
+}
+\newcommand{\estudiantespie}{Hussien, Sakpa y Khudoley}
+
+\newcommand{\grupo}{Grupo 03}
+\newcommand{\profesor}{Cesar Represa Perez}
+\newcommand{\cursoacademico}{2026--2027}
+\newcommand{\fechaentrega}{\today}
+
+% =========================================================
+% MACRO PARA CAPTURAS
+% Uso: \captura{num_practica}{num_captura}{Pie de figura}
+% =========================================================
+\newcommand{\captura}[3]{%
+	\begin{figure}[H]
+		\centering
+		\IfFileExists{capturas/captura_p#1_#2.png}{%
+			\includegraphics[width=0.88\textwidth]{capturas/captura_p#1_#2.png}%
+		}{%
+			\fbox{%
+				\parbox[c][4.5cm][c]{0.80\textwidth}{%
+					\centering
+					Insertar aquí la captura\\[0.3cm]
+					\texttt{captura\_p#1\_#2.png}%
+				}%
+			}%
+		}
+		\caption{#3}
+		\label{fig:p#1-#2}
+	\end{figure}%
+}
+
+% =========================================================
+% Figura del reto: capturas/captura_r_N.png
+% =========================================================
+\newcommand{\capturareto}[2]{%
+	\begin{figure}[H]
+		\centering
+		\IfFileExists{capturas/captura_r_#1.png}{%
+			\includegraphics[width=0.88\textwidth]{capturas/captura_r_#1.png}%
+		}{%
+			\fbox{%
+				\parbox[c][4.5cm][c]{0.80\textwidth}{%
+					\centering
+					Insertar aquí la captura\\[0.3cm]
+					\texttt{\detokenize{captura_r_#1.png}}%
+				}%
+			}%
+		}
+		\caption{#2}
+		\label{fig:r-#1}
+	\end{figure}%
+}
+
+% =========================================================
+% LISTADOS DE CODIGO
+% Se leen los .m directamente para no duplicar el codigo
+% =========================================================
+\usepackage{listings}
+\definecolor{codebg}{RGB}{247,247,247}
+\lstset{
+	language=Matlab,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{UBUblue},
+	commentstyle=\color{gray},
+	stringstyle=\color{UBUdark},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	numbersep=8pt,
+	frame=single,
+	rulecolor=\color{UBUblue},
+	backgroundcolor=\color{codebg},
+	breaklines=true,
+	showstringspaces=false,
+	tabsize=4,
+	captionpos=b,
+	xleftmargin=2em,
+	framexleftmargin=1.5em,
+	literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {Ü}{{\"U}}1
+	{º}{{\textordmasculine}}1 {ª}{{\textordfeminine}}1
+	{¿}{{?`}}1 {¡}{{!`}}1 {×}{{$\times$}}1
+	{‘}{{`}}1 {’}{{'}}1
+}
+
+% FORMATO DE TÍTULOS
+% =========================================================
+\titleformat{\section}
+{\Large\bfseries\color{UBUblue}}
+{\thesection.}{0.6em}{}
+
+\titleformat{\subsection}
+{\large\bfseries\color{UBUblue}}
+{\thesubsection.}{0.6em}{}
+
+\titleformat{\subsubsection}
+{\normalsize\bfseries\color{UBUdark}}
+{\thesubsubsection.}{0.6em}{}
+
+% =========================================================
+% CABECERA Y PIE DE PÁGINA
+% =========================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \asignatura}
+\fancyhead[R]{\small Bloque \numbloque}
+\fancyfoot[L]{\small \universidad}
+\fancyfoot[C]{\small \estudiantespie}
+\fancyfoot[R]{\small Página \thepage\ de \pageref{LastPage}}
+
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% =========================================================
+% DOCUMENTO
+% =========================================================
+\begin{document}
+	
+	% ---------------------------------------------------------
+	% PORTADA
+	% ---------------------------------------------------------
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\setlength{\parskip}{0pt}
+		\noindent\makebox[0pt][l]{%
+			\begin{tikzpicture}[remember picture,overlay]
+				\fill[UBUblue]
+				(current page.north west)
+				rectangle
+				([xshift=1.15cm]current page.south west);
+				
+				\fill[UBUblue]
+				([xshift=1.15cm,yshift=-0.8cm]current page.north west)
+				rectangle
+				([yshift=-0.95cm]current page.north east);
+				
+				\fill[UBUlight]
+				([xshift=1.15cm,yshift=4.0cm]current page.south west)
+				rectangle
+				(current page.south east);
+			\end{tikzpicture}%
+		}%
+		\hspace*{0.8cm}%
+		\begin{minipage}[t][0.92\textheight][t]{0.89\textwidth}
+			\vspace*{0.2cm}
+			
+			\IfFileExists{logo/logo_ubu.png}{%
+				\includegraphics[width=0.64\textwidth]{logo/logo_ubu.png}%
+			}{%
+				\fbox{%
+					\parbox[c][2.4cm][c]{0.62\textwidth}{%
+						\centering
+						\textbf{LOGO UNIVERSIDAD DE BURGOS}\\[0.25cm]
+						Añadir \texttt{logo/logo\_ubu.png}%
+					}%
+				}%
+			}
+			
+			\vspace{1.1cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{\grado}}\\[0.22cm]
+			{\large\color{UBUdark}\escuela}\\[0.10cm]
+			{\large\color{UBUdark}\universidad}
+			
+			\vspace{1.2cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Asignatura}}\\[0.18cm]
+			{\LARGE\bfseries\color{UBUdark}\asignatura}
+			
+			\vspace{0.6cm}
+			{\color{UBUblue}\rule{0.22\textwidth}{3pt}}
+			
+			\vspace{0.8cm}
+			
+			{\small\bfseries\color{UBUblue}\MakeUppercase{Bloque \numbloque}}\\[0.25cm]
+			{\huge\bfseries\color{UBUdark}Prácticas 6 a 10 y Reto 2}
+			
+			\vfill
+			
+			\noindent
+			\colorbox{UBUlight}{%
+				\parbox{0.96\linewidth}{%
+					\vspace{0.3cm}
+					\begin{tabularx}{\linewidth}{>{\bfseries\color{UBUdark}}p{4.0cm} X}
+						Estudiantes & \estudiantes \\[0.15cm]
+						\makecell[l]{Correos \\ electrónicos} & \correos \\[0.15cm]
+						Grupo & \grupo \\[0.15cm]
+						Profesor/a & \profesor \\[0.15cm]
+						Curso académico & \cursoacademico \\[0.15cm]
+						Fecha de entrega & \fechaentrega \\
+					\end{tabularx}
+					\vspace{0.1cm}
+				}%
+			}
+			
+			\vspace{0.6cm}
+			
+			{\small\color{UBUdark}
+				\escuela, \campus\hfill
+				\textbf{Universidad de Burgos}}
+		\end{minipage}
+	\end{titlepage}
+	
+	% ---------------------------------------------------------
+	% ÍNDICE GENERAL
+	% ---------------------------------------------------------
+	\tableofcontents
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 6
+	% =========================================================
+	\section{Práctica nº 06: Captura de imágenes}
+	
+	\subsection{Selección de dispositivo, resolución y captura en dos instantes}
+	Se selecciona el dispositivo mediante \texttt{webcamlist} y \texttt{webcam}, se escoge la resolución deseada del listado \texttt{AvailableResolutions}, se muestran las propiedades del objeto con \texttt{get(cam)} y se capturan dos imágenes en instantes distintos mediante \texttt{snapshot(cam)}.
+	\captura{6}{1}{Imágenes capturadas en dos instantes de tiempo distintos ($t_1$ y $t_2$).}
+	
+	\subsection{Segmentación de las diferencias entre capturas}
+	Se convierten ambas imágenes a escala de grises, se calcula su diferencia absoluta $|I_2 - I_1|$ y se binariza con \texttt{imbinarize}. A continuación se aplican operaciones morfológicas de cierre (\texttt{imclose}), relleno de huecos (\texttt{imfill}) y filtrado por área (\texttt{bwareaopen}) para eliminar el ruido y aislar las regiones que han cambiado entre ambos instantes.
+	\captura{6}{2}{Diferencia absoluta entre las dos capturas, binarización inicial y máscara morfológica limpia.}
+	
+	\subsection{Localización de diferencias con rectángulo de área mínima}
+	\captura{6}{3}{Identificación de las diferencias detectadas entre las dos capturas mediante \texttt{BoundingBox}.}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_6.m}}]{../practica_6.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 7
+	% =========================================================
+	\section{Práctica nº 07: Velocidad de adquisición de imágenes}
+	
+	\subsection{Adquisición de secuencia a resolución 640x480}
+	Se captura una secuencia de $n = 200$ imágenes almacenando la marca de tiempo $t$ devuelta por \texttt{[frame, t] = snapshot(cam)} y se representa junto con la diferencia de tiempo entre capturas consecutivas (\texttt{diff(t)}).
+	\captura{7}{1}{Instante de captura y diferencia de tiempo entre fotogramas a resolución 640$\times$480 (15,02 fps).}
+	
+	\subsection{Influencia del tiempo de lectura (cambio de resolución a 320x240)}
+	\captura{7}{2}{Instante de captura y diferencia de tiempo entre fotogramas a resolución 320$\times$240 (29,79 fps).}
+	
+	\subsection{Influencia del tiempo de integración (tapando y destapando la cámara)}
+	\captura{7}{3}{Variación del instante de captura y del intervalo entre fotogramas al tapar y destapar la cámara durante la adquisición.}
+	
+	\subsubsection{Análisis del tiempo de lectura y del tiempo de integración}
+	La tasa máxima de adquisición viene dada por:
+	\[
+	\text{fps} \le \frac{1}{t_{\text{adquisición}}} = \frac{1}{t_{\text{integración}} + t_{\text{lectura}}}
+	\]
+	\begin{itemize}[leftmargin=1.5em]
+		\item \textbf{Influencia del tiempo de lectura ($t_{\text{lectura}}$):} Al reducir la resolución de $640\times 480$ ($307\,200$ píxeles) a $320\times 240$ ($76\,800$ píxeles), el número de píxeles que el sensor debe transferir disminuye a la cuarta parte. Como consecuencia, el intervalo medio entre capturas baja de $\sim 66{,}6\text{ ms}$ a $\sim 33{,}5\text{ ms}$ y la velocidad media de adquisición prácticamente se duplica (pasando de $15{,}02\text{ fps}$ a $29{,}79\text{ fps}$).
+		\item \textbf{Influencia del tiempo de integración ($t_{\text{integración}}$):} Cuando la exposición está en modo automático (\texttt{ExposureMode = 'auto'}) y se tapa la cámara (fotogramas 70 a 130 en la Figura \ref{fig:p7-3}), el sensor incrementa automáticamente el tiempo de exposición para intentar captar más luz. Esto eleva $t_{\text{integración}}$ hasta unos $125\text{ ms}$ por fotograma ($\sim 8\text{ fps}$), aumentando la pendiente de la curva de instantes $t$. Al destapar la cámara, el tiempo de integración vuelve a su valor normal ($\sim 33{,}5\text{ ms}$) y se recupera la tasa de adquisición original.
+	\end{itemize}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_7.m}}]{../practica_7.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 8
+	% =========================================================
+	\section{Práctica nº 08: Procesado de vídeo}
+	
+	\subsection{Propiedades del vídeo y procesado cuadro a cuadro con mapa de color}
+	Se selecciona el archivo \texttt{video03.avi} ($360\times 180$ píxeles, códec \texttt{MJPG}, $30\text{ fps}$, $297$ fotogramas y $9{,}90\text{ s}$ de duración) mediante \texttt{mmfileinfo} y \texttt{VideoReader}, y se crea el archivo de salida \texttt{video\_procesado.avi} configurando su velocidad de reproducción a $24\text{ fps}$ con \texttt{VideoWriter}. Mediante procesado cuadro a cuadro (\textit{stream processing}) con \texttt{hasFrame} y \texttt{readFrame}, se convierte cada fotograma a escala de grises y se le aplica el mapa de color \texttt{jet} de 256 niveles con \texttt{ind2rgb}.
+	\captura{8}{1}{Primer fotograma original de \texttt{video03.avi} y resultado tras aplicar el mapa de color \texttt{jet}.}
+	\captura{8}{2}{Fotograma intermedio (\#150) original y procesado en falso color.}
+	
+	\subsubsection{Tiempo y velocidad de procesamiento}
+	El procesado cuadro a cuadro de los $297$ fotogramas de \texttt{video03.avi} se ha completado en un tiempo total de $\mathbf{0{,}6805\text{ s}}$, lo que equivale a una velocidad media de procesamiento de $\mathbf{436{,}44\text{ fps}}$, verificando la creación correcta del archivo final mediante \texttt{mmfileinfo}.
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_8.m}}]{../practica_8.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 9
+	% =========================================================
+	\section{Práctica nº 09: Grabación de vídeo}
+	
+	\subsection{Cálculo de parámetros y grabación de vídeo Time-Lapse}
+	Fijando la velocidad de reproducción en $\text{fps}_{\text{reproducción}} = 24\text{ fps}$, para un factor de aceleración deseado de $\text{aceleración} = 6$ y un tiempo de captura de $t_{\text{captura}} = 10\text{ s}$, el programa obtiene los parámetros del temporizador:
+	\[
+	\text{fps}_{\text{captura}} = \frac{\text{fps}_{\text{reproducción}}}{\text{aceleración}} = \frac{24}{6} = 4\text{ fps}, \quad
+	n = 10 \times 4 = 40\text{ imágenes}, \quad
+	T = \frac{1}{\text{fps}_{\text{captura}}} = 0{,}250\text{ s}
+	\]
+	Se configura el objeto \texttt{timer} en modo \texttt{'fixedRate'} con periodo $T = 0{,}25\text{ s}$ y $n = 40$ ejecuciones de la función de llamada \texttt{miFuncion.m}.
+	\captura{9}{1}{Primer y último fotograma almacenados en el archivo de vídeo \textit{time-lapse}.}
+	\captura{9}{2}{Secuencia temporal de fotogramas capturados periódicamente durante la grabación \textit{time-lapse}.}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_9.m}}]{../practica_9.m}
+	\lstinputlisting[caption={\texttt{miFuncion.m}}]{../miFuncion.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% PRÁCTICA 10
+	% =========================================================
+	\section{Práctica nº 10: Procesado en tiempo real}
+	
+	\subsection{Captura del fondo a eliminar y ajuste del nuevo fondo}
+	Se captura inicialmente una imagen que contiene únicamente el fondo uniforme que se desea eliminar y se reescala la imagen del nuevo fondo (\texttt{im21.jpg}) mediante \texttt{imresize} para que sus dimensiones coincidan exactamente con la resolución de captura, acotando sus valores al rango $[0, 1]$.
+	\captura{10}{1}{Imagen capturada únicamente con el fondo a eliminar y nuevo fondo (\texttt{im21.jpg}) reescalado.}
+	
+	\subsection{Efecto Chroma Key en tiempo real y generación de vídeo}
+	Para cada uno de los $n = 100$ fotogramas capturados se calcula la distancia Manhattan respecto al fondo de referencia, se binariza la mascarilla $\alpha$, se realiza la composición con el nuevo fondo, se actualiza la visualización en tiempo real usando \texttt{drawnow} y se almacena el fotograma en el archivo de vídeo a $24\text{ fps}$.
+	\captura{10}{2}{Visualización en una misma ventana del fotograma capturado y del fotograma procesado mediante Chroma Key.}
+	
+	\subsubsection{Cuestión sobre el rendimiento y la aceleración del vídeo final}
+	Al capturar y procesar $n = 100$ fotogramas midiendo el tiempo de respuesta con \texttt{tic} y \texttt{toc}:
+	\begin{itemize}[leftmargin=1.5em]
+		\item En un bucle de procesado y visualización sin limitación de cámara física ($t = 1{,}6262\text{ s}$), el rendimiento del sistema alcanza $\text{fps}_{\text{captura}} = 61{,}49\text{ fps}$, por lo que con una velocidad de reproducción establecida en $\text{fps}_{\text{reproducción}} = 24\text{ fps}$ la aceleración resulta:
+		\[
+		\text{aceleración} = \frac{\text{fps}_{\text{reproducción}}}{\text{fps}_{\text{captura}}} = \frac{24}{61{,}49} \approx \mathbf{0{,}39}
+		\]
+		lo que corresponde a un efecto \textit{slow motion} ($\text{aceleración} < 1$).
+		\item Por el contrario, cuando el bucle está limitado por la adquisición de una cámara USB a resolución $640\times 480$ y además incluye el procesado Chroma Key, la escritura en disco y el refresco gráfico con \texttt{drawnow} ($\text{fps}_{\text{captura}} \approx 8\text{--}12\text{ fps}$, inferior a los $24\text{ fps}$ de reproducción), la aceleración del vídeo final es:
+		\[
+		\text{aceleración} = \frac{24}{\text{fps}_{\text{captura}}} \approx \mathbf{2{,}0\text{--}3{,}0} > 1
+		\]
+		produciendo en ese caso un vídeo final acelerado (efecto \textit{time-lapse}), ya que se reproduce a $24\text{ fps}$ una secuencia que fue capturada y procesada a una tasa menor.
+	\end{itemize}
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{practica\_10.m}}]{../practica_10.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% RETO 2
+	% =========================================================
+	\section{Reto nº 2: ¿Cuántos COCHES pasan?}
+	
+	\subsection{Estimación dinámica del fondo mediante media acumulativa}
+	Dado que en \texttt{video01.avi} siempre hay vehículos circulando por la vía, se estima dinámicamente la imagen de fondo $\mathbf{B}(t)$ mediante la técnica de \textbf{media acumulativa} con factor de aprendizaje $\alpha = 0{,}02$:
+	\[
+	\mathbf{B}(t) = (1 - \alpha)\cdot \mathbf{B}(t - 1) + \alpha\cdot \mathbf{I}(t - 1)
+	\]
+	A partir del fondo actualizado, se obtiene en cada instante la máscara binaria de objetos en movimiento $\mathbf{M}(t) = |\mathbf{I}(t) - \mathbf{B}(t)| > \text{umbral}$ (con $\text{umbral} = 0{,}20$), seguida de un cierre morfológico (\texttt{imclose} con disco de radio 3), relleno de huecos (\texttt{imfill}) y eliminación de regiones pequeñas (\texttt{bwareaopen} proporcional al área del fotograma para que funcione con vídeos de cualquier resolución).
+	\capturareto{1}{Detección de vehículos en movimiento, fondo estimado y máscara binaria en el fotograma \#38.}
+	
+	\subsection{Seguimiento de trayectorias y criterio de conteo}
+	Los vehículos avanzan desde la parte superior de la imagen ($y \approx 0$) hacia la parte inferior ($y = \text{filas}$). En la gráfica inferior derecha se representa con \texttt{stem} la coordenada vertical del centroide (\texttt{Centroid(2)}) de cada vehículo detectado en función del número de fotograma, observándose claramente las rampas ascendentes que describe cada coche a medida que se acerca a la cámara.
+	\capturareto{2}{Estado del sistema en el fotograma \#70: 4 coches en escena y 5 coches contabilizados hasta ese instante.}
+	
+	\subsection{Resultado final del conteo en video01.avi}
+	Como criterio para considerar que un coche ha pasado, se contabiliza todo vehículo cuyo centroide vertical supera la línea de salida situada en el tramo final inferior de la carretera ($y > 0{,}95 \cdot \text{filas}$, equivalente a $y > 114\text{ px}$ en \texttt{video01.avi}). Dado que en esa zona inferior los vehículos se desplazan a más de $6\text{ px}$ por fotograma, cada coche cruza la franja de salida en un único fotograma antes de abandonar la escena.
+	\capturareto{3}{Final de la secuencia de \texttt{video01.avi}: las 10 trayectorias completas corresponden a un total de 10 coches que pasan por la carretera.}
+	
+	Al finalizar los $120$ fotogramas de \texttt{video01.avi}, se han contabilizado un total de \textbf{10 coches} que pasan por la vía (cuyas salidas se producen en los fotogramas 27, 40, 45, 53, 54, 79, 82, 98, 103 y 119), quedando un undécimo vehículo todavía a mitad de recorrido cuando termina el vídeo.
+	
+	\subsection{Código fuente}
+	\lstinputlisting[caption={\texttt{reto.m}}]{../reto.m}
+	
+	\clearpage
+	
+	% =========================================================
+	% CONCLUSIONES GLOBALES
+	% =========================================================
+	\section{Conclusiones globales del Bloque \numbloque}
+	
+	A lo largo de este segundo bloque se han extendido las técnicas de visión artificial del procesado estático de imágenes al análisis de secuencias temporales y señales de vídeo, tanto desde dispositivos de captura en vivo como desde archivos multimedia.
+	
+	\begin{itemize}[leftmargin=1.5em]
+		\item \textbf{Adquisición y condicionantes físicos del sensor:} En las prácticas 6 y 7 se comprobó experimentalmente cómo la tasa real de adquisición (\textit{frame rate}) de una cámara está gobernada por la suma del tiempo de lectura ($t_{\text{lectura}}$, dependiente de la resolución escogida) y del tiempo de integración ($t_{\text{integración}}$, dependiente de la luminosidad de la escena y del control automático de exposición).
+		\item \textbf{Procesado cuadro a cuadro, temporizadores y tiempo real:} En las prácticas 8, 9 y 10 se verificó la eficiencia del procesado \textit{stream} cuadro a cuadro frente al procesado por lotes para evitar saturar la memoria, el uso de eventos periódicos mediante objetos \texttt{timer} para controlar la aceleración ($\text{fps}_{\text{reproducción}} / \text{fps}_{\text{captura}}$) en grabaciones \textit{time-lapse}, y el impacto del tiempo de respuesta en aplicaciones de Chroma Key en tiempo real.
+		\item \textbf{Sustracción de fondo adaptativa y conteo de objetos en vídeo:} Finalmente, el Reto 2 demostró la superioridad de la estimación dinámica del fondo mediante media acumulativa frente a un fondo estático fijo cuando la escena contiene tráfico continuo, permitiendo segmentar, seguir la trayectoria vertical de cada vehículo y contabilizar de forma robusta los 10 coches que completan su paso en \texttt{video01.avi}.
+	\end{itemize}
+	
+\end{document}

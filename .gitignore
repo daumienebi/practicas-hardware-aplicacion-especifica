@@ -8,3 +8,14 @@
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+
+# Scripts locales y archivos grandes no rastreados
+instalar_matlab.sh
+limpiar_matlab.sh
+HAE_Manual IMAGEN_2026.pdf
+BLOQUE2/video04.avi
+BLOQUE2/videos_ejemplo/
+BLOQUE2/chroma_tiempo_real.avi
+BLOQUE2/timelapse.avi
+BLOQUE2/video_procesado.avi
+
